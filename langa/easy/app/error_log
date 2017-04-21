@@ -1,0 +1,1 @@
+[16-Aug-2016 10:30:59 Europe/Berlin] PHP Fatal error:  Class 'Illuminate\Database\Eloquent\Model' not found in /home/rfqinbfa/public_html/sistemi/easy.langa.tv/app/Accounting.php on line 8

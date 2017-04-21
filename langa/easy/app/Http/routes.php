@@ -1,0 +1,279 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Application Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register all of the routes for an application.
+| It's a breeze. Simply tell Laravel the URIs it should respond to
+| and give it the controller to call when that URI is requested.
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/unauthorized', function () {
+    return view('errors.403');
+});
+
+Route::get('/onworking', function () {
+    return view('errors.503');
+});
+
+Route::auth();
+
+// for getting new user list
+Route::get('/newutente', 'AdminController@newregistratoutente');
+// approve user
+Route::get('/approvare/{id}', 'AdminController@approvareutente');
+// reject user
+Route::get('/rifiutare/{id}', 'AdminController@rifiutareutente');
+
+// for getting new enti list
+Route::get('/newenti', 'AdminController@newregistratoenti');
+// approve enti
+Route::get('/approvareenti/{id}', 'AdminController@approvareenti');
+// reject enti
+Route::get('/rifiutareenti/{id}', 'AdminController@rifiutareenti');
+
+// user permessi
+Route::get('/utente-permessi', 'AdminController@permessiutente');
+// role permessi
+Route::get('/role-permessi/{ruolo_id}', 'AdminController@permessirole');
+// role delete
+Route::get('//admin/destroy/ruolo/{ruolo_id}', 
+	'AdminController@deleterole');
+// store permessi
+Route::post('/store-permessi', 'AdminController@storepermessi');
+
+// show all provinces
+Route::get('/show-provincie', 'AdminController@showprovincie');
+// store provinces
+Route::post('/store-provincie', 'AdminController@storeprovincie');
+// add new provinces
+Route::post('/addprovincie', 'AdminController@addprovincie');
+
+// add admin alert
+Route::get('/admin/alert', 'AdminController@addadminalert');
+// store admin alert
+Route::post('/admin/alert/store', 'AdminController@storeadminalert');
+// send alert
+Route::get('/send-alert/{ruolo_id}', 'AdminController@sendalert');
+// add new provinces
+// Route::get('/admin/add/utente', 'AdminController@addutente');
+
+
+
+Route::get('/cestino/json', 'HomeController@getjsoncestino');
+Route::get('/cestino/ripristina/{tipo}/{id}', 'HomeController@ripristina');
+Route::get('/cestino/delete/{tipo}/{id}', 'HomeController@eliminadefinitivamente');
+Route::get('/cestino', 'HomeController@mostracestino');
+Route::get('/newsletter', 'HomeController@newsletter');
+Route::get('/newsletter/add', 'AdminController@elencotemplatenewsletter');
+Route::post('/newsletter/add', 'AdminController@aggiunginewsletter');
+Route::get('newsletter/json', 'HomeController@getjsonnewsletter');
+Route::get('/newsletter/delete/{id}', 'AdminController@deletenewsletter');
+Route::get('/newsletter/modify/{id}', 'AdminController@modifynewsletter');
+Route::post('/newsletter/store', 'AdminController@storenewsletter');
+Route::post('/newsletter/update/{id}', 'AdminController@aggiornanewsletter');
+Route::post('/newsletter/send', 'HomeController@invianewsletter');
+
+Route::get('/notifiche', 'HomeController@mostranotifiche');
+Route::get('/notifiche/disdisci/{id}', 'HomeController@disdiscinotifica');
+Route::get('/notifiche/delete/{id}', 'HomeController@cancellanotifica');
+Route::get('/notifiche/json', 'HomeController@getjsonnotifiche');
+
+Route::get('/faq', 'HomeController@mostrafaq');
+
+Route::get('/changelog', 'HomeController@mostrachangelog');
+
+Route::get('/valutaci', function () {
+    return view('layouts.valutaci');
+});
+Route::post('/valutaci/store', 'HomeController@segnalazionerrore');
+
+Route::get('/contatti', 'HomeController@mostracontatti');
+
+Route::get('/nuovoutente', 'HomeController@nuovoutente');
+Route::get('/conferma', 'HomeController@confermautente');
+
+Route::get('/calendario/{tipo}', 'CalendarioController@index');
+Route::get('/calendario/show/{tipo}/day/{day}/month/{month}/year/{year}', 'CalendarioController@show');
+Route::post('/calendario/add', 'CalendarioController@store');
+Route::get('/calendario/delete/event/{event}', 'CalendarioController@destroy');
+Route::get('/calendario/edit/event/{event}', 'CalendarioController@edit');
+Route::post('/calendario/update/event/{event}', 'CalendarioController@update');
+
+
+// Preventivi
+Route::get('/preventivi', 'QuoteController@index');
+Route::get('/preventivi/miei', 'QuoteController@miei');
+Route::post('/preventivi/add', 'QuoteController@nuovo');
+Route::get('/preventivi/add', 'QuoteController@aggiungi');
+Route::post('/preventivi/store', 'QuoteController@store');
+Route::get('/preventivi/modify/quote/{quote}', 'QuoteController@modify');
+Route::post('/preventivi/modify/quote/{quote}', 'QuoteController@modifica');
+Route::get('/preventivi/delete/quote/{quote}', 'QuoteController@elimina');
+Route::get('/preventivi/duplicate/quote/{quote}', 'QuoteController@duplica');
+Route::get('/preventivi/pdf/quote/{quote}', 'QuoteController@pdf');
+Route::get('/preventivi/noprezzi/pdf/quote/{quote}', 'QuoteController@pdfnoprezzi');
+Route::get('/preventivi/optional/{quote}', 'QuoteController@eliminaoptional');
+Route::post('/preventivo/optional/aggiorna/{id}', 'QuoteController@aggiornaoptional');
+Route::get('/preventivi/optional/elimina/{id}', 'QuoteController@eliminaoptionaldalprev');
+Route::get('preventivi/json', 'QuoteController@getjson');
+Route::get('preventivi/miei/json', 'QuoteController@getJsonMiei');
+Route::get('/preventivi/files/{id}', 'QuoteController@filepreventivo');
+
+// Progetti
+// Aggiungi nuovo progetto
+Route::get('/progetti', 'ProjectController@index');
+Route::get('/progetti/miei', 'ProjectController@miei');
+Route::get('/progetti/add', 'ProjectController@aggiungi');
+// Salva il nuovo progetto
+Route::post('/progetti/store', 'ProjectController@store');
+Route::get('/progetti/delete/project/{project}', 'ProjectController@destroy');
+Route::get('/progetti/duplicate/project/{project}', 'ProjectController@duplicate');
+Route::get('/progetti/modify/project/{project}', 'ProjectController@modify');
+Route::post('/progetti/modify/project/{project}', 'ProjectController@update');
+Route::get('/progetti/files/{project}', 'ProjectController@vedifiles');
+Route::get('/progetti/files/elimina/{project}', 'ProjectController@eliminafile');
+Route::get('/progetti/add/{id}', 'ProjectController@creadapreventivo');
+Route::get('progetti/miei/json', 'ProjectController@getJsonMiei');
+Route::get('progetti/json', 'ProjectController@getjson');
+// Enti
+Route::get('/enti', 'CorporationController@index');
+Route::get('/enti/delete/corporation/{corporation}', 'CorporationController@destroy');
+Route::get('/enti/modify/corporation/{corporation}', 'CorporationController@modify');
+Route::post('/enti/update/corporation/{corporation}', 'CorporationController@update');
+Route::get('/enti/duplicate/corporation/{corporation}', 'CorporationController@duplicate');
+Route::get('/enti/nuovocliente/corporation/{corporation}', 'CorporationController@nuovocliente');
+Route::post('/enti/add/', 'CorporationController@add');
+Route::get('/enti/add/', 'CorporationController@nuovo');
+Route::post('/enti/store/', 'CorporationController@store');
+Route::get('/enti/miei', 'CorporationController@miei');
+Route::get('enti/json', 'CorporationController@getjson');
+Route::get('enti/miei/json', 'CorporationController@getJsonMiei');
+
+Route::get('/admin', 'AdminController@index');
+/// Impostazioni globali
+// Logo
+Route::post('/admin/globali/store', 'AdminController@store');
+// Profilazioni
+Route::post('/admin/profilazione/add', 'AdminController@nuovaprofilazione');
+/// Utenti
+Route::get('/admin/utenti', 'AdminController@utenti');
+Route::get('/admin/utenti/attiva/id/{id}/password/{password}/email/{email}', 'AdminController@attivapassword');
+Route::get('/admin/modify/utente/{utente?}', 'AdminController@modificautente');
+Route::post('/admin/update/utente/{utente?}', 'AdminController@aggiornautente');
+Route::get('/admin/destroy/utente/{utente}', 'AdminController@destroyutente');
+//// Tassonomie
+/// Enti
+
+// Tipi enti
+Route::post('/admin/tassonomie/new', 'AdminController@nuovoTipo');
+Route::post('/admin/tassonomie/update', 'AdminController@tassonomieUpdate');
+Route::get('/admin/tassonomie/delete/id/{id}', 'AdminController@delete');
+// Stati emotivi enti
+Route::post('/admin/tassonomie/nuovostatoemotivo', 'AdminController@nuovoStatoEmotivo');
+Route::post('/admin/tassonomie/nuovostatoprogetto', 'AdminController@nuovoStatoEmotivoProgetto');
+Route::post('/admin/tassonomie/nuovostatopagamento', 'AdminController@nuovoStatoEmotivoPagamento');
+Route::post('/admin/tassonomie/nuovostatopreventivo', 'AdminController@nuovoStatoEmotivoPreventivo');
+Route::post('/admin/tassonomie/aggiornastatiemotivi', 'AdminController@aggiornaStatiEmotivi');
+Route::get('/admin/tassonomie/statiemotivi/delete/id/{id}', 'AdminController@deleteStatiEmotivi');
+
+Route::get('admin/tassonomie/enti', 'AdminController@enti');
+// Progetti -> Stato emotivo
+Route::get('/admin/tassonomie/progetti', 'AdminController@progetti');
+Route::get('/admin/tassonomie/statiprogetti/delete/id/{id}', 'AdminController@deleteStatiProgetti');
+Route::post('/admin/tassonomie/aggiornastatiprogetti', 'AdminController@aggiornaStatiProgetti');
+// Preventivi -> Stato emotivo
+Route::get('/admin/tassonomie/preventivi', 'AdminController@preventivi'); //fatto
+Route::get('/admin/tassonomie/statipreventivi/delete/id/{id}', 'AdminController@deleteStatiPreventivi'); //fatto
+Route::post('/admin/tassonomie/aggiornastatipreventivi', 'AdminController@aggiornaStatiPreventivi'); //fatto(?)
+// Pagamenti -> Stato emotivo
+Route::get('/admin/tassonomie/pagamenti', 'AdminController@pagamenti');
+Route::get('/admin/tassonomie/statipagamenti/delete/id/{id}', 'AdminController@deleteStatiPagamenti');
+Route::post('/admin/tassonomie/aggiornastatipagamenti', 'AdminController@aggiornaStatiPagamenti');
+
+// route is repeat again 
+// Route::get('/admin/tassonomie/statiprogetti/delete/id/{id}', 'AdminController@deleteStatiPagamenti');
+
+/// Dipartimenti
+Route::get('admin/tassonomie/dipartimenti', 'AdminController@dipartimenti');
+Route::post('/admin/tassonomie/dipartimenti/add', 'AdminController@add');
+Route::get('/admin/tassonomie/dipartimenti/add', 'AdminController@nuovo');
+Route::post('/admin/tassonomie/dipartimenti/store', 'AdminController@salvadipartimento');
+Route::get('/admin/tassonomie/dipartimenti/modify/department/{department}', 'AdminController@modificadipartimento');
+Route::get('/admin/tassonomie/dipartimenti/delete/department/{department}', 'AdminController@destroydipartimento');
+Route::post('/admin/tassonomie/dipartimenti/update/department/{department}', 'AdminController@aggiornadipartimento');
+
+/// Vendita
+// Optional
+Route::get('admin/tassonomie/vendita', 'AdminController@vendita');
+Route::get('/admin/tassonomie/optional/add', 'AdminController@mostraoptional');
+Route::post('/admin/tassonomie/optional/add', 'AdminController@aggiungioptional');
+Route::post('/admin/tassonomie/optional/store', 'AdminController@salvaoptional');
+Route::get('/admin/tassonomie/modify/optional/{optional}', 'AdminController@modificaoptional');
+Route::post('/admin/tassonomie/update/optional/{optional}', 'AdminController@salvamodificheoptional');
+Route::get('/admin/tassonomie/delete/optional/{optional}', 'AdminController@destroyoptional');
+// Pacchetti
+Route::get('/admin/tassonomie/pacchetti/add', 'AdminController@mostrapacchetti');
+Route::post('/admin/tassonomie/pacchetti/add', 'AdminController@aggiungipacchetto');
+Route::post('/admin/tassonomie/pacchetti/store', 'AdminController@salvapacchetto');
+Route::get('/admin/tassonomie/delete/pacchetto/{pacchetto}', 'AdminController@destroypacchetto');
+Route::get('/admin/tassonomie/modify/pacchetto/{pacchetto}', 'AdminController@modifypacchetto');
+Route::post('/admin/tassonomie/update/pacchetto/{pacchetto}', 'AdminController@aggiornapacchetto');
+// Sconti
+Route::get('/admin/tassonomie/sconti/add', 'AdminController@mostrasconti');
+Route::post('/admin/tassonomie/sconti/add', 'AdminController@aggiungisconto');
+Route::post('/admin/tassonomie/sconti/store', 'AdminController@salvasconto');
+Route::get('/admin/tassonomie/delete/sconto/{sconto}', 'AdminController@destroysconto');
+Route::get('/admin/tassonomie/modify/sconto/{sconto}', 'AdminController@modifysconto');
+Route::post('/admin/tassonomie/update/sconto/{sc}', 'AdminController@aggiornasconto');
+// Bonus sconti
+Route::get('/admin/tassonomie/scontibonus/add', 'AdminController@mostrascontibonus');
+Route::post('/admin/tassonomie/scontibonus/add', 'AdminController@aggiungiscontobonus');
+Route::post('/admin/tassonomie/scontibonus/store', 'AdminController@salvascontobonus');
+Route::get('/admin/tassonomie/delete/scontobonus/{sconto}', 'AdminController@destroyscontobonus');
+Route::get('/admin/tassonomie/modify/scontobonus/{sconto}', 'AdminController@modifyscontobonus');
+Route::post('/admin/tassonomie/update/scontobonus/{sc}', 'AdminController@aggiornascontobonus');
+
+/// Pagamenti
+Route::get('/pagamenti', 'AccountingController@index');
+Route::post('/pagamenti/store', 'AccountingController@creadisposizione');
+Route::get('/pagamenti/delete/accounting/{accounting}', 'AccountingController@destroydisposizione');
+Route::get('/pagamenti/duplicate/accounting/{accounting}', 'AccountingController@duplicadisposizione');
+Route::post('/pagamenti/modifica/accounting/{accounting}', 'AccountingController@modificadisposizione');
+Route::get('/pagamenti/json', 'AccountingController@getjson');
+Route::get('/pagamenti/mostra/accounting/{accounting}', 'AccountingController@mostradisposizione');
+Route::get('/pagamenti/tranche/add/{id}', 'AccountingController@aggiungitranche');
+Route::get('/pagamenti/tranche/json/id/{id}', 'AccountingController@getjsontranche');
+Route::get('/pagamenti/tranche/delete/{id}', 'AccountingController@eliminatranche');
+Route::get('/pagamenti/tranche/duplicate/{id}', 'AccountingController@duplicatranche');
+Route::get('/pagamenti/tranche/modifica/{id}', 'AccountingController@modificatranche');
+Route::post('/pagamenti/tranche/store', 'AccountingController@salvatranche');
+Route::post('/pagamenti/tranche/update/{id}', 'AccountingController@aggiornatranche');
+Route::get('/pagamenti/tranche/corpofattura/{id}', 'AccountingController@vedicorpofattura');
+Route::get('pagamenti/tranche/corpofattura/delete/{id}', 'AccountingController@eliminacorpofattura');
+Route::post('/pagamenti/tranche/corpofattura/update/{id}', 'AccountingController@aggiornacorpofattura');
+Route::get('/pagamenti/tranche/pdf/{id}', 'AccountingController@generapdftranche');
+Route::get('/pagamenti/tranche/elenco', 'AccountingController@elencotranche');
+Route::get('/pagamenti/tranche/json', 'AccountingController@getjsontuttetranche');
+Route::get('/pagamenti/coordinate', 'AccountingController@mostracoordinate');
+
+// Statistiche
+Route::get('/statistiche/economiche', 'AccountingController@mostrastatistiche');
+Route::get('/statistiche/economiche/{tipo}/{anno}', 'AccountingController@statisticheeconomiche');
+Route::get('costi/json', 'AccountingController@getjsoncosti');
+Route::get('/costo/delete/{id}', 'AccountingController@destroycosto');
+Route::get('/costi/modify/{id}', 'AccountingController@modificacosto');
+Route::post('/costo/aggiorna/{id}', 'AccountingController@aggiornacosto');
+
+// Profilo utente
+Route::get('/profilo', 'HomeController@mostraprofilo');
+Route::post('/profilo/aggiornaimmagine/{id}', 'HomeController@aggiornaimmagine');
+Route::get('/profilo/link/elimina/{id}', 'HomeController@eliminalink');
+Route::post('/profilo/aggiungilink', 'HomeController@aggiungilink');

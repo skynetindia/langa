@@ -1,0 +1,1 @@
+[16-Aug-2016 17:05:40 Europe/Berlin] PHP Fatal error:  Class 'App\Http\Controllers\Controller' not found in /home/rfqinbfa/public_html/sistemi/easy.langa.tv/app/Http/Controllers/AccountingController.php on line 16

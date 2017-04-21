@@ -1,0 +1,2 @@
+[29-Jul-2016 09:42:43 Europe/Berlin] PHP Fatal error:  Class 'Session' not found in /home/rfqinbfa/public_html/sistemi/easy.langa.tv/resources/views/modificacosto.blade.php on line 8
+[29-Jul-2016 09:49:10 Europe/Berlin] PHP Fatal error:  Class 'Session' not found in /home/rfqinbfa/public_html/sistemi/easy.langa.tv/resources/views/modificacosto.blade.php on line 8
