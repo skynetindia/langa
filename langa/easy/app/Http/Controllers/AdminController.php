@@ -17,6 +17,40 @@ class AdminController extends Controller
 
     }
 
+    // user read notification
+    public function userreadnotification(Request $request)
+    {
+
+        $today = date("Y-m-d h:i:s");
+        $id = $request->input('id');
+      
+         DB::table('invia_notifica')
+                ->where('id', $id)
+                ->update(array(
+                    'data_lettura' => $today
+                    ));
+                
+        return Redirect::back();
+        
+    }
+
+    // make comment in notification
+    public function notificationmakecomment(Request $request)
+    {
+        $messaggio = $request->input('messaggio');
+        $id = $request->input('id');
+        
+         DB::table('invia_notifica')
+                ->where('id', $id)
+                ->update(array(
+                    'comment' => $messaggio,
+                    'conferma' => 'LETTO'
+                    ));
+                
+        return Redirect::back();
+        
+    }    
+
     // user read alert notification
     public function userreadalert(Request $request)
     {
@@ -185,19 +219,20 @@ class AdminController extends Controller
         } else {
 
 
-            $id = 231;
-            $current_date = date("Y-m-d"); 
+            $today = date("Y-m-d");
 
-            $alert = DB::table('alert')
+            $notifica = DB::table('notifica')
                 ->where('created_at', $today)
                 ->get();
-            
-            foreach ($alert as $value) {
+
+            foreach ($notifica as $value) {
                 
-                $ente = explode(",", $value->ente);
+                $ente = explode(",", $value->id_ente);
                 $ruolo = explode(",", $value->ruolo);
-                
-                foreach ($ente as $ente) {
+
+                if($ente[0] != null){
+                      
+                  foreach ($ente as $ente) {
 
                     $getente = DB::table('enti_partecipanti')
                         ->select('id_user')
@@ -205,42 +240,89 @@ class AdminController extends Controller
                         ->get();
 
                     foreach ($getente as $getente) {
- 
-                        $getrole = DB::table('users')
-                            ->select('dipartimento')
-                            ->where('id', $getente->id_user)
-                            ->get();
 
-                        if($getrole) {
-                        
-                            $corporations = DB::table('corporations')
-                                ->where('id', $value->ente)
+                        foreach ($ruolo as $role) {
+
+                            $getrole = DB::table('users')
+                                ->select('*')
+                                ->where('id', $getente->id_user)
+                                ->where('dipartimento', '=',  $role)
                                 ->first();
 
-                             $true = DB::table('inviare_avviso')->insert([
+                            if($getrole) {
+
+                                $corporations = DB::table('corporations')
+                                    ->where('id', $value->id_ente)
+                                ->first();
+                            
+                             $true = DB::table('invia_notifica')->insert([
                                     'id_ente' => $corporations->id,
-                                    'alert_id' => $value->alert_id,
+                                    'ruolo' => $role,
+                                    'user_id' => $getrole->id,
+                                    'notification_id' => $value->id,
                                     'nome_azienda' => $corporations->nomeazienda,
                                     'nome_referente' => $corporations->nomereferente,
                                     'settore' => $corporations->settore,
                                     'telefono_azienda' => $corporations->telefonoazienda,
                                     'email' => $corporations->email,
                                     'data_lettura' => '',
-                                    'responsible_langa' => $corporations->responsabilelanga,
                                     'conferma' => 'NON LETTO'
                                 ]);
 
-                            if($true){
+                      
+                                if($true){
+                                    return "notification send succesfully.!";
 
-                                return "alert send succesfully.!";
+                                } else {
 
-                            } else {
+                                    return false;
+                                }
 
-                                return false;
                             }
-
                         } 
                     }
+                }
+
+                } // end if 
+                else {
+
+                    foreach ($ruolo as $role) {
+
+                        $getdept = DB::table('users')
+                            ->where('dipartimento', $role)
+                            ->get();
+                      
+                        foreach ($getdept as $getdept) {
+
+                            $corporations = DB::table('corporations')
+                            ->where('id', $getdept->id)
+                            ->first();
+   
+                            $true = DB::table('invia_notifica')->insert([
+                            'ruolo' => $role,
+                            'user_id' => $getdept->id,
+                            'notification_id' => $value->id,
+                            'nome_azienda' => $corporations->nomeazienda,
+                            'nome_referente' => $corporations->nomereferente,
+                            'settore' => $corporations->settore,
+                            'telefono_azienda' => $corporations->telefonoazienda,
+                            'email' => $corporations->email,
+                            'data_lettura' => '',
+                            'conferma' => 'NON LETTO'
+                            ]);
+
+                        }
+                    }
+
+                    if($true){
+
+                        return "notification send succesfully.!";
+
+                    } else {
+
+                        return false;
+                    }
+                             
                 }
             }
         }
@@ -963,6 +1045,107 @@ class AdminController extends Controller
             ]);
         }
     }
+    /* ============================ Package section ========================  */
+    /* Package sesction listing : Paras */
+     public function pacchetto(Request $request) {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+            return view('pacchetto', [
+                'pacchetto' => DB::table('pacchetto')
+                                ->select('*')
+                                ->where('id', '!=', 0)
+                                ->where('is_deleted', '=', 0)
+                                ->paginate(10),
+            ]);
+        }
+    }
+    
+    public function modificapacchetto(Request $request)
+    {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } 
+        else {
+            if($request->pacchetto){
+                return view('modificapacchettoquiz', [                   
+                    'action'=>'edit',
+                    'pacchetto_data' => DB::table('pacchetto')
+                                ->select('*')
+                                ->where('id', $request->pacchetto)
+                                ->get()               
+                ]);
+            } 
+            else {
+                return view('modificapacchettoquiz', ['action'=>'add']);
+            }
+        }
+    }
+     
+    public function aggiornapacchettoquiz(Request $request) {
+
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } 
+        else {
+            $validator = Validator::make($request->all(), [
+                'nome_pacchetto' => 'required|max:35',
+                'pagine_totali' => 'required',
+                'prezzo_pacchetto' => 'required|max:10',
+                'per_pagina_prezzo' => 'required|max:10',
+            ]);
+
+            if ($validator->fails()) {
+                return Redirect::back()
+                                ->withInput()
+                                ->withErrors($validator);
+            }
+            
+         if($request->pacchetto){
+            DB::table('pacchetto')
+                ->where('id', $request->pacchetto)
+                ->update(array(
+                'nome_pacchetto' => $request->nome_pacchetto,
+                'pagine_totali' => $request->pagine_totali,
+                'prezzo_pacchetto' => $request->prezzo_pacchetto,
+                'per_pagina_prezzo' => $request->per_pagina_prezzo,
+                'updated_date'=> date('Y-m-d H:i:s')
+            ));            
+            return Redirect::back()
+                ->with('msg', '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Pacchetto modificato correttamente!</h4></div>');
+            
+         } 
+         else {
+            DB::table('pacchetto')->insert(array(
+                'nome_pacchetto' => $request->nome_pacchetto,
+                'pagine_totali' => $request->pagine_totali,
+                'prezzo_pacchetto' => $request->prezzo_pacchetto,
+                'per_pagina_prezzo' => $request->per_pagina_prezzo,
+                'created_date' => date('Y-m-d H:i:s')
+            ));
+            return Redirect::back()
+           ->with('msg', '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Pacchetto Add correttamente!</h4></div>');
+
+        }        
+        }            
+    }
+    
+     public function destroypacchettoquiz(Request $request)
+    {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+             DB::table('pacchetto')
+                ->where('id', $request->pacchetto)
+                ->update(array(
+                'is_deleted' => '1',
+                'updated_date'=> date('Y-m-d H:i:s')
+            ));   
+            return Redirect::back()
+                            ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Pacchetto eliminato correttamente!</h4></div>');
+        }
+    }
+    /* ============================ Package section ========================  */
     
     public function aggiornascontobonus(Request $request)
     {
