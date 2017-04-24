@@ -17,6 +17,40 @@ class AdminController extends Controller
 
     }
 
+    // user read alert notification
+    public function userreadalert(Request $request)
+    {
+
+        $today = date("Y-m-d h:i:s");
+        $alert_id = $request->input('alert_id');
+      
+         DB::table('inviare_avviso')
+                ->where('alert_id', $alert_id)
+                ->update(array(
+                    'data_lettura' => $today
+                    ));
+                
+        return Redirect::back();
+        
+    }
+
+    // make comment in alert notification
+    public function alertmakecomment(Request $request)
+    {
+        $messaggio = $request->input('messaggio');
+        $alert_id = $request->input('alert_id');
+        
+         DB::table('inviare_avviso')
+                ->where('alert_id', $alert_id)
+                ->update(array(
+                    'comment' => $messaggio,
+                    'conferma' => 'LETTO'
+                    ));
+                
+        return Redirect::back();
+        
+    }    
+
     // add admin alert
     public function addadminalert(Request $request)
     {
@@ -67,10 +101,6 @@ class AdminController extends Controller
                 'messaggio' => $request->messaggio
             ]);
 
-            return redirect('/send-alert/1');
-
-            dd("back");
-
             return Redirect::back()
                 ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Alert add correttamente!</h4></div>');
         }
@@ -85,21 +115,73 @@ class AdminController extends Controller
 
         } else {
 
-            $alert = DB::table('alert')
-                ->where('alert_id', $request->ruolo_id)
-                ->get();
+            $today = date("Y-m-d");
 
-            $role = DB::table('users')
-                ->where('dipartimento', $request->ruolo_id)
+            $alert = DB::table('alert')
+                ->where('created_at', $today)
                 ->get();
             
-            dd($role);
+            foreach ($alert as $value) {
+                
+                $ente = explode(",", $value->ente);
+                $ruolo = explode(",", $value->ruolo);
+                
+                foreach ($ente as $ente) {
 
-            return Redirect::back()
-                ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Alert add correttamente!</h4></div>');
+                    $getente = DB::table('enti_partecipanti')
+                        ->select('id_user')
+                        ->where('id_ente', $ente)
+                        ->get();
+
+                    foreach ($getente as $getente) {
+ 
+                        $getrole = DB::table('users')
+                            ->select('dipartimento')
+                            ->where('id', $getente->id_user)
+                            ->get();
+
+                        if($getrole) {
+                        
+                            $corporations = DB::table('corporations')
+                                ->where('id', $value->ente)
+                                ->first();
+
+                             $true = DB::table('inviare_avviso')->insert([
+                                    'id_ente' => $corporations->id,
+                                    'alert_id' => $value->alert_id,
+                                    'nome_azienda' => $corporations->nomeazienda,
+                                    'nome_referente' => $corporations->nomereferente,
+                                    'settore' => $corporations->settore,
+                                    'telefono_azienda' => $corporations->telefonoazienda,
+                                    'email' => $corporations->email,
+                                    'data_lettura' => '',
+                                    'responsible_langa' => $corporations->responsabilelanga,
+                                    'conferma' => 'NON LETTO'
+                                ]);
+
+                            if($true){
+
+                                return "alert send succesfully.!";
+
+                            } else {
+
+                                return false;
+                            }
+
+                        } 
+                    }
+                }
+            }
         }
     }
 
+    public function getalertjson(Request $request)
+    {
+        $ente = DB::table('inviare_avviso')
+                    ->get();  
+
+        return json_encode($ente);
+    }
 
 
     // getting list of users
@@ -241,24 +323,34 @@ class AdminController extends Controller
     {
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
-        } else {
+        } 
+        else {
 
-        $module = DB::table('modulo')
-            ->where('modulo_sub', null)
-            ->get();
+              $module = DB::table('modulo')
+                    ->where('modulo_sub', null)
+                    ->get();    
 
-        $ruolo_utente = DB::table('ruolo_utente')
-            ->where('ruolo_id', '=', $request->ruolo_id)
-            ->get();
 
-        $permessi = [];
-        foreach ($ruolo_utente as $key => $value) {
-            array_push($permessi, $value->permessi);
-        }
-        $permessi = json_decode($permessi[0]);
+            if($request->ruolo_id){
 
-        return view('permessi')->with('module', $module)->with('ruolo_utente', $ruolo_utente)->with('permessi', $permessi);
-          
+                $ruolo_utente = DB::table('ruolo_utente')
+                    ->where('ruolo_id', '=', $request->ruolo_id)
+                    ->get();
+
+                $permessi = array();
+
+                if(isset($ruolo_utente[0]->permessi) && !empty($ruolo_utente[0]->permessi)){
+                    $permessi = json_decode($ruolo_utente[0]->permessi);
+                }
+
+                return view('permessi')->with('module', $module)->with('ruolo_utente', $ruolo_utente)->with('permessi', $permessi)->with('ruolo_id',$request->ruolo_id);
+
+            } else {
+
+                return view('permessi')->with('module', $module);
+
+            }
+                      
         }
     }
     
@@ -272,38 +364,28 @@ class AdminController extends Controller
             $reading = $request->input('lettura');
             $writing = $request->input('scrittura');
             $nome_ruolo = $request->input('nome_ruolo');
-        
-           // $permessi = [];
+            
+            $permessi = json_encode(array_merge($reading, $writing));
 
-           // foreach ($reading as $value) {
+            if($nome_ruolo) {
 
-           //     $true = strrchr($value,"->"); 
-
-           //     if($true){
-
-           //         $get = explode('->', $value);
-           //         print_r($get);
-
-           //          foreach ($get as $key => $value) {
-           //              if($key == 0 ){
-           //                  $permessi[$value] = [];                         
-           //              }
-                        
-           //          }                    
-           //      }
-           // }
-
-           // dd($permessi);
-
-        $permessi = json_encode(array_merge($reading, $writing));
-  
-        $ruolo_utente =  DB::table('ruolo_utente')
-            ->where('ruolo_id', $nome_ruolo)
-            ->update(array('permessi' => $permessi));
+                $ruolo_utente =  DB::table('ruolo_utente')
+                    ->where('ruolo_id', $nome_ruolo)
+                    ->update(array('permessi' => $permessi));
  
-       return Redirect::back()
-                ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> permessi updated succesfully..!</h4></div>');
-          
+                return Redirect::back()
+                    ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> permessi updated succesfully..!</h4></div>');
+            } else {
+
+                $new_ruolo = $request->input('new_ruolo');
+
+                    DB::table('ruolo_utente')->insert(        
+                        ['nome_ruolo' => $new_ruolo, 'permessi' => $permessi ]
+                        );
+ 
+                return Redirect::back()
+                    ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> Role Add succesfully..!</h4></div>');
+            }
         }
     }
 
@@ -564,12 +646,20 @@ class AdminController extends Controller
             return redirect('/unauthorized');
         } else {
 
+            $user_id = $request->input('user_id');
+
+            $dipartimento = $request->input('dipartimento');
+
+            
+            
+         if($request->utente){
+
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:20',
-                'email' => 'required|max:64|unique:users',
+                'email' => 'required|email|max:255|unique:users,email,'.$user_id.',id',
                 'idente' => 'required|max:35',
                 'dipartimento' => 'required|max:64',
-				'colore' => 'max:30',
+                'colore' => 'max:30',
                 'sconto' => 'required|numeric',
                 'sconto_bonus' => 'required|numeric',
                 'rendita' => 'required|numeric',
@@ -583,8 +673,6 @@ class AdminController extends Controller
                                 ->withInput()
                                 ->withErrors($validator);
             }
-            
-         if($request->utente){
 
             $vecchiapassword = DB::table('users')
                                 ->where('id', $request->utente)
@@ -600,7 +688,41 @@ class AdminController extends Controller
 
             $zone = implode(",", $request->input('zone'));        
 
-            DB::table('users')
+            if($dipartimento == 1 || $dipartimento == 3) {
+
+                DB::table('users')
+                ->where('id', $request->utente)
+                ->update(array(
+                'name' => $request->name,
+                'email' => $request->email,
+                'id_ente' => $idente,
+                'dipartimento' => $request->dipartimento,
+                'color' => $request->colore,
+                'cellulare' => $request->cellulare,
+                'password' => $request->password
+            ));
+
+            } else if($dipartimento == 4 ) {
+
+                DB::table('users')
+                ->where('id', $request->utente)
+                ->update(array(
+                'name' => $request->name,
+                'email' => $request->email,
+                'id_ente' => $idente,
+                'id_citta' => $zone,
+                'dipartimento' => $request->dipartimento,
+                'color' => $request->colore,
+                'cellulare' => $request->cellulare,
+                'password' => $request->password,
+                'sconto' => $request->sconto,
+                'sconto_bonus' => $request->sconto_bonus,
+                'rendita_reseller' => $request->rendita_reseller
+            ));
+
+            } else {
+
+               DB::table('users')
                 ->where('id', $request->utente)
                 ->update(array(
                 'name' => $request->name,
@@ -615,8 +737,9 @@ class AdminController extends Controller
                 'sconto_bonus' => $request->sconto_bonus,
                 'rendita' => $request->rendita,
                 'rendita_reseller' => $request->rendita_reseller
-            ));
-            
+                ));
+            }
+
             return Redirect::back()
                 ->with('msg', '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Utente modificato correttamente!</h4></div>');
             
@@ -630,7 +753,19 @@ class AdminController extends Controller
 
             $idente = implode(",", $request->input('idente'));
 
-            $zone = implode(",", $request->input('zone'));        
+            $zone = implode(",", $request->input('zone'));  
+
+             $validator = Validator::make($request->all(), [
+               
+                'email' => 'required|email|max:255|unique:users',
+            ]);
+
+            if ($validator->fails()) {
+                return Redirect::back()
+                                ->withInput()
+                                ->withErrors($validator);
+            }
+
 
             DB::table('users')->insert(array(
                 'name' => $request->name,
@@ -664,7 +799,7 @@ class AdminController extends Controller
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
         } else {
-
+ 
             $module = DB::table('modulo')
                             ->where('modulo_sub', null)
                             ->get();
