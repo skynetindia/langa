@@ -17,6 +17,40 @@ class AdminController extends Controller
 
     }
 
+    // role wised read notification
+    public function userreadnote(Request $request)
+    {
+
+        $today = date("Y-m-d h:i:s");
+        $id = $request->input('id');
+      
+         DB::table('invia_notifica')
+                ->where('id', $id)
+                ->update(array(
+                    'data_lettura' => $today
+                    ));
+                
+        return Redirect::back();
+        
+    }
+
+    // make comment in role wised notification
+    public function notemakecomment(Request $request)
+    {
+        $messaggio = $request->input('messaggio');
+        $id = $request->input('id');
+        
+         DB::table('invia_notifica')
+                ->where('id', $id)
+                ->update(array(
+                    'comment' => $messaggio,
+                    'conferma' => 'LETTO'
+                    ));
+                
+        return Redirect::back();
+        
+    }    
+
     // user read notification
     public function userreadnotification(Request $request)
     {

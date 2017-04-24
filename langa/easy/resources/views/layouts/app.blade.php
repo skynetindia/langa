@@ -703,17 +703,60 @@
                 </div>
             
             <?php
-            
+
                 }
           
 
           } else {
 
-            echo "else";
-          }
+              $notifica = DB::table('invia_notifica')
+                ->join('notifica', 'invia_notifica.notification_id', '=', 'notifica.id')
+                ->where('user_id', $userId)
+                ->whereNotNull('notifica.id_ente')
+                ->get();
 
-          dd($notifica->id_ente);
-?>
+              foreach ($notifica as $notifica) {  ?>
+
+                <div class="col-md-6">
+                  <div class="alert alert-danger">
+
+                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  <h4>
+
+                  <div id="role_notifica" class="comment" > {{ $notifica->notification_type }} 
+
+                    <br><br>
+
+                    <div id="comment" style="display: none;"> 
+                        {{ $notifica->notification_desc }}  
+
+                        <br><br>
+
+                        <textarea id="messaggio" rows="4" cols="5" style="color: black"> </textarea> 
+
+                        <input type="hidden" id="note_id" name="" value="{{ $notifica->id  }}">
+
+                        <br><br>
+                    </div>
+
+                    <div id="note_send" style="display: none;">
+
+                      <button id="note_send" value="note_send" style="color: black">
+                        Send
+                      </button>
+
+                    </div>             
+
+                    </div>
+
+                  </h4> 
+                  </div>
+                </div>
+
+              <?php }
+
+          }
+      ?>
 
         </div>
         <!-- /top navigation -->
@@ -853,6 +896,60 @@
                               'id': id
                             },
                       url: '{{ url('notification/make-comment') }}',
+
+                      success:function(data) {
+                         console.log(data);
+                        //  $('#success_message').html(data);
+                          location.reload();
+                        }
+
+                    });
+
+                });
+
+             $('#role_notifica').on('click', function(e) {  
+
+                  $('#comment').css({
+                      'display': 'block'
+                  });
+                  $('#note_send').css({
+                      'display': 'block'
+                  });
+
+                  e.preventDefault();
+                  var id = $("#note_id").val(); 
+
+                  $.ajax({
+                        type:'GET',
+                          data: {
+                                  'id': id
+                                },
+                          url: '{{ url('note_role/user-read') }}',
+
+                          success:function(data) {
+                             // console.log(data);
+                            //  $('#success_message').html(data);
+                           
+                            }
+
+                  });
+
+            });
+
+             $("#note_send").click(function(e){
+         
+              e.preventDefault();
+
+              var messaggio = $("#messaggio").val(); 
+              var id = $("#note_id").val();
+                 
+              $.ajax({
+                    type:'GET',
+                      data: {
+                              'messaggio': messaggio,
+                              'id': id
+                            },
+                      url: '{{ url('note_role/make-comment') }}',
 
                       success:function(data) {
                          console.log(data);
