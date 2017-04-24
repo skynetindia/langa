@@ -65,7 +65,6 @@ table tr td {
 }
 
 
-
 .table-add {
 
   color: #070;
@@ -202,21 +201,21 @@ th, td {
 
   $("#dipartimento").change(function(){
 
-    if( $(this).val() == 'AMMINISTRAZIONE') {
+    if( $(this).val() == 1) {
 
         $("#sconto_section").hide();       
         $("#rendita").hide();
         $("#rendita_reseller").hide();
         $("#zone").hide();
 
-    } else if( $(this).val() == 'TECNICO') {
+    } else if( $(this).val() == 3) {
 
         $("#sconto_section").hide();    
         $("#rendita").hide();
         $("#rendita_reseller").hide();
         $("#zone").hide();
 
-    } else if( $(this).val() == 'RESELLER') {
+    } else if( $(this).val() == 4) {
 
         $("#sconto_section").show();      
         $("#rendita").show();
@@ -254,7 +253,7 @@ th, td {
 
         $(document).on("click", "#profilazioneinterna", function () {
             
-            if ($(this).is(":checked")) {
+            if ($(this).is(":unchecked")) {
                 $("#rendita").show();
             } else {
                 $("#rendita").hide();
@@ -270,7 +269,9 @@ th, td {
 
   <h1>Modifica utente</h1><hr>
 
-  <?php echo Form::open(array('url' => '/admin/update/utente' . "/$utente->id", 'files' => true, 'id' => 'user_modification')) ?>
+  <?php echo Form::open(array('url' => '/admin/update/utente' . "/$utente->id", 'files' => true, 'id' => 'user_modification'));
+
+   ?>
 
     {{ csrf_field() }}
 
@@ -280,7 +281,7 @@ th, td {
   <div id="profilazione" class="pull-right">
 
     <label for="profilazione" >
-        <input type="checkbox" id="profilazioneinterna" />
+        <input type="checkbox" id="profilazioneinterna" <?php if($utente->dipartimento == 1 || $utente->dipartimento == 3) { ?> checked="checked" <?php } ?> />
         Profilazione interna?
     </label>
 
@@ -289,6 +290,8 @@ th, td {
    <div class="col-md-4">
 
     <label for="name">Nome <p style="color:#f37f0d;display:inline">(*)</p></label>
+
+    <input type="hidden" name="user_id" value="{{ $utente->id }}">
 
     <input value="{{ $utente->name }}" class="form-control" type="text" name="name" id="name" placeholder="Nome"><br>
 
@@ -300,9 +303,9 @@ th, td {
 
     <input value="{{$utente->color}}" class="form-control color no-alpha" type="text" name="colore" id="colore" placeholder="Scegli un colore"><br>
 
-    <div id="sconto_section">
+    <div id="sconto_section"  <?php if($utente->dipartimento == 1 || $utente->dipartimento == 3) { ?> style="display: none" <?php } ?>>
 
-    <div id="sconto" <?php if($utente->dipartimento == "AMMINISTRAZIONE" || $utente->dipartimento == "TECNICO") { ?> style="display: none" <?php } ?>>
+    <div id="sconto">
 
 
     <label for="sconto">Sconto <p style="color:#f37f0d;display:inline">(*)</p></label>
@@ -311,7 +314,7 @@ th, td {
 
     </div>
 
-    <div id="sconto_bonus" <?php if($utente->dipartimento == "AMMINISTRAZIONE" || $utente->dipartimento == "TECNICO") { ?> style="display: none" <?php } ?>>
+    <div id="sconto_bonus">
 
     <label for="sconto_bonus">Sconto bonus<p style="color:#f37f0d;display:inline">(*)</p></label>
 
@@ -425,7 +428,16 @@ th, td {
 
       <input value="{{$utente->email}}" class="form-control" type="email" name="email" id="email" placeholder="Email"><br>
 
-      <div id="rendita_reseller" <?php if($utente->dipartimento == "AMMINISTRAZIONE" || $utente->dipartimento == "TECNICO" || $utente->dipartimento == "RESELLER") { ?> style="display: none" <?php } ?>>
+      <div id="rendita" <?php if($utente->dipartimento == 1 || $utente->dipartimento == 3) { ?> style="display: none" <?php } ?>>
+
+      <label for="rendita">Rendita <p style="color:#f37f0d;display:inline"> (*) </p></label>
+
+      <input value="{{ $utente->rendita }}" class="form-control" type="text" name="rendita" id="rendita" placeholder="rendita"><br>
+    
+      </div>
+
+
+      <div id="rendita_reseller" <?php if($utente->dipartimento == 1 || $utente->dipartimento == 3 || $utente->dipartimento == 4) { ?> style="display: none" <?php } ?>>
 
      <label for="rendita_reseller">Rendita su reseller<p style="color:#f37f0d;display:inline"> (*) </p></label>
 
@@ -433,19 +445,11 @@ th, td {
 
       </div>
 
-
-      <div id="rendita" <?php if($utente->dipartimento == "AMMINISTRAZIONE" || $utente->dipartimento == "TECNICO") { ?> style="display: none" <?php } ?>>
-
-      <label for="rendita">Rendita <p style="color:#f37f0d;display:inline"> (*) </p></label>
-
-      <input value="{{ $utente->rendita }}" class="form-control" type="text" name="rendita" id="rendita" placeholder="rendita"><br>
-    
-      </div>
       </div>
 
     <!-- colonna a destra -->
 
-    <?php $role = DB::table('ruolo_utente')
+    <?php $ruolo = DB::table('ruolo_utente')
         ->get();
 
     ?>
@@ -454,22 +458,19 @@ th, td {
 
     <label for="dipartimento">Profilazione <p style="color:#f37f0d;display:inline">(*)</p></label>
 
-      <select id="dipartimento" class="form-control" name="dipartimento">
-
+    <select id="dipartimento" class="form-control" name="dipartimento">
          
-          @foreach ($role as $value) 
 
-            <option>{{ $value->nome_ruolo }} </option>
-
-          @endforeach
-            
+         @foreach($ruolo as $ruolo)
+           <option  value="{{ $ruolo->ruolo_id }}" <?php echo ($utente->dipartimento == $ruolo->ruolo_id) ? 'selected="selected"':'';?>>{{ $ruolo->nome_ruolo }}</option>  
+        @endforeach 
       </select><br>
 
       <label for="password">Password</label>
 
       <input class="form-control" type="password" name="password" id="password" placeholder="Password"><br>
 
-      <div id="zone" <?php if($utente->dipartimento == "AMMINISTRAZIONE" || $utente->dipartimento == "TECNICO") { ?> style="display: none" <?php } ?>>
+      <div id="zone" <?php if($utente->dipartimento == 1 || $utente->dipartimento == 3) { ?> style="display: none" <?php } ?>>
 
       <label for="zone">Zone <p style="color:#f37f0d;display:inline">(*)</p></label>
 
@@ -580,6 +581,33 @@ th, td {
 
 @else
   
+  <?php $role = DB::table('ruolo_utente')
+        ->get();
+    ?>
+  
+   @foreach ($role as $value) 
+
+    <?php 
+    if($value->nome_ruolo == "AMMINISTRAZIONE") { 
+      ?>
+
+      <script type="text/javascript">
+        
+        $(document).ready(function() {
+          
+            $("#sconto_section").hide();       
+            $("#rendita").hide();
+            $("#rendita_reseller").hide();
+            $("#zone").hide();
+
+          });
+
+      </script>
+
+    <?php } ?>
+
+  @endforeach
+
   <h1>Add utente</h1><hr>
 
   <?php echo Form::open(array('url' => '/admin/update/utente', 'files' => true, 'id' => 'user_modification')) ?>
@@ -609,7 +637,7 @@ th, td {
 
     <input value="" class="form-control color no-alpha" type="text" name="colore" id="colore" placeholder="Scegli un colore"><br>
 
-    <div id="sconto_section">
+    <div id="sconto_section" >
 
     <div id="sconto">
 
@@ -635,7 +663,7 @@ th, td {
 
     <label for="id_ente">Associa a ente <p style="color:#f37f0d;display:inline">(*)</p></label>
 
-      <div class="col-xs-6">
+     <div class="col-xs-6">
 
       <br>
 
@@ -645,41 +673,52 @@ th, td {
               
       </div>
 
+
       <div class="col-md-12">
 
       <table class="table table-striped table-bordered">
                   
       <tbody id="ente">
-               
+      <?php 
+
+       
+          
+          $i=0;
+          
+    ?>
+          
       <tr>
                       
-      <label class="checkente">
+      <label class="checkente<?php echo $i;?>">
       <select name="idente[]" class="form-control" id="id_ente" style="width: 200px">
 
       <option style="background-color:white"></option> 
+      <?php  
+        foreach ($enti as $enti_value) { ?> 
 
-         <option value=""> </option> 
+         <option value="<?php echo $enti_value->id ?>"><?php echo $enti_value->nomereferente ?> </option> 
+
+      <?php  }  ?>
     
     </select>
       
-    <input id="checkente" type="checkbox" class="checkente">  
+    <input id="checkente<?php echo $i;?>" type="checkbox" class="checkente">  
 
     </label>
 
- 
+    <?php $i++; ?>
     </tr>
- 
-    <input type="hidden" id="hidden" name="check" value="">
+   
+    <input type="hidden" id="hidden" name="check" value="<?php echo $i; ?>">
     
     </tbody>
-
 
     <script>
                     
     $('#aggiungiente').on("click", function() {
     var i = $("#hidden").val();
       
-      $('#ente').append("<label class='checkente"+i+"'><select name='idente[]' class='form-control' id='id_ente'> <?php $check = false; ?> <option selected style='background-color:white'></option><?php for($i = 0; $i < count((array)$enti); $i++){if($enti[$i]->id == $enti[$i]->id){ ?><option selected value='<?php echo $enti[$i]->id ?>'><?php echo $enti[$i]->nomereferente ?></option><?php $check = true; } if($check==false){ ?> <option value='<?php echo $enti[$i]->id ?>'><?php echo $enti[$i]->nomereferente ?> </option>+<?php } $check = false; }?></select><input id='checkente"+i+"' type='checkbox' class='checkente'></label>" );
+      $('#ente').append("<label class='checkente"+i+"'><select name='idente[]' class='form-control' id='id_ente'> <?php $check = false; ?> <option selected style='background-color:white'></option><?php for($i = 0; $i < count((array)$enti); $i++){ ?><option selected value='<?php echo $enti[$i]->id ?>'><?php echo $enti[$i]->nomereferente ?></option><?php $check = true; if($check==false){ ?> <option value='<?php echo $enti[$i]->id ?>'><?php echo $enti[$i]->nomereferente ?> </option>+<?php } $check = false; }?></select><input id='checkente"+i+"' type='checkbox' class='checkente'></label>" );
         i++;
         $('#hidden').val(i);
 
@@ -740,20 +779,21 @@ th, td {
       </div>
 
         <!-- colonna a destra -->
-
+ <?php $role = DB::table('ruolo_utente')
+        ->get();
+        ?>
     <div class="col-md-4">
 
     <label for="dipartimento">Profilazione <p style="color:#f37f0d;display:inline">(*)</p></label>
 
-      <select id="dipartimento" class="form-control" name="dipartimento">
+      <select id="dipartimento" class="form-control" 
+      name="dipartimento">
 
-          <option>Amministrazione</option>
+           @foreach ($role as $value) 
 
-          <option>Commerciale</option>
+            <option value="{{ $value->ruolo_id }}">{{ $value->nome_ruolo }} </option>
 
-          <option>Tecnico</option>
-
-          <option >Reseller</option>
+          @endforeach
 
       </select><br>
 
@@ -817,7 +857,7 @@ th, td {
 
       var i = $("#hiddenzone").val();
 
-      $('#zone').append("<label class='checkzone"+i+"'><select name='zone[]' class='form-control' id='zone' style='width: 250px'> <?php $check = false; ?> <option selected style='background-color:white'></option><?php for($i = 0; $i < count((array)$citta); $i++){if($citta[$i]->id_citta == $citta[$i]->id_citta){ ?><option selected value='<?php echo $citta[$i]->id_citta ?>'><?php echo $citta[$i]->nome_citta ?></option><?php $check = true; } if($check==false){ ?> <option value='<?php echo $citta[$i]->id_citta ?>'><?php echo $citta[$i]->nome_citta ?> </option>+<?php } $check = false; }?></select><input id='checkzone"+i+"' type='checkbox' class='checkzone'></label>");
+      $('#zone').append("<label class='checkzone"+i+"'><select name='zone[]' class='form-control' id='zone' style='width: 250px'> <?php $check = false; ?> <option selected style='background-color:white'></option><?php for($i = 0; $i < count((array)$citta); $i++){ ?><option value='<?php echo $citta[$i]->id_citta ?>'><?php echo $citta[$i]->nome_citta ?></option><?php $check = true; if($check==false){ ?> <option value='<?php echo $citta[$i]->id_citta ?>'><?php echo $citta[$i]->nome_citta ?> </option>+<?php } $check = false; }?></select><input id='checkzone"+i+"' type='checkbox' class='checkzone'></label>");
 
           i++;
           $('#hiddenzone').val(i);
@@ -871,11 +911,7 @@ th, td {
 
 
 
-            
-  
-
-
-<?php 
+<?php
 
   echo "<table>";
     echo "<tr>";
@@ -890,71 +926,165 @@ th, td {
       echo "</th> ";
     echo "</tr>";
 
+    $i=0;
+?>
+
+@if(isset($permessi))
+
+<?php
+
     foreach ($module as $module) {
 
       $submodule = DB::table('modulo')
-                            ->where('modulo_sub', $module->id)
-                            ->get();
-      
+            ->where('modulo_sub', $module->id)
+            ->get();
       if($submodule) {
 
          echo "<tr>";
             echo "<td><b>";
-          echo $module->modulo;
-        echo "</td></b> </tr>";
+            echo $module->modulo;
+            echo "</td></b> <td>";
+       ?><input type="checkbox" class="reading" id="lettura<?php echo $i; ?>" name="lettura[]" value="<?php echo $module->id.'|0|lettura';?>" <?php echo (in_array($module->id.'|0|lettura', $permessi)) ? 'checked' :''; ?>>        <?php
+            echo "</td><td>"; ?>
+              <input type="checkbox" class="writing" id="scrittura<?php echo $i; ?>"  name="scrittura[]"  value="<?php echo $module->id.'|0|scrittura';?>"<?php echo (in_array($module->id.'|0|scrittura', $permessi)) ? 'checked' :''; ?>>
+            <?php
+        echo "</td></tr>";
 
         foreach ($submodule as $submodule) {
+
           echo "<tr>";
+
             echo "<td>";
-          echo $submodule->modulo;
-        echo "</td>";
-        echo "<td>"; ?>
-        <input type="checkbox" name="lettura" value="lettura">
-        <?php
-        echo "</td>";
-        echo "<td>"; ?>
-          <input type="checkbox" name="scrittura" value="scrittura">
-        <?php
-        echo "</td>";
-        echo "</tr>";
-        }
+            echo $submodule->modulo;
+            echo "</td>";
+
+            echo "<td>"; ?>
+              <input type="checkbox" class="lettura<?php echo $i; ?>" id="lettura" name="lettura[]" value="<?php echo $module->id.'|'.$submodule->id.'|lettura';?>"<?php echo (in_array($module->id.'|'.$submodule->id.'|lettura', $permessi)) ? 'checked' :''; ?> >
+              <?php
+            echo "</td>";
+
+            echo "<td>"; ?>
+              <input type="checkbox" class="scrittura<?php echo $i; ?>" id="scrittura" name="scrittura[]" value="<?php echo $module->id.'|'.$submodule->id.'|scrittura';?>" <?php echo (in_array($module->id.'|'.$submodule->id.'|scrittura', $permessi)) ? 'checked' :''; ?> >
+              <input type="hidden" id="hidden" name="checkhidden" value="<?php echo $i; ?>">
+            <?php
+            echo "</td>";
+
+          echo "</tr>";
+         
+        } $i++;
       } else {
 
          echo "<tr>";
             echo "<td><b>";
-          echo $module->modulo;
-        echo "</td></b> ";
+            echo $module->modulo;
+         echo "</td></b> ";
 
-        echo "<td>"; ?>
-        <input type="checkbox" name="lettura" value="lettura">
-        <?php
-        echo "</td>";
-        echo "<td>"; ?>
-          <input type="checkbox" name="scrittura" value="scrittura">
-        <?php
-        echo "</td>";
+          echo "<td>"; ?>
+            <input type="checkbox" class="reading" id="lettura<?php echo $i; ?>" name="lettura[]" value="<?php echo $module->id.'|0|lettura';?>" <?php echo (in_array($module->id.'|0|lettura', $permessi)) ? 'checked' :''; ?>>
+            <?php
+          echo "</td>";
+
+          echo "<td>"; ?>
+          
+          <?php
+          echo "</td>";
+
         echo "</tr>";
-
       }  
-
-    
     }
   
   echo "</table>";
+ ?>
 
+@else
+ <?php  
+    foreach ($module as $module) {
+
+      $submodule = DB::table('modulo')
+            ->where('modulo_sub', $module->id)
+            ->get();
+
+      if($submodule) {
+
+         echo "<tr>";
+            echo "<td><b>";
+            echo $module->modulo;
+            echo "</td></b> <td>";
+       ?><input type="checkbox" class="reading" id="lettura<?php echo $i; ?>" name="lettura[]" value="<?php echo $module->id.'|0|lettura';?>">        <?php
+            echo "</td><td>"; ?>
+              <input type="checkbox" class="writing" id="scrittura<?php echo $i; ?>"  name="scrittura[]"  value="<?php echo $module->id.'|0|scrittura';?>">
+            <?php
+        echo "</td></tr>";
+
+        foreach ($submodule as $submodule) {
+
+            echo "<tr>";
+
+            echo "<td>";
+            echo $submodule->modulo;
+            echo "</td>";
+
+            echo "<td>"; ?>
+              <input type="checkbox" class="lettura<?php echo $i; ?>" id="lettura" name="lettura[]" value="<?php echo $module->id.'|'.$submodule->id.'|lettura';?>">
+              <?php
+            echo "</td>";
+
+            echo "<td>"; ?>
+              <input type="checkbox" class="scrittura<?php echo $i; ?>" id="scrittura" name="scrittura[]" value="<?php echo $module->id.'|'.$submodule->id.'|scrittura';?>">
+              <input type="hidden" id="hidden" name="checkhidden" value="<?php echo $i; ?>">
+            <?php
+            echo "</td>";
+
+          echo "</tr>";
+         
+        } $i++;
+      } else {
+
+         echo "<tr>";
+            echo "<td><b>";
+            echo $module->modulo;
+         echo "</td></b> ";
+
+          echo "<td>"; ?>
+            <input type="checkbox" class="reading" id="lettura<?php echo $i; ?>" name="lettura[]" value="<?php echo $module->id.'|0|lettura';?>">
+            <?php
+          echo "</td>";
+
+          echo "<td>"; ?>
+          
+          <?php
+          echo "</td>";
+
+        echo "</tr>";
+      }  
+    }
+  
+  echo "</table>";
 ?>
+@endif
 
+<script type="text/javascript">
+  
+  $('.reading').click(function () {    
+       // $('#sublettura').prop('checked', this.checked); 
+        var $id = $(this).attr('id');
+        $('.'+$id).prop('checked', this.checked);
+   });
+
+  $('.writing').click(function () {    
+       var $id = $(this).attr('id');
+        $('.'+$id).prop('checked', this.checked);
+   });
+
+</script>
 
 	<div class="col-md-12" style="padding-top:10px;padding-bottom:10px;">
 
 		<button type="submit" class="btn btn-primary">Salva</button>
 
-
-
 	</div>
 
     <?php echo Form::close(); ?>  
-
 
 <script>
 

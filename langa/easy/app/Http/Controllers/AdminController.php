@@ -175,6 +175,77 @@ class AdminController extends Controller
         }
     }
 
+    // send notification to users
+    public function sendnotification(Request $request)
+    {
+        if($request->user()->id != 0) {
+            
+            return redirect('/unauthorized');
+
+        } else {
+
+
+            $id = 231;
+            $current_date = date("Y-m-d"); 
+
+            $alert = DB::table('alert')
+                ->where('created_at', $today)
+                ->get();
+            
+            foreach ($alert as $value) {
+                
+                $ente = explode(",", $value->ente);
+                $ruolo = explode(",", $value->ruolo);
+                
+                foreach ($ente as $ente) {
+
+                    $getente = DB::table('enti_partecipanti')
+                        ->select('id_user')
+                        ->where('id_ente', $ente)
+                        ->get();
+
+                    foreach ($getente as $getente) {
+ 
+                        $getrole = DB::table('users')
+                            ->select('dipartimento')
+                            ->where('id', $getente->id_user)
+                            ->get();
+
+                        if($getrole) {
+                        
+                            $corporations = DB::table('corporations')
+                                ->where('id', $value->ente)
+                                ->first();
+
+                             $true = DB::table('inviare_avviso')->insert([
+                                    'id_ente' => $corporations->id,
+                                    'alert_id' => $value->alert_id,
+                                    'nome_azienda' => $corporations->nomeazienda,
+                                    'nome_referente' => $corporations->nomereferente,
+                                    'settore' => $corporations->settore,
+                                    'telefono_azienda' => $corporations->telefonoazienda,
+                                    'email' => $corporations->email,
+                                    'data_lettura' => '',
+                                    'responsible_langa' => $corporations->responsabilelanga,
+                                    'conferma' => 'NON LETTO'
+                                ]);
+
+                            if($true){
+
+                                return "alert send succesfully.!";
+
+                            } else {
+
+                                return false;
+                            }
+
+                        } 
+                    }
+                }
+            }
+        }
+    }
+
     public function getalertjson(Request $request)
     {
         $ente = DB::table('inviare_avviso')
@@ -342,6 +413,7 @@ class AdminController extends Controller
                 if(isset($ruolo_utente[0]->permessi) && !empty($ruolo_utente[0]->permessi)){
                     $permessi = json_decode($ruolo_utente[0]->permessi);
                 }
+
 
                 return view('permessi')->with('module', $module)->with('ruolo_utente', $ruolo_utente)->with('permessi', $permessi)->with('ruolo_id',$request->ruolo_id);
 
@@ -650,9 +722,7 @@ class AdminController extends Controller
 
             $dipartimento = $request->input('dipartimento');
 
-            
-            
-         if($request->utente){
+            if($request->utente){
 
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:20',
@@ -688,6 +758,11 @@ class AdminController extends Controller
 
             $zone = implode(",", $request->input('zone'));        
 
+            $reading = $request->input('lettura');
+            $writing = $request->input('scrittura');
+                        
+            $permessi = json_encode(array_merge($reading, $writing));
+
             if($dipartimento == 1 || $dipartimento == 3) {
 
                 DB::table('users')
@@ -699,7 +774,8 @@ class AdminController extends Controller
                 'dipartimento' => $request->dipartimento,
                 'color' => $request->colore,
                 'cellulare' => $request->cellulare,
-                'password' => $request->password
+                'password' => $request->password,
+                'permessi' => $permessi
             ));
 
             } else if($dipartimento == 4 ) {
@@ -717,7 +793,8 @@ class AdminController extends Controller
                 'password' => $request->password,
                 'sconto' => $request->sconto,
                 'sconto_bonus' => $request->sconto_bonus,
-                'rendita_reseller' => $request->rendita_reseller
+                'rendita_reseller' => $request->rendita_reseller,
+                'permessi' => $permessi
             ));
 
             } else {
@@ -736,7 +813,8 @@ class AdminController extends Controller
                 'sconto' => $request->sconto,
                 'sconto_bonus' => $request->sconto_bonus,
                 'rendita' => $request->rendita,
-                'rendita_reseller' => $request->rendita_reseller
+                'rendita_reseller' => $request->rendita_reseller,
+                'permessi' => $permessi
                 ));
             }
 
@@ -745,7 +823,11 @@ class AdminController extends Controller
             
          } else {
 
-            
+            $permessi = DB::table('ruolo_utente')
+                        ->select('permessi')
+                        ->where('ruolo_id', $request->dipartimento)
+                        ->first();
+
             if($request->password!=null)
             {
                 $vecchiapassword = bcrypt($request->password);
@@ -755,9 +837,9 @@ class AdminController extends Controller
 
             $zone = implode(",", $request->input('zone'));  
 
-             $validator = Validator::make($request->all(), [
-               
-                'email' => 'required|email|max:255|unique:users',
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|unique:users',
+                'email' => 'required|email|max:255|unique:users'
             ]);
 
             if ($validator->fails()) {
@@ -779,7 +861,9 @@ class AdminController extends Controller
                 'sconto' => $request->sconto,
                 'sconto_bonus' => $request->sconto_bonus,
                 'rendita' => $request->rendita,
-                'rendita_reseller' => $request->rendita_reseller
+                'rendita_reseller' => $request->rendita_reseller,
+                'permessi' => $permessi->{'permessi'}
+            
             ));
             
             return Redirect::back()
@@ -791,8 +875,6 @@ class AdminController extends Controller
             
     }
 
-
-    
     public function modificautente(Request $request)
     {
     
@@ -811,6 +893,12 @@ class AdminController extends Controller
                         ->where('id', $request->utente)
                         ->first();
 
+                $permessi = array();
+
+                if(isset($utente->permessi) && !empty($utente->permessi)){
+                    $permessi = json_decode($utente->permessi);
+                }
+                
                 return view('modificautente', [
                     'enti' => DB::table('corporations')
                                 ->select('id', 'nomereferente')
@@ -820,7 +908,7 @@ class AdminController extends Controller
                                 ->select('*')
                                 ->get(),
                 
-                ])->with(array('module'=>$module, 'utente' => $utente));
+                ])->with(array('module'=>$module, 'utente' => $utente, 'permessi' => $permessi));
 
             } else {
 
