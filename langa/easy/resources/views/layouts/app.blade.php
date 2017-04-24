@@ -31,6 +31,7 @@
 		 * { font-family:"nexa_lightregular";}
 	</style>
   </head>
+
   <?php $logged = false; ?>
 @if (!Auth::guest())
 <?php $logged = true; ?>
@@ -188,6 +189,7 @@
                 }  
               }  
             }
+
 
             </script> 
 
@@ -602,6 +604,117 @@
               </ul>
             </nav>
           </div>
+
+          <?php
+
+
+        $userId = Auth::id();
+
+        $notification = DB::table('inviare_avviso')
+          ->join('alert', 'inviare_avviso.alert_id', '=', 'alert.alert_id')
+          ->where('id_ente', $userId)
+          ->get();  
+
+        foreach ($notification as $notification) {  ?>
+
+          <div id="success_message"></div>
+
+          <div class="alert alert-success">
+
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <h4>
+              <div id="alert" class="comment" > {{ $notification->nome_alert }} 
+
+              <div id="comment" style="display: none;"> 
+                  {{ $notification->  messaggio }}  
+
+                  <textarea id="messaggio" rows="4" cols="5" style="color: black"> </textarea> 
+                  <input type="hidden" id="alert_id" name="" value="{{ $notification->alert_id  }}">
+                  <br><br>
+              </div>
+
+              <div id="send" style="display: none;">
+
+                <button id="send" value="send" style="color: black">
+                  Send
+                </button>
+
+              </div>             
+
+              </div>
+
+            </h4> 
+          </div>
+      
+      <?php
+          }
+      ?>
+
+      <?php
+
+        $notifica = DB::table('invia_notifica')
+          ->where('user_id', $userId)
+          ->first(); 
+
+          if(!empty($notifica->id_ente)) {
+
+            $notifica = DB::table('invia_notifica')
+                ->join('notifica', 'invia_notifica.notification_id', '=', 'notifica.id')
+                ->where('user_id', $userId)
+                ->whereNotNull('notifica.id_ente')
+                ->get();
+
+            foreach ($notifica as $notifica) {  ?>
+
+                <div id="success_message"></div>
+                <div class="col-md-6">
+                  <div class="alert alert-info">
+
+                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  <h4>
+                    <div id="notifica" class="comment" > {{ $notifica->notification_type }} 
+
+                    <br><br>
+
+                    <div id="comment" style="display: none;"> 
+                        {{ $notifica->notification_desc }}  
+
+                        <br><br>
+
+                        <textarea id="messaggio" rows="4" cols="5" style="color: black"> </textarea> 
+
+                        <input type="hidden" id="notification_id" name="" value="{{ $notifica->id  }}">
+
+                        <br><br>
+                    </div>
+
+                    <div id="notifica_send" style="display: none;">
+
+                      <button id="notifica_send" value="notifica_send" style="color: black">
+                        Send
+                      </button>
+
+                    </div>             
+
+                    </div>
+
+                  </h4> 
+                  </div>
+                </div>
+            
+            <?php
+            
+                }
+          
+
+          } else {
+
+            echo "else";
+          }
+
+          dd($notifica->id_ente);
+?>
+
         </div>
         <!-- /top navigation -->
 		@endif
@@ -629,9 +742,131 @@
     <script src="{{asset('/vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->
     <script src="{{asset('/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+
+    <!-- jQuery validation js -->
+    <script src="{{ url('public/scripts/jquery.validate.min.js')}}"></script>
+
+
     <!-- Custom Theme Scripts -->
     <script src="{{asset('/build/js/custom.js')}}"></script>
     
-    
+    <script type="text/javascript">
+
+      $(document).ready(function(){
+
+            $('#alert').on('click', function(e) {  
+
+                  $('#comment').css({
+                      'display': 'block'
+                  });
+                  $('#send').css({
+                      'display': 'block'
+                  });
+
+                  e.preventDefault();
+                  var alert_id = $("#alert_id").val(); 
+
+                  $.ajax({
+                        type:'GET',
+                          data: {
+                                  'alert_id': alert_id
+                                },
+                          url: '{{ url('alert/user-read') }}',
+
+                          success:function(data) {
+                             // console.log(data);
+                            //  $('#success_message').html(data);
+                           
+                            }
+
+                        });
+
+            $("#send").click(function(e){
+       
+              e.preventDefault();
+
+              var messaggio = $("#messaggio").val(); 
+              var alert_id = $("#alert_id").val(); 
+              // var _token = $('input[name="_token"]').val();
+
+              $.ajax({
+                    type:'GET',
+                      data: {
+                              'messaggio': messaggio,
+                              'alert_id': alert_id
+                            },
+                      url: '{{ url('alert/make-comment') }}',
+
+                      success:function(data) {
+                         console.log(data);
+                        //  $('#success_message').html(data);
+                          location.reload();
+                        }
+
+                    });
+
+                });
+
+
+            });
+
+            $('#notifica').on('click', function(e) {  
+
+                  $('#comment').css({
+                      'display': 'block'
+                  });
+                  $('#notifica_send').css({
+                      'display': 'block'
+                  });
+
+                  e.preventDefault();
+                  var id = $("#notification_id").val(); 
+
+                  $.ajax({
+                        type:'GET',
+                          data: {
+                                  'id': id
+                                },
+                          url: '{{ url('notification/user-read') }}',
+
+                          success:function(data) {
+                             // console.log(data);
+                            //  $('#success_message').html(data);
+                           
+                            }
+
+                  });
+
+            });
+
+             $("#notifica_send").click(function(e){
+         
+              e.preventDefault();
+
+              var messaggio = $("#messaggio").val(); 
+              var id = $("#notification_id").val();
+                 
+              $.ajax({
+                    type:'GET',
+                      data: {
+                              'messaggio': messaggio,
+                              'id': id
+                            },
+                      url: '{{ url('notification/make-comment') }}',
+
+                      success:function(data) {
+                         console.log(data);
+                        //  $('#success_message').html(data);
+                          location.reload();
+                        }
+
+                    });
+
+                });
+
+        });
+
+    </script>
+
   </body>
 </html>
