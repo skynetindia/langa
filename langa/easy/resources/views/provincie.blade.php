@@ -35,7 +35,7 @@
 
         <div class="modal-body" style="padding:40px 50px;">
 
-    <form role="form" method="POST" name="provincie" action="">
+    <form role="form" id="provincie_form" method="POST" name="provincie" action="">
 
      <input type="hidden" name="_token" value="{{ csrf_token() }}">
 

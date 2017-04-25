@@ -200,7 +200,8 @@ class AdminController extends Controller
          DB::table('inviare_avviso')
                 ->where('alert_id', $alert_id)
                 ->update(array(
-                    'data_lettura' => $today
+                    'data_lettura' => $today,
+                    'conferma' => 'LETTO'
                     ));
                 
         return Redirect::back();
@@ -266,12 +267,17 @@ class AdminController extends Controller
             $ente = implode(",", $request->input('ente'));
             $ruolo = implode(",", $request->input('ruolo'));  
 
+            $today = date("Y-m-d");
+
+            $messaggio = strip_tags($request->messaggio);
+
             DB::table('alert')->insert([
                 'nome_alert' => $request->nome_alert,
                 'tipo_alert' => $request->tipo_alert,
                 'ente' => $ente,
                 'ruolo' => $ruolo,
-                'messaggio' => $request->messaggio
+                'messaggio' => $messaggio,
+                'created_at' => $today
             ]);
 
             return Redirect::back()
@@ -293,7 +299,12 @@ class AdminController extends Controller
             $alert = DB::table('alert')
                 ->where('created_at', $today)
                 ->get();
-            
+
+            if(empty($alert)) {
+
+                return "Alert not set for today.!!";
+            }
+           
             foreach ($alert as $value) {
                 
                 $ente = explode(",", $value->ente);
@@ -603,6 +614,7 @@ class AdminController extends Controller
         } else {
 
         $ruolo_utente = DB::table('ruolo_utente')
+            ->where('is_delete', '=', 0)
             ->get();
 
         return view('role_permessi')->with('ruolo_utente', $ruolo_utente);
@@ -653,13 +665,28 @@ class AdminController extends Controller
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
         } else {
+                    
+            // $reading = $request->has('lettura') ? $request->input('lettura') : null;
+
+            // $writing = $request->has('scrittura') ? $request->input('lettura') : null;
+
+            // $nome_ruolo = $request->input('nome_ruolo');
             
+            // $permessi = json_encode(array_merge($reading, $writing));
+
             $reading = $request->input('lettura');
-            $writing = $request->input('scrittura');
+
+            $writing = $request->input('lettura');
+
             $nome_ruolo = $request->input('nome_ruolo');
             
-            $permessi = json_encode(array_merge($reading, $writing));
 
+            if(isset($reading) || isset($writing)){
+                $permessi = json_encode(array_merge($reading, $writing));
+            } else {
+                $permessi = json_encode(null);
+            }
+                   
             if($nome_ruolo) {
 
                 $ruolo_utente =  DB::table('ruolo_utente')
@@ -669,6 +696,18 @@ class AdminController extends Controller
                 return Redirect::back()
                     ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> permessi updated succesfully..!</h4></div>');
             } else {
+
+                $validator = Validator::make($request->all(), [
+                    'new_ruolo' => 'required'
+                ]);
+
+                if ($validator->fails()) {
+
+                    return Redirect::back()
+                        ->withInput()
+                        ->withErrors($validator);
+                }
+
 
                 $new_ruolo = $request->input('new_ruolo');
 
@@ -689,10 +728,15 @@ class AdminController extends Controller
             return redirect('/unauthorized');
         } else {
 
-
         $ruolo_utente = DB::table('ruolo_utente')
-            ->where('ruolo_id', '=', $request->ruolo_id)
-            ->delete();
+                ->where('ruolo_id', $request->ruolo_id)
+                ->update(array(
+                    'is_delete' => 1
+                ));
+
+        // $ruolo_utente = DB::table('ruolo_utente')
+        //     ->where('ruolo_id', '=', $request->ruolo_id)
+        //     ->delete();
 
         return Redirect::back()
                 ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> Ruolo deleted succesfully..!</h4></div>');
@@ -763,7 +807,20 @@ class AdminController extends Controller
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
         } else {
-            
+        
+        $validator = Validator::make($request->all(), [
+                'stato' => 'required',
+                'citta' => 'required',
+                'provincie' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+
+            // return Redirect::back()
+            //     ->withInput()
+            //     ->withErrors($validator);
+        }
+
         $stato = $request->input('stato');
         $citta = $request->input('citta');
         $provincie = $request->input('provincie');
@@ -955,7 +1012,6 @@ class AdminController extends Controller
                 'sconto_bonus' => 'required|numeric',
                 'rendita' => 'required|numeric',
                 'rendita_reseller' => 'required|numeric',
-                'zone' => 'required',
                 'password' => 'max:64',
             ]);
 
@@ -975,15 +1031,38 @@ class AdminController extends Controller
                 $vecchiapassword = bcrypt($request->password);
             }
 
-            $idente = implode(",", $request->input('idente'));
 
-            $zone = implode(",", $request->input('zone'));        
+            $idente = $request->input('idente');
+
+            if(isset($idente)){
+                $idente = implode(",", $idente);
+             } else {
+                $idente = '';
+             }
+
+            $zone = $request->input('zone');
+            
+            if(isset($zone)){
+                $zone = implode(",", $zone);
+             } else {
+                $zone = '';
+             }            
+        
 
             $reading = $request->input('lettura');
             $writing = $request->input('scrittura');
-                        
-            $permessi = json_encode(array_merge($reading, $writing));
+            
 
+            // $permessi = json_encode(array_merge($reading, $writing));
+
+            if(isset($reading) || isset($writing)){
+                
+                $permessi = json_encode(array_merge($reading, $writing));
+            } else {
+
+                $permessi = json_encode(null);
+            }
+ 
             if($dipartimento == 1 || $dipartimento == 3) {
 
                 DB::table('users')
@@ -995,7 +1074,7 @@ class AdminController extends Controller
                 'dipartimento' => $request->dipartimento,
                 'color' => $request->colore,
                 'cellulare' => $request->cellulare,
-                'password' => $request->password,
+                'password' =>  bcrypt($request->password),
                 'permessi' => $permessi
             ));
 
@@ -1011,7 +1090,7 @@ class AdminController extends Controller
                 'dipartimento' => $request->dipartimento,
                 'color' => $request->colore,
                 'cellulare' => $request->cellulare,
-                'password' => $request->password,
+                'password' => bcrypt($request->password),
                 'sconto' => $request->sconto,
                 'sconto_bonus' => $request->sconto_bonus,
                 'rendita_reseller' => $request->rendita_reseller,
@@ -1019,7 +1098,7 @@ class AdminController extends Controller
             ));
 
             } else {
-
+                
                DB::table('users')
                 ->where('id', $request->utente)
                 ->update(array(
@@ -1030,7 +1109,7 @@ class AdminController extends Controller
                 'dipartimento' => $request->dipartimento,
                 'color' => $request->colore,
                 'cellulare' => $request->cellulare,
-                'password' => $request->password,
+                'password' => bcrypt($request->password),
                 'sconto' => $request->sconto,
                 'sconto_bonus' => $request->sconto_bonus,
                 'rendita' => $request->rendita,
@@ -1054,9 +1133,21 @@ class AdminController extends Controller
                 $vecchiapassword = bcrypt($request->password);
             }
 
-            $idente = implode(",", $request->input('idente'));
+            $idente = $request->input('idente');
 
-            $zone = implode(",", $request->input('zone'));  
+            if(isset($idente)){
+                $idente = implode(",", $idente);
+             } else {
+                $idente = '';
+             }
+
+            $zone = $request->input('zone');
+            
+            if(isset($zone)){
+                $zone = implode(",", $zone);
+             } else {
+                $zone = '';
+             }            
 
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:users',
@@ -1065,8 +1156,8 @@ class AdminController extends Controller
 
             if ($validator->fails()) {
                 return Redirect::back()
-                                ->withInput()
-                                ->withErrors($validator);
+                    ->withInput()
+                    ->withErrors($validator);
             }
 
 
@@ -1078,7 +1169,7 @@ class AdminController extends Controller
                 'dipartimento' => $request->dipartimento,
                 'color' => $request->colore,
                 'cellulare' => $request->cellulare,
-                'password' => $request->password,
+                'password' => bcrypt($request->password),
                 'sconto' => $request->sconto,
                 'sconto_bonus' => $request->sconto_bonus,
                 'rendita' => $request->rendita,
@@ -1090,7 +1181,7 @@ class AdminController extends Controller
             return Redirect::back()
             ->with('msg', '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Utente Add correttamente!</h4></div>');
 
-        }
+            }
         
         }
             
@@ -1175,12 +1266,14 @@ class AdminController extends Controller
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
         } else {
-            return view('utenti', [
-                'utenti' => DB::table('users')
-                                ->select('*')
-                                ->where('id', '!=', 0)
-                                ->where('is_approvato', '=', 1)
-                                ->paginate(10),
+                return view('utenti', [
+                    'utenti' => DB::table('users')
+                        ->join('ruolo_utente', 'users.dipartimento', '=', 'ruolo_utente.ruolo_id')
+                        ->select('*')
+                        ->where('id', '!=', 0)
+                        ->where('is_approvato', '=', 1)
+                        ->where('ruolo_utente.is_delete', '=', 0)
+                        ->paginate(10),
             ]);
         }
     }

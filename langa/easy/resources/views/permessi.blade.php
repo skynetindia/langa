@@ -15,9 +15,9 @@
 
 table tr td {
 
-	text-align:left;
+  text-align:left;
 
-	
+  
 
 }
 
@@ -93,7 +93,7 @@ table tr td {
 
         height: 100%;
 
-		height: 400px;
+    height: 400px;
 
       }
 
@@ -223,20 +223,27 @@ th, td {
 
     <label for="dipartimento">Profilazione <p style="color:#f37f0d;display:inline">(*)</p></label>
 
+@if(isset($ruolo_id))
+
       <select id="nome_ruolo" class="form-control" name="nome_ruolo">
 
         @foreach($ruolo as $ruolo)
-           <option value="{{ $ruolo->ruolo_id }}">{{ $ruolo->nome_ruolo }}</option>  
+           <option  value="{{ $ruolo->ruolo_id }}" <?php echo ($ruolo_id==$ruolo->ruolo_id) ? 'selected="selected"':'';?>>{{ $ruolo->nome_ruolo }}</option>  
         @endforeach
          
       </select>
+
+@else
+
+    <input type="text" name="new_ruolo">
+
+@endif
 
 <br><br><br>
   </div>
 
 
 <?php
-
 
   echo "<table>";
     echo "<tr>";
@@ -252,28 +259,26 @@ th, td {
     echo "</tr>";
 
     $i=0;
+?>
+
+@if(isset($permessi))
+
+<?php
 
     foreach ($module as $module) {
 
       $submodule = DB::table('modulo')
             ->where('modulo_sub', $module->id)
             ->get();
-      
       if($submodule) {
 
          echo "<tr>";
             echo "<td><b>";
             echo $module->modulo;
-            echo "</td></b> <td>"; ?>
-            <input type="checkbox" class="reading" id="lettura<?php echo $i; ?>" name="lettura[]" 
-        value="<?php $a = in_array($module->modulo, $permessi); 
-                if($a) {
-                echo $module->modulo; ?>" checked <?php  } ?>>
-            <?php
+            echo "</td></b> <td>";
+       ?><input type="checkbox" class="reading" id="lettura<?php echo $i; ?>" name="lettura[]" value="<?php echo $module->id.'|0|lettura';?>" <?php echo (in_array($module->id.'|0|lettura', $permessi)) ? 'checked' :''; ?>>        <?php
             echo "</td><td>"; ?>
-              <input type="checkbox" class="writing" id="scrittura<?php echo $i; ?>"  name="scrittura[]"  value="<?php $a = in_array($module->modulo, $permessi); 
-                if($a) {
-                echo $module->modulo; ?>" checked <?php  } ?>>
+              <input type="checkbox" class="writing" id="scrittura<?php echo $i; ?>"  name="scrittura[]"  value="<?php echo $module->id.'|0|scrittura';?>"<?php echo (in_array($module->id.'|0|scrittura', $permessi)) ? 'checked' :''; ?>>
             <?php
         echo "</td></tr>";
 
@@ -286,12 +291,12 @@ th, td {
             echo "</td>";
 
             echo "<td>"; ?>
-              <input type="checkbox" class="lettura<?php echo $i; ?>" id="lettura" name="lettura[]" value="{{ $module->modulo }} {{ '->' }} {{ $submodule->modulo }}">
+              <input type="checkbox" class="lettura<?php echo $i; ?>" id="lettura" name="lettura[]" value="<?php echo $module->id.'|'.$submodule->id.'|lettura';?>"<?php echo (in_array($module->id.'|'.$submodule->id.'|lettura', $permessi)) ? 'checked' :''; ?> >
               <?php
             echo "</td>";
 
             echo "<td>"; ?>
-              <input type="checkbox" class="scrittura<?php echo $i; ?>" id="scrittura" name="scrittura[]" value="{{ $submodule->modulo }}">
+              <input type="checkbox" class="scrittura<?php echo $i; ?>" id="scrittura" name="scrittura[]" value="<?php echo $module->id.'|'.$submodule->id.'|scrittura';?>" <?php echo (in_array($module->id.'|'.$submodule->id.'|scrittura', $permessi)) ? 'checked' :''; ?> >
               <input type="hidden" id="hidden" name="checkhidden" value="<?php echo $i; ?>">
             <?php
             echo "</td>";
@@ -307,7 +312,7 @@ th, td {
          echo "</td></b> ";
 
           echo "<td>"; ?>
-            <input type="checkbox" class="reading" id="lettura<?php echo $i; ?>" name="lettura[]" value="{{ $module->modulo }}">
+            <input type="checkbox" class="reading" id="lettura<?php echo $i; ?>" name="lettura[]" value="<?php echo $module->id.'|0|lettura';?>" <?php echo (in_array($module->id.'|0|lettura', $permessi)) ? 'checked' :''; ?>>
             <?php
           echo "</td>";
 
@@ -321,8 +326,75 @@ th, td {
     }
   
   echo "</table>";
+ ?>
 
+@else
+ <?php  
+    foreach ($module as $module) {
+
+      $submodule = DB::table('modulo')
+            ->where('modulo_sub', $module->id)
+            ->get();
+
+      if($submodule) {
+
+         echo "<tr>";
+            echo "<td><b>";
+            echo $module->modulo;
+            echo "</td></b> <td>";
+       ?><input type="checkbox" class="reading" id="lettura<?php echo $i; ?>" name="lettura[]" value="<?php echo $module->id.'|0|lettura';?>">        <?php
+            echo "</td><td>"; ?>
+              <input type="checkbox" class="writing" id="scrittura<?php echo $i; ?>"  name="scrittura[]"  value="<?php echo $module->id.'|0|scrittura';?>">
+            <?php
+        echo "</td></tr>";
+
+        foreach ($submodule as $submodule) {
+
+            echo "<tr>";
+
+            echo "<td>";
+            echo $submodule->modulo;
+            echo "</td>";
+
+            echo "<td>"; ?>
+              <input type="checkbox" class="lettura<?php echo $i; ?>" id="lettura" name="lettura[]" value="<?php echo $module->id.'|'.$submodule->id.'|lettura';?>">
+              <?php
+            echo "</td>";
+
+            echo "<td>"; ?>
+              <input type="checkbox" class="scrittura<?php echo $i; ?>" id="scrittura" name="scrittura[]" value="<?php echo $module->id.'|'.$submodule->id.'|scrittura';?>">
+              <input type="hidden" id="hidden" name="checkhidden" value="<?php echo $i; ?>">
+            <?php
+            echo "</td>";
+
+          echo "</tr>";
+         
+        } $i++;
+      } else {
+
+         echo "<tr>";
+            echo "<td><b>";
+            echo $module->modulo;
+         echo "</td></b> ";
+
+          echo "<td>"; ?>
+            <input type="checkbox" class="reading" id="lettura<?php echo $i; ?>" name="lettura[]" value="<?php echo $module->id.'|0|lettura';?>">
+            <?php
+          echo "</td>";
+
+          echo "<td>"; ?>
+          
+          <?php
+          echo "</td>";
+
+        echo "</tr>";
+      }  
+    }
+  
+  echo "</table>";
 ?>
+@endif
+
 
 <script type="text/javascript">
   
@@ -342,11 +414,17 @@ th, td {
 
 <div class="col-md-12" style="padding-top:10px;padding-bottom:10px;">
 
-		<button type="submit" class="btn btn-primary">Salva</button>
+    <button type="submit" class="btn btn-primary">Salva</button>
 
 </div>
 
    <?php echo Form::close(); ?>  
-
+<script>
+$('#nome_ruolo').change(function() {
+  var url = '<?php echo url('/role-permessi');?>';
+  window.location = url+'/'+$(this).val();
+});
+</script>
 <script type="text/javascript" src="{{asset('public/scripts/index.js')}}">
+
 @endsection

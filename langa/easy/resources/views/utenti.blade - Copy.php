@@ -4,7 +4,7 @@
 
 @section('page')
 
-<h1>Ruolo Easy <strong>LANGA</strong></h1><hr>
+<h1>Utenti Easy <strong>LANGA</strong></h1><hr>
 
 @include('common.errors')
 
@@ -148,15 +148,14 @@ li label {
 
 <a onclick="multipleAction('add');" id="add" style="display:inline;">
 
-<button class="btn btn-primary" type="button" name="add" title="Add  - Add new role"><i class="glyphicon glyphicon-plus"></i></button>
-
+<button class="btn btn-primary" type="button" name="add" title="Add  - Add new utente"><i class="glyphicon glyphicon-plus"></i></button>
 
 <a onclick="multipleAction('modify');" id="modifica" style="display:inline;">
 
 <button class="btn btn-primary" type="button" name="update" title="Modifica - Modifica l'ultimo ente selezionato"><i class="glyphicon glyphicon-pencil"></i></button>
 
 </a>
-    
+
 
 
 <a id="delete" onclick="multipleAction('delete');" style="display:inline;">
@@ -181,11 +180,17 @@ li label {
 
 <th>#</th>
 
-<th>ID</th>
+<th>Codice</th>
 
-<th>Ruolo</th>
+<th>Nome</th>
 
-<!-- <th>Permessi</th> -->
+<th>Profilazione</th>
+
+<th>Cellulare</th>
+
+<th>Email</th>
+
+<th>ID Ente</th>
 
 </tr>
 
@@ -195,25 +200,79 @@ li label {
 
 <?php $count = 0; ?>
 
-@foreach ($ruolo_utente as $ruolo_utente)
+    <!--
+
+'sconti'
+
+'entisconti' = legame tra l'id_sconto e l'id_tipo ente,
+
+'tipienti' = Elenco dei tipi enti (POTENZIALE, CLIENTE, ... con ->color)
+
+-->
+
+@foreach ($utenti as $utente)
 
 	<tr>
 
 		<td><input class="selectable" type="checkbox"></td>
 
-		<td>{{$ruolo_utente->ruolo_id}}</td>
+		<td>{{$utente->id}}</td>
 
-        <td>{{$ruolo_utente->nome_ruolo}}</td>
+                <td>{{$utente->name}}</td>
 
-        <!-- <td>{{$ruolo_utente->permessi}}</td>  -->
+                <td>
+                    @if($utente->dipartimento == 1) 
+                        {{ "Administrative" }}
+                    @elseif($utente->dipartimento == 2) 
+                        {{ "Commercial" }}
+                    @elseif($utente->dipartimento == 3) 
+                        {{ "Technical" }}
+                    @elseif($utente->dipartimento == 4) 
+                        {{ "Reseller" }}
+                    @endif
+                </td>
 
-   </tr>
+                <td>{{$utente->cellulare}}</td>
+
+                <td>{{$utente->email}}</td>
+
+                <?php 
+                        
+                    if(strchr($utente->id_ente, ',')){ 
+
+                        $enti = explode(',',$utente->id_ente);
+
+                        echo "<td>";
+                        foreach ($enti as $value) { ?>
+                            
+                           <a href="{{url('/enti/modify/corporation' . "/" . $utente->id_ente )}}">{{ $value }}</a>
+                
+                <?php } echo "</td>"; } else {  ?>
+
+                        <td><a href="{{url('/enti/modify/corporation' . "/" . $utente->id_ente )}}">{{$utente->id_ente}}</a></td>
+
+                    <?php } ?>
+	</tr>
+
+        <?php $count++; ?>
 
 @endforeach		
 
 </tbody>
 
 </table>
+
+<?php if($count==0) {
+
+	echo "<h3 style='text-align:center;'>Nessuno sconto trovato</h3>";
+
+} ?>
+
+</div>
+
+<div class="pull-right">
+
+{{ $utenti->links() }}
 
 </div>
 
@@ -274,7 +333,7 @@ function multipleAction(act) {
 
 			case 'delete':
 
-				link.href = "{{ url('/admin/destroy/ruolo') }}" + '/';
+				link.href = "{{ url('/admin/destroy/utente') }}" + '/';
 
 				if(check()) {
 
@@ -314,7 +373,7 @@ function multipleAction(act) {
 				n--;
                 if(selezione[n]!=undefined) {
 					
-					link.href = "{{ url('/role-permessi') }}" + '/' + selezione[n];
+					link.href = "{{ url('/admin/modify/utente') }}" + '/' + selezione[n];
 					n = 0;
 					selezione = undefined;
 					link.dispatchEvent(clickEvent);
@@ -324,11 +383,10 @@ function multipleAction(act) {
 
             case 'add':
         
-                link.href = "{{ url('/role-permessi') }}"; 
+                link.href = "{{ url('/admin/modify/utente') }}"; 
                 link.dispatchEvent(clickEvent);
           
             break;
-
 
 		}
 

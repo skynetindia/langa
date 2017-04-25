@@ -613,9 +613,8 @@
         $notification = DB::table('inviare_avviso')
           ->join('alert', 'inviare_avviso.alert_id', '=', 'alert.alert_id')
           ->where('id_ente', $userId)
+          ->where('conferma', '!=', 'LETTO')
           ->get();  
-
-
 
         foreach ($notification as $notification) {  ?>
 
