@@ -615,6 +615,8 @@
           ->where('id_ente', $userId)
           ->get();  
 
+
+
         foreach ($notification as $notification) {  ?>
 
           <div id="success_message"></div>
@@ -654,14 +656,16 @@
 
         $notifica = DB::table('invia_notifica')
           ->where('user_id', $userId)
-          ->first(); 
+          ->get(); 
 
+        foreach ($notifica as $notifica) {
+          
           if(!empty($notifica->id_ente)) {
 
             $notifica = DB::table('invia_notifica')
                 ->join('notifica', 'invia_notifica.notification_id', '=', 'notifica.id')
                 ->where('user_id', $userId)
-                ->whereNotNull('notifica.id_ente')
+                ->where('invia_notifica.id_ente', '=', '')
                 ->get();
 
             foreach ($notifica as $notifica) {  ?>
@@ -676,12 +680,12 @@
 
                     <br><br>
 
-                    <div id="comment" style="display: none;"> 
+                    <div id="g_comment" style="display: none;"> 
                         {{ $notifica->notification_desc }}  
 
                         <br><br>
 
-                        <textarea id="messaggio" rows="4" cols="5" style="color: black"> </textarea> 
+                        <textarea id="g_messaggio" rows="4" cols="5" style="color: black"> </textarea> 
 
                         <input type="hidden" id="notification_id" name="" value="{{ $notifica->id  }}">
 
@@ -712,7 +716,8 @@
               $notifica = DB::table('invia_notifica')
                 ->join('notifica', 'invia_notifica.notification_id', '=', 'notifica.id')
                 ->where('user_id', $userId)
-                ->whereNotNull('notifica.id_ente')
+                ->where('invia_notifica.id_ente', '!=', '')
+                ->distinct()
                 ->get();
 
               foreach ($notifica as $notifica) {  ?>
@@ -723,7 +728,8 @@
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                   <h4>
 
-                  <div id="role_notifica" class="comment" > {{ $notifica->notification_type }} 
+                  <div id="role_notifica" class="comment" > 
+                  {{ $notifica->notification_type }} 
 
                     <br><br>
 
@@ -754,9 +760,11 @@
                 </div>
 
               <?php }
-
           }
-      ?>
+      }
+    ?>
+
+
 
         </div>
         <!-- /top navigation -->
@@ -855,7 +863,7 @@
 
             $('#notifica').on('click', function(e) {  
 
-                  $('#comment').css({
+                  $('#g_comment').css({
                       'display': 'block'
                   });
                   $('#notifica_send').css({
@@ -886,9 +894,9 @@
          
               e.preventDefault();
 
-              var messaggio = $("#messaggio").val(); 
+              var messaggio = $("#g_messaggio").val(); 
               var id = $("#notification_id").val();
-                 
+                 alert(messaggio);
               $.ajax({
                     type:'GET',
                       data: {
