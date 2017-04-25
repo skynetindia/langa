@@ -17,6 +17,111 @@ class AdminController extends Controller
 
     }
 
+    public function deletetaxation(Request $request) {
+        if($request->user()->id != 0) {
+
+            return redirect('/unauthorized');
+
+        } else {
+
+            DB::table('tassazione')
+                ->where('tassazione_id', $request->id)
+                ->delete();
+
+            return Redirect::back()
+                ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Taxation eliminata correttamente!</h4></div>');
+        }
+    }
+
+
+    public function storetaxation(Request $request) {
+
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+
+            
+            $validator = Validator::make($request->all(), [
+                'tassazione_nome' => 'required',
+                'tassazione_percentuale' => 'required|numeric'
+            ]);
+
+            if ($validator->fails()) {
+                return Redirect::back()
+                    ->withInput()
+                    ->withErrors($validator);
+            }
+            
+            $tassazione_id = $request->input('tassazione_id');
+
+            if($tassazione_id){
+
+            $tassazione_nome = $request->input('tassazione_nome');
+            $tassazione_percentuale = $request->input('tassazione_percentuale');
+
+                DB::table('tassazione')
+                    ->where('tassazione_id', $tassazione_id)
+                    ->update(array(
+                        'tassazione_nome' => $tassazione_nome,
+                        'tassazione_percentuale' => 
+                        $tassazione_percentuale
+                    ));
+
+               return Redirect::back()
+                    ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Tassazione update correttamente!</h4></div>');
+
+            } else {
+
+               DB::table('tassazione')->insert([
+                'tassazione_nome' => $request->tassazione_nome,
+                'tassazione_percentuale' => $request->tassazione_percentuale
+                ]);
+
+                return Redirect::back()
+                    ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Tassazione aggiunta correttamente!</h4></div>');
+
+            }
+        }
+    }
+
+    public function getjsontaxation(Request $request) {
+
+        $tassazione = DB::table('tassazione')
+          ->get();
+        return json_encode($tassazione);
+    }
+
+    // show taxation form
+    public function addtaxation(Request $request) {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+
+            if($request->id){
+
+                $taxation = DB::table('tassazione')
+                    ->where('tassazione_id', $request->id)
+                    -> first();
+
+                return view('aggiungitaxation')->with('taxation',                    $taxation);                
+
+            } else {
+                return view('aggiungitaxation');
+            }
+            
+        }
+    }
+
+    // show taxation
+    public function showtaxation(Request $request) {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+            return view('taxation');
+        }
+    }
+
+
     // role wised read notification
     public function userreadnote(Request $request)
     {

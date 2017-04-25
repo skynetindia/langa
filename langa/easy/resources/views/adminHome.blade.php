@@ -104,7 +104,9 @@
                       <li><a href="{{url('/admin/alert')}}">Alert</a></li>
                     </ul>
                   </li>
-				  
+				          
+                  <li><a href="{{url('/taxation')}}"><i class="fa fa-percent"></i> Taxation </a></li>
+
                   <li><a href="{{url('/newsletter/add')}}"><i class="fa fa-newspaper-o"></i> Newsletter</a></li>
 				  
                 </ul>
@@ -238,7 +240,7 @@
     <script src="{{ url('public/scripts/jquery.validate.min.js')}}"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="{{asset('build/js/custom.min.js')}}"></script>
+    <!-- <script src="{{asset('build/js/custom.min.js')}}"></script> -->  
     
     <script src="{{asset('/build/js/custom.js')}}"></script>
     

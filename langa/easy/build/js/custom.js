@@ -410,5 +410,31 @@ $(document).ready(function() {
 
         });
 
+
+
+        // validate taxation form on keyup and submit
+        $("#taxation_form").validate({
+
+            rules: {
+                tassazione_nome: {
+                    required: true,
+                },
+                tassazione_percentuale: {
+                    required: true,
+                    digits: true
+                }
+            },
+            messages: {
+                tassazione_nome: {
+                    required: "Please enter a alert name"
+                },
+                tassazione_percentuale: {
+                    required: "Please Select a alert type",
+                    digits: "only digits allowed"
+                }
+            }
+
+        });
+
     });
 
