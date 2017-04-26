@@ -109,7 +109,7 @@
 
                   <li><a><i class="fa fa-user-times"></i> Avvisi <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{url('/notifichee')}}">Notifiche</a></li>
+                      <li><a href="{{url('/admin/notification')}}">Notifiche</a></li>
                       <li><a href="{{url('/admin/alert')}}">Alert</a></li>
                     </ul>
                   </li>

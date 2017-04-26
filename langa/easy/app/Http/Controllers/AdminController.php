@@ -243,6 +243,37 @@ class AdminController extends Controller
         }
     }
 
+    // show notification
+    public function showadminnotification(Request $request)
+    {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+            
+            return view('elenconotifiche', [
+                'elenconotifiche' => DB::table('notifica')
+                    ->get()            
+            ]);
+        }
+    }
+
+     // add notification
+    public function addadminnotification(Request $request)
+    {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+
+            return view('addadminnotification', [
+                'enti' => DB::table('corporations')
+                    ->get(),
+                'ruolo_utente' => DB::table('ruolo_utente')
+                    ->get()                
+            ]);
+            
+        }
+    }
+
     // store admin alert
     public function storeadminalert(Request $request)
     {
@@ -491,6 +522,14 @@ class AdminController extends Controller
                     ->get();  
 
         return json_encode($ente);
+    }
+
+    public function getnotificationjson(Request $request)
+    {
+        $notifica = DB::table('notifica')
+                    ->get();  
+
+        return json_encode($notifica);
     }
 
 

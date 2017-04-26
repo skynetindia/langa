@@ -220,16 +220,13 @@ li label {
 
                 <td>{{$utente->name}}</td>
 
+                @php
+                $department = DB::table('ruolo_utente')
+                    ->where('ruolo_id', '=', $utente->dipartimento)
+                    ->first();
+                @endphp
                 <td>
-                    @if($utente->dipartimento == 1) 
-                        {{ "Administrative" }}
-                    @elseif($utente->dipartimento == 2) 
-                        {{ "Commercial" }}
-                    @elseif($utente->dipartimento == 3) 
-                        {{ "Technical" }}
-                    @elseif($utente->dipartimento == 4) 
-                        {{ "Reseller" }}
-                    @endif
+                    {{ $department->nome_ruolo }}
                 </td>
 
                 <td>{{$utente->cellulare}}</td>
@@ -244,8 +241,8 @@ li label {
 
                         echo "<td>";
                         foreach ($enti as $value) { ?>
-                            
-                           <a href="{{url('/enti/modify/corporation' . "/" . $utente->id_ente )}}">{{ $value }}</a>
+                                
+                           <a href="{{url('/enti/modify/corporation' . "/" . $value )}}">{{ $value }}</a>
                 
                 <?php } echo "</td>"; } else {  ?>
 
@@ -264,7 +261,7 @@ li label {
 
 <?php if($count==0) {
 
-	echo "<h3 style='text-align:center;'>Nessuno sconto trovato</h3>";
+	echo "<h3 style='text-align:center;'>Nessuno utenti trovato</h3>";
 
 } ?>
 
@@ -300,6 +297,9 @@ $(".selectable tbody tr").click(function(e){
     var cb = $(this).find("input[type=checkbox]");
     cb.trigger('click');
 });
+
+
+
 
 
 

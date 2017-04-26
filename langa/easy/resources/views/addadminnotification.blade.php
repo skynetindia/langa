@@ -75,7 +75,7 @@ li label {
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 
 
-<h1>Aggiungi Alert</h1><hr>
+<h1>Aggiungi Notification</h1><hr>
 
 @if(!empty(Session::get('msg')))
     <script>
@@ -92,7 +92,7 @@ li label {
 
   <div class="col-md-8">
 
-    <label>Alert</label>
+    <label>Tipo</label>
 
     <input class="form-control" id="nome_alert" name="nome_alert" value="" placeholder="Nome Alert">
 
@@ -185,7 +185,7 @@ li label {
     
     <br>
 
-    <label>Messaggio</label>
+    <label> Description </label>
 
     <textarea name="messaggio" id="messaggio" rows="10" cols="50" class="form-control"></textarea>
 
