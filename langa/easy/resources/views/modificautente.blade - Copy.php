@@ -293,7 +293,7 @@ th, td {
 
     <input type="hidden" name="user_id" value="{{ $utente->id }}">
 
-    <input value="{{ $utente->name }}" class="form-control" type="text" name="name" id="name" placeholder="inserisci il nome"><br>
+    <input value="{{ $utente->name }}" class="form-control" type="text" name="name" id="name" placeholder="Nome"><br>
 
 <!--    <label for="cellulare">Cellulare</label>
 
@@ -310,7 +310,7 @@ th, td {
 
     <label for="sconto">Sconto <p style="color:#f37f0d;display:inline">(*)</p></label>
 
-    <input value="{{ $utente->sconto }}" class="form-control" type="text" name="sconto" id="sconto" placeholder="inserisci sconto"><br>
+    <input value="{{ $utente->sconto }}" class="form-control" type="text" name="sconto" id="sconto" placeholder="sconto"><br>
 
     </div>
 
@@ -318,7 +318,7 @@ th, td {
 
     <label for="sconto_bonus">Sconto bonus<p style="color:#f37f0d;display:inline">(*)</p></label>
 
-    <input value="{{ $utente->sconto_bonus }}" class="form-control" type="text" name="sconto_bonus" id="sconto_bonus" placeholder="inserire il bonus di sconto"><br>
+    <input value="{{ $utente->sconto_bonus }}" class="form-control" type="text" name="sconto_bonus" id="sconto_bonus" placeholder="sconto_bonus"><br>
 
     </div></div>  
 
@@ -358,7 +358,7 @@ th, td {
       <label class="checkente<?php echo $i;?>">
       <select name="idente[]" class="form-control" id="id_ente" style="width: 200px">
 
-      <option style="background-color:white" selected disabled>-- select --</option>  
+      <option style="background-color:white"></option> 
       <?php  
         foreach ($enti as $enti_value) { ?> 
 
@@ -426,13 +426,13 @@ th, td {
 
       <label for="email">e-mail </label><p style="color:#f37f0d;display:inline"> (*) </p></label>
 
-      <input value="{{$utente->email}}" class="form-control" type="email" name="email" id="email" placeholder="inserisci l'email"><br>
+      <input value="{{$utente->email}}" class="form-control" type="email" name="email" id="email" placeholder="Email"><br>
 
       <div id="rendita" <?php if($utente->dipartimento == 1 || $utente->dipartimento == 3) { ?> style="display: none" <?php } ?>>
 
       <label for="rendita">Rendita <p style="color:#f37f0d;display:inline"> (*) </p></label>
 
-      <input value="{{ $utente->rendita }}" class="form-control" type="text" name="rendita" id="rendita" placeholder="inserire l'annuità"><br>
+      <input value="{{ $utente->rendita }}" class="form-control" type="text" name="rendita" id="rendita" placeholder="rendita"><br>
     
       </div>
 
@@ -441,7 +441,7 @@ th, td {
 
      <label for="rendita_reseller">Rendita su reseller<p style="color:#f37f0d;display:inline"> (*) </p></label>
 
-      <input value="{{ $utente->rendita_reseller }}" class="form-control" type="text" name="rendita_reseller" id="rendita_reseller" placeholder="inserire l'annuità del rivenditore"><br>
+      <input value="{{ $utente->rendita_reseller }}" class="form-control" type="text" name="rendita_reseller" id="rendita_reseller" placeholder="rendita_reseller"><br>
 
       </div>
 
@@ -468,7 +468,7 @@ th, td {
 
       <label for="password">Password</label>
 
-      <input class="form-control" type="password" name="password" id="password" placeholder="inserire la password"> <br>
+      <input class="form-control" type="password" name="password" id="password" placeholder="Password"><br>
 
       <div id="zone" <?php if($utente->dipartimento == 1 || $utente->dipartimento == 3) { ?> style="display: none" <?php } ?>>
 
@@ -499,7 +499,7 @@ th, td {
     <label class="checkzone<?php echo $i;?>">                    
 
     <select name="zone[]" class="form-control" id="zone" style="width: 200px">
-          <option style="background-color:white" selected disabled>-- select --</option>  
+          <option style="background-color:white"></option> 
     <?php  
 
     foreach ($citta as $citta_value) { ?> 
@@ -588,7 +588,7 @@ th, td {
    @foreach ($role as $value) 
 
     <?php 
-    if($value->ruolo_id == 1) { 
+    if($value->nome_ruolo == "AMMINISTRAZIONE") { 
       ?>
 
       <script type="text/javascript">
@@ -627,7 +627,7 @@ th, td {
 
     <label for="name">Nome <p style="color:#f37f0d;display:inline">(*)</p></label>
 
-    <input value="" class="form-control" type="text" name="name" id="name" placeholder="inserisci il nome"><br>
+    <input value="" class="form-control" type="text" name="name" id="name" placeholder="Nome"><br>
 
 <!--    <label for="cellulare">Cellulare</label>
 
@@ -643,7 +643,7 @@ th, td {
 
     <label for="sconto">Sconto <p style="color:#f37f0d;display:inline">(*)</p></label>
 
-    <input value="" class="form-control" type="text" name="sconto" id="sconto" placeholder="inserisci sconto"><br>
+    <input value="" class="form-control" type="text" name="sconto" id="sconto" placeholder="sconto"><br>
 
     </div>
 
@@ -651,7 +651,7 @@ th, td {
 
     <label for="sconto_bonus">Sconto bonus<p style="color:#f37f0d;display:inline">(*)</p></label>
 
-    <input value="" class="form-control" type="text" name="sconto_bonus" id="sconto_bonus" placeholder="inserire il bonus di sconto"><br>
+    <input value="" class="form-control" type="text" name="sconto_bonus" id="sconto_bonus" placeholder="sconto_bonus"><br>
 
     </div></div>  
 
@@ -692,7 +692,7 @@ th, td {
       <label class="checkente<?php echo $i;?>">
       <select name="idente[]" class="form-control" id="id_ente" style="width: 200px">
 
-      <option style="background-color:white" selected disabled>-- select --</option> 
+      <option style="background-color:white"></option> 
       <?php  
         foreach ($enti as $enti_value) { ?> 
 
@@ -758,13 +758,13 @@ th, td {
 
       <label for="email">e-mail </label><p style="color:#f37f0d;display:inline"> (*) </p></label>
 
-      <input value="" class="form-control" type="email" name="email" id="email" placeholder="inserisci l'email"><br>
+      <input value="" class="form-control" type="email" name="email" id="email" placeholder="Email"><br>
 
       <div id="rendita_reseller">
 
      <label for="rendita_reseller">Rendita su reseller<p style="color:#f37f0d;display:inline"> (*) </p></label>
 
-      <input value="" class="form-control" type="text" name="rendita_reseller" id="rendita_reseller" placeholder="inserire l'annuità del rivenditore"><br>
+      <input value="" class="form-control" type="text" name="rendita_reseller" id="rendita_reseller" placeholder="rendita_reseller"><br>
 
       </div>
 
@@ -773,7 +773,7 @@ th, td {
 
       <label for="rendita">Rendita <p style="color:#f37f0d;display:inline"> (*) </p></label>
 
-      <input value="" class="form-control" type="text" name="rendita" id="rendita" placeholder="inserire l'annuità"><br>
+      <input value="" class="form-control" type="text" name="rendita" id="rendita" placeholder="rendita"><br>
     
       </div>
       </div>
@@ -797,9 +797,9 @@ th, td {
 
       </select><br>
 
-      <label for="password">Password <p style="color:#f37f0d;display:inline">(*)</p></label></label>
+      <label for="password">Password</label>
 
-      <input class="form-control" type="password" name="add_password" id="password" placeholder="inserire la password"><br>
+      <input class="form-control" type="password" name="password" id="password" placeholder="Password"><br>
 
       <div id="zone">
 
@@ -829,7 +829,7 @@ th, td {
     <label class="checkzone<?php echo $i;?>">                    
 
     <select name="zone[]" class="form-control" id="zone" style="width: 200px">
-          <option style="background-color:white" selected disabled>-- select --</option> 
+          <option style="background-color:white"></option> 
     <?php  
 
     foreach ($citta as $citta_value) { ?> 
@@ -1081,8 +1081,6 @@ th, td {
 	<div class="col-md-12" style="padding-top:10px;padding-bottom:10px;">
 
 		<button type="submit" class="btn btn-primary">Salva</button>
-
-    {!! link_to(URL::previous(), 'Cancel', ['class' => 'btn btn-danger']) !!}
 
 	</div>
 

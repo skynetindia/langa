@@ -213,18 +213,14 @@ li label {
                 <td>{{$utente->email}}</td>
 
                 <td>
-                
-                    
-                        <a href="{{ url('/approvare/'.$utente->id) }}">Approvare</a>
-                    
-                        <a href="{{ url('/rifiutare/'.$utente->id) }}">Rifiutare</a>
-                    
 
-                </td>
+ <a class="btn btn-default" id="approvare" href="{{ url('/approvare/'.$utente->id) }}" onclick="return confirm('Are you sure you want to Approvare this item?');"> Approvare </a>
+
+ <a class="btn btn-default" id="rifiutare" class="btn btn-default" href="{{ url('/rifiutare/'.$utente->id) }}" onclick="return confirm('Are you sure you want to Rifiutare this item?');"> RifiutareK </a>
 
     </tr>
 
-        <?php $count++; ?>
+    <?php $count++; ?>
 
 @endforeach     
 

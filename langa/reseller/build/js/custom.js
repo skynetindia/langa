@@ -299,11 +299,13 @@ $(document).ready(function() {
                 },
                 password: {
                     required: true,
-                    minlength: 5
+                    minlength: 8,
+                    maxlength: 30
                 },
                 password_confirmation: {
                     required: true,
-                    minlength: 6,
+                    minlength: 8,
+                    maxlength: 30,
                     equalTo: "#password"
                 },
                 email: {
@@ -331,11 +333,13 @@ $(document).ready(function() {
                 },                
                 password: {
                     required: "Please provide a password",
-                    minlength: "Your password must be at least 6 characters long"
+                    minlength: "Your password must be at least 8 characters long",
+                    maxlength: "Your password may not be greater than 30 characters"
                 },
                 password_confirmation: {
                     required: "Please provide a password",
-                    minlength: "Your password must be at least 6 characters long",
+                    minlength: "Your password must be at least 8 characters long",
+                    maxlength: "Your password may not be greater than 30 characters",
                     equalTo: "Please enter the same password as above"
                 },
                 email: "Please enter a valid email address"

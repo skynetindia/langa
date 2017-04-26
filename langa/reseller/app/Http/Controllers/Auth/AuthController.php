@@ -53,7 +53,7 @@ class AuthController extends Controller
             'name' => 'required|max:255|unique:users',
             'cellulare' => 'required',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed'
+            'password' => 'required|min:8|max:30|confirmed'
         ]);
     }
 
@@ -70,6 +70,11 @@ class AuthController extends Controller
         // $length = 20;
         // $emailutente = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
 
+         $ruolo = DB::table('ruolo_utente')
+                        ->select('ruolo_id')
+                        ->where('nome_ruolo', 'reseller')
+                        ->first();
+
         $user = User::create([
             'name' => $data['name'],
             'cellulare' => $data['cellulare'],
@@ -78,7 +83,7 @@ class AuthController extends Controller
             'utente_commerciale' => $data['commerciale'],
             'id_citta' => $data['city'],
             'id_stato' => $data['state'],
-            'dipartimento' => 'RESELLER'
+            'dipartimento' => $ruolo->{'ruolo_id'}
         ]);
 
          DB::table('rivenditore')->insert([
@@ -89,7 +94,7 @@ class AuthController extends Controller
                 'utente_commerciale' => $data['commerciale'],
                 'id_citta' => $data['city'],
                 'id_stato' => $data['state'],
-                'dipartimento' => 'RESELLER'
+                'dipartimento' => $ruolo->{'ruolo_id'}
             ]);
         
         
@@ -99,7 +104,7 @@ class AuthController extends Controller
         // });
 
         $this->redirectTo = "/nuovoutente";
-       // return redirect('/login')->flash('success', 'Success!', 'Successfully created new list!'); 
+       // return redirect('/login')->with('message', 'I am so frustrated.');
         
         return $user;
     }

@@ -213,19 +213,19 @@ li label {
 
                 <td>
                 
-                    
-                        <a href="{{ url('/approvareenti/'.$corporations->id) }}">Approvare</a>
-                    
-                        <a href="{{ url('/rifiutareenti/'.$corporations->id) }}">Rifiutare</a>
-                    
+    <a class="btn btn-default" id="approvare" href="{{ url('/approvareenti/'.$corporations->id) }}" onclick="return confirm('Are you sure you want to Approvare this item?');"> Approvare </a>
+
+    <a class="btn btn-default" id="rifiutare" class="btn btn-default" href="{{ url('/rifiutareenti/'.$corporations->id) }}" onclick="return confirm('Are you sure you want to Rifiutare this item?');"> RifiutareK </a>
 
                 </td>
 
-    </tr>
+        </tr>                          
 
         <?php $count++; ?>
 
-@endforeach     
+@endforeach   
+
+ 
 
 </tbody>
 

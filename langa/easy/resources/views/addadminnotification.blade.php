@@ -70,13 +70,16 @@ li label {
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-<style>.select2-container, .select2-choices, .selection, .select2-selection, .select2-selection--multiple { height: 150px;}</style>
+
 <!-- ckeditor -->
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 
+<<<<<<< HEAD
+=======
 
-<h1>Aggiungi Alert</h1><hr>
+<h1>Aggiungi Notification</h1><hr>
 
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
 @if(!empty(Session::get('msg')))
     <script>
     var msg = '<?php echo html_entity_decode(htmlentities(Session::get('msg'))); ?>';
@@ -84,76 +87,135 @@ li label {
     </script>
 @endif
 
+<<<<<<< HEAD
+
+
 <div class="row">
 
-  <form action="{{url('/admin/alert/store')}}" method="post" id="addalert">
+  <form action="{{url('/admin/notification/store')}}" method="post" id="addnotification">
 
   {{ csrf_field() }}
 
-  <div class="col-md-8">
 
-    <label>Alert</label>
+  @if(isset($notifica))
+    <h1>update Notification</h1><hr>
+     <div class="col-md-4">
 
-    <input class="form-control" id="nome_alert" name="nome_alert" value="" placeholder="Nome Alert">
+    <label>Tipo</label>
+
+    <input class="form-control" id="type" name="type" value="{{ $notifica->notification_type }}" placeholder="type of notification">
 
   </div>
 
   <div class="col-md-4">
 
-    <label>Tipo Alert</label>
+    <label> Tempo di Avviso </label>
 
-      <select class="form-control" id="tipo_alert" name="tipo_alert">
-        <option value="1">Colore Alert</option>
-        <option value="2">Colore Alert1</option>
-        <option value="3">Colore Alert2</option>
+    <input class="form-control" id="tempo_avviso" name="tempo_avviso" value="{{ $notifica->tempo_avviso }}" placeholder="enter tempo di avviso">
+
+  </div>
+
+
+  <div class="col-md-4">
+
+    <label> Modulo </label>
+
+      <select class="form-control" id="modulo" name="modulo">
+
+        <option></option>
+        @foreach($modulo as $modulo)
+
+          @if($modulo->id == $notifica->modulo)
+            <option value="{{ $modulo->id }}" selected="selected">
+              {{$modulo->modulo}}
+            </option>
+          @else
+            <option value="{{ $modulo->id }}" >
+              {{$modulo->modulo}}
+            </option>
+          @endif
+        @endforeach
       </select><br>
 
   </div>
 
- <?php /* <div class="col-md-6">
-  	<textarea id="show_ente" name="show_ente" class="form-control" rows="4"></textarea>
-	<br>
-  </div>
   <div class="col-md-6">
-  <textarea id="show_role" name="show_role" class="form-control" rows="4"></textarea><br>
+
+  <textarea id="show_ente" name="show_ente" class="form-control" rows="4"></textarea><br>
+
   </div>
-  <br>*/?>
+
+  <div class="col-md-6">
+
+  <textarea id="show_role" name="show_role" class="form-control" rows="4"></textarea><br>
+
+  </div>
+
+  <br>
+
+
+<?php $entity = explode(",", $notifica->id_ente); ?>
+
 <div class="col-md-6">
+
 <label for="ente">Ente</label>
-<select id="ente" name="ente[]" class="js-example-basic-multiple form-control" multiple="multiple">
+
+<select id="ente" name="ente[]" class="js-example-basic-multiple form-control" onchange="myEnte()" multiple="multiple">
+
     <option></option>
     @foreach($enti as $enti)
-      <option value="{{ $enti->id }}">
-        {{$enti->nomeazienda}}
-      </option>
+
+      @if(in_array($enti->id, $entity))
+
+        <option value="{{ $enti->id }}" selected="selected">
+          {{$enti->nomeazienda}}
+        </option>
+
+      @else
+         <option value="{{ $enti->id }}">
+          {{$enti->nomeazienda}}
+        </option>
+
+      @endif
+
     @endforeach
   </select>
+
   </div>
+
 <div class="col-md-6">
+
 <label for="ruolo">Ruolo</label>
-<select id="ruolo" name="ruolo[]" class="js-example-basic-multiple form-control" multiple="multiple">
+
+<?php $ruolo = explode(",", $notifica->ruolo); ?>
+
+<select id="ruolo" name="ruolo[]" class="js-example-basic-multiple form-control" onchange="myRole()"  multiple="multiple">
+
     <option></option>
+
     @foreach($ruolo_utente as $ruolo_utente)
-      <option value="{{ $ruolo_utente->ruolo_id }}">
-        {{$ruolo_utente->nome_ruolo}}
-      </option>
+
+       @if(in_array($ruolo_utente->ruolo_id, $ruolo))
+
+        <option value="{{ $ruolo_utente->ruolo_id }}" selected="selected">
+          {{$ruolo_utente->nome_ruolo}}
+        </option>
+
+      @else
+
+        <option value="{{ $ruolo_utente->ruolo_id }}">
+          {{$ruolo_utente->nome_ruolo}}
+        </option>
+
+      @endif
+
     @endforeach
+
 </select>
 
       <script type="text/javascript">
+
         $(".js-example-basic-multiple").select2();
-		$('#ente').on("select2:selecting", function(e) { 
-			/*var selectad=$(".select2-selection").html();			
-			$("#show_ente").html(selectad);*/
-		   	//var theSelection = $('#ente').select2('data').text;
-			//alert(theSelection);
-   			// what you would like to happen
-		});
-		$('#ente').on("change", function(e) { 
-			var selectad=$(".select2").html();			
-			$("#show_ente").html(selectad);
-		});
-		
 
         function myEnte() {
           var ente = document.getElementsByName("ente");
@@ -182,8 +244,160 @@ li label {
     
     <br>
 
-    <label>Messaggio</label>
+    <label> Description </label>
 
+    <textarea name="description" id="description" rows="10" cols="50" class="form-control">{{ $notifica->notification_desc }}</textarea>
+
+    <script type="text/javascript" >
+      CKEDITOR.replace( 'description' );
+    </script>
+
+    <input type="hidden" name="id" value="{{ $notifica->id }}">
+
+  @else
+    <h1>Aggiungi Notification</h1><hr>
+ <div class="col-md-4">
+
+    <label>Tipo</label>
+
+    <input class="form-control" id="type" name="type" value="" placeholder="type of notification">
+
+  </div>
+
+  <div class="col-md-4">
+
+    <label> Tempo di Avviso </label>
+
+    <input class="form-control" id="tempo_avviso" name="tempo_avviso" value="" placeholder="enter tempo di avviso">
+=======
+<div class="row">
+
+  <form action="{{url('/admin/alert/store')}}" method="post" id="addalert">
+
+  {{ csrf_field() }}
+
+  <div class="col-md-8">
+
+    <label>Tipo</label>
+
+    <input class="form-control" id="nome_alert" name="nome_alert" value="" placeholder="Nome Alert">
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
+
+  </div>
+
+  <div class="col-md-4">
+
+<<<<<<< HEAD
+    <label> Modulo </label>
+
+      <select class="form-control" id="modulo" name="modulo">
+
+        <option></option>
+        @foreach($modulo as $modulo)
+          <option value="{{ $modulo->id }}">
+            {{$modulo->modulo}}
+          </option>
+        @endforeach
+=======
+    <label>Tipo Alert</label>
+
+      <select class="form-control" id="tipo_alert" name="tipo_alert">
+        <option value="1">Colore Alert</option>
+        <option value="2">Colore Alert1</option>
+        <option value="3">Colore Alert2</option>
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
+      </select><br>
+
+  </div>
+
+  <div class="col-md-6">
+
+  <textarea id="show_ente" name="show_ente" class="form-control" rows="4"></textarea><br>
+
+  </div>
+
+  <div class="col-md-6">
+
+  <textarea id="show_role" name="show_role" class="form-control" rows="4"></textarea><br>
+
+  </div>
+
+  <br>
+
+<div class="col-md-6">
+
+<label for="ente">Ente</label>
+
+<select id="ente" name="ente[]" class="js-example-basic-multiple form-control" onchange="myEnte()" multiple="multiple">
+
+    <option></option>
+    @foreach($enti as $enti)
+      <option value="{{ $enti->id }}">
+        {{$enti->nomeazienda}}
+      </option>
+    @endforeach
+  </select>
+
+  </div>
+
+<div class="col-md-6">
+
+<label for="ruolo">Ruolo</label>
+
+<select id="ruolo" name="ruolo[]" class="js-example-basic-multiple form-control" onchange="myRole()"  multiple="multiple">
+
+    <option></option>
+    @foreach($ruolo_utente as $ruolo_utente)
+      <option value="{{ $ruolo_utente->ruolo_id }}">
+        {{$ruolo_utente->nome_ruolo}}
+      </option>
+    @endforeach
+</select>
+
+      <script type="text/javascript">
+
+        $(".js-example-basic-multiple").select2();
+
+        function myEnte() {
+          var ente = document.getElementsByName("ente");
+
+          console.log(ente.length);
+
+          for(var x=0; x < ente.length; x++)   
+          {
+            console.log(ente[x].value, "hello");
+            // document.getElementById("show_ente").innerHTML = ente[x].value;
+          }
+          
+        }
+
+        function myRole() {
+          var x = document.getElementById("ruolo").value;
+          console.log(x);
+          // document.getElementById("show_role").innerHTML = x;
+        }
+
+      </script>
+
+  </div>
+
+</div>
+    
+    <br>
+
+    <label> Description </label>
+
+<<<<<<< HEAD
+    <textarea name="description" id="description" rows="10" cols="50" class="form-control"></textarea>
+
+    <script type="text/javascript" >
+      CKEDITOR.replace( 'description' );
+    </script>
+
+  @endif
+
+      <br>
+=======
     <textarea name="messaggio" id="messaggio" rows="10" cols="50" class="form-control"></textarea>
 
     <script type="text/javascript" >
@@ -191,6 +405,7 @@ li label {
     </script>
 
     <br>
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
 
     <input class="btn btn-warning" type="submit" value="INVIA">
 
@@ -198,6 +413,9 @@ li label {
 
   </div>
 
+<<<<<<< HEAD
+
+=======
 </div>
 
 
@@ -217,6 +435,7 @@ li label {
             <th data-field="conferma" data-sortable="true">Conferma
         </thead>
     </table>
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
 <script>
 var selezione = [];
 var indici = [];

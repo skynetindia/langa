@@ -80,27 +80,40 @@
                         </li>
                       
                       
-                        <li><a>Vendita<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                            <li class="sub_menu"><a href="{{url('/admin/tassonomie/pacchetti/add')}}">Pacchetti</a>
-                            </li>
-                            <li><a href="{{url('/admin/tassonomie/optional/add')}}">Optional</a>
-                            </li>
-                            <li><a href="{{url('/show-provincie')}}">Provincie</a>
-                            </li>
-                            <li><a href="{{url('/admin/tassonomie/sconti/add')}}">Sconti</a>
-                            </li>
-                            <li><a href="{{url('/admin/tassonomie/scontibonus/add')}}">Sconti Bonus</a>
-                            </li>
-                            <li><a href="{{url('admin/tassonomie/dipartimenti')}}">Dipartimenti</a></li>
-                          </ul>
-                        </li>
-                    </ul>
+            <li><a>Vendita<span class="fa fa-chevron-down"></span></a>
+              <ul class="nav child_menu">
+                  <li class="sub_menu"><a href="{{url('/admin/tassonomie/pacchetti/add')}}">Pacchetti</a>
+                    </li>
+
+                  <li><a>Optional<span class="fa fa-chevron-down"></span></a>
+                       <ul class="nav child_menu">
+                          <li><a href="{{url('/admin/tassonomie/optional/add')}}">Optional</a>
+
+                          <li><a href="{{url('/show-provincie')}}">Indici Costo Vita</a>
+                      </li>
+                      </ul>
+
+                      </li>
                   </li>
+
+                
+                  <li><a href="{{url('/admin/tassonomie/sconti/add')}}">Sconti</a>
+                  </li>
+                  <li><a href="{{url('/admin/tassonomie/scontibonus/add')}}">Sconti Bonus</a>
+                  </li>
+                  <li><a href="{{url('admin/tassonomie/dipartimenti')}}">Dipartimenti</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
 
                   <li><a><i class="fa fa-user-times"></i> Avvisi <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{{url('/notifichee')}}">Notifiche</a></li>
+<<<<<<< HEAD
+                      <li><a href="{{url('/admin/shownotification')}}">Notifiche</a></li>
+=======
+                      <li><a href="{{url('/admin/notification')}}">Notifiche</a></li>
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
                       <li><a href="{{url('/admin/alert')}}">Alert</a></li>
                     </ul>
                   </li>

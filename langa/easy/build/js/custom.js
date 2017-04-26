@@ -292,7 +292,8 @@ $(document).ready(function() {
                     required: true,
                     maxlength: 20
                 },
-                password: {
+                add_password: {
+                    required: true,
                     maxlength: 64
                 },
                 email: {
@@ -337,7 +338,7 @@ $(document).ready(function() {
                     required: "Please enter a name",
                     maxlength: "Your name must consist of at least 2 characters"
                 },
-                password: {
+                add_password: {
                     required: "Please provide a password",
                     maxlength: "Your password must be at least 6 characters long"
                 },
@@ -411,7 +412,6 @@ $(document).ready(function() {
         });
 
 
-
         // validate taxation form on keyup and submit
         $("#taxation_form").validate({
 
@@ -436,5 +436,35 @@ $(document).ready(function() {
 
         });
 
-    });
+        // validate provincie form on keyup and submit
+        $("#provincie_form").validate({
+            
+            rules: {
+                stato: {
+                    required: true,
+                },
+                citta: {
+                    required: true,
+                },
+                provincie: {
+                    required: true,
+                    digits: true
+                }
+            },
+            messages: {
+                stato: {
+                    required: "Please Select a state name"
+                },
+                citta: {
+                    required: "Please enter a city name"
+                },
+                provincie: {
+                    required: "Please enter a provincie",
+                    digits: "only digits allowed"
+                }
+            }
+
+        });
+
+});
 

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -12,7 +13,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Nome</label>
+                            <label for="name" class="col-md-4 control-label">Nome <p style="color:#f37f0d;display:inline">(*)</p> </label>
 
                             <div class="col-md-6">
 
@@ -27,7 +28,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="cellulare" class="col-md-4 control-label">Cellulare</label>
+                            <label for="cellulare" class="col-md-4 control-label">Cellulare <p style="color:#f37f0d;display:inline">(*)</p> </label>
 
                             <div class="col-md-6">
 
@@ -42,7 +43,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail</label>
+                            <label for="email" class="col-md-4 control-label">E-Mail <p style="color:#f37f0d;display:inline">(*)</p> </label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="inserisci l'email">
@@ -56,7 +57,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <label for="password" class="col-md-4 control-label">Password <p style="color:#f37f0d;display:inline">(*)</p> </label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password" placeholder="inserire la password">
@@ -70,7 +71,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Conferma Password</label>
+                            <label for="password-confirm" class="col-md-4 control-label">Conferma Password <p style="color:#f37f0d;display:inline">(*)</p> </label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="inserire la conferma password">
@@ -127,12 +128,12 @@
 
                        
                         <div class="form-group{{ $errors->has('citta') ? ' has-error' : '' }}">
-                            <label for="citta" class="col-md-4 control-label">Citta               </label>
+                            <label for="citta" class="col-md-4 control-label">Citta <p style="color:#f37f0d;display:inline">(*)</p>      </label>
 
                             <div class="col-md-6">
 
                         <select id="city" class="form-control input-sm" name="city">
-                                <option value="">seleziona citta</option>
+                                <option value="">seleziona citta </option>
                             </select>
 
                                 @if ($errors->has('citta'))
@@ -146,7 +147,7 @@
                         
 
                          <div class="form-group{{ $errors->has('commerciale') ? ' has-error' : '' }}">
-                            <label for="commerciale" class="col-md-4 control-label">Commerciale         </label>
+                            <label for="commerciale" class="col-md-4 control-label"> Commerciale </label>
 
                             <div class="col-md-6">
 

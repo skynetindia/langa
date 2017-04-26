@@ -146,6 +146,11 @@ li label {
 
 <div class="btn-group">
 
+<a onclick="multipleAction('add');" id="add" style="display:inline;">
+
+<button class="btn btn-primary" type="button" name="add" title="Add  - Add new role"><i class="glyphicon glyphicon-plus"></i></button>
+
+
 <a onclick="multipleAction('modify');" id="modifica" style="display:inline;">
 
 <button class="btn btn-primary" type="button" name="update" title="Modifica - Modifica l'ultimo ente selezionato"><i class="glyphicon glyphicon-pencil"></i></button>
@@ -178,7 +183,7 @@ li label {
 
 <th>ID</th>
 
-<th>Nome_ruolo</th>
+<th>Ruolo</th>
 
 <!-- <th>Permessi</th> -->
 
@@ -319,10 +324,11 @@ function multipleAction(act) {
 
             case 'add':
         
-                link.href = "{{ url('/admin/modify/utente') }}"; 
+                link.href = "{{ url('/role-permessi') }}"; 
                 link.dispatchEvent(clickEvent);
           
             break;
+
 
 		}
 
