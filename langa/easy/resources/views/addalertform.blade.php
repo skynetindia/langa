@@ -70,7 +70,7 @@ li label {
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-
+<style>.select2-container, .select2-choices, .selection, .select2-selection, .select2-selection--multiple { height: 150px;}</style>
 <!-- ckeditor -->
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 
@@ -110,26 +110,17 @@ li label {
 
   </div>
 
-  <div class="col-md-6">
-
-  <textarea id="show_ente" name="show_ente" class="form-control" rows="4"></textarea><br>
-
+ <?php /* <div class="col-md-6">
+  	<textarea id="show_ente" name="show_ente" class="form-control" rows="4"></textarea>
+	<br>
   </div>
-
   <div class="col-md-6">
-
   <textarea id="show_role" name="show_role" class="form-control" rows="4"></textarea><br>
-
   </div>
-
-  <br>
-
+  <br>*/?>
 <div class="col-md-6">
-
 <label for="ente">Ente</label>
-
-<select id="ente" name="ente[]" class="js-example-basic-multiple form-control" onchange="myEnte()" multiple="multiple">
-
+<select id="ente" name="ente[]" class="js-example-basic-multiple form-control" multiple="multiple">
     <option></option>
     @foreach($enti as $enti)
       <option value="{{ $enti->id }}">
@@ -137,15 +128,10 @@ li label {
       </option>
     @endforeach
   </select>
-
   </div>
-
 <div class="col-md-6">
-
 <label for="ruolo">Ruolo</label>
-
-<select id="ruolo" name="ruolo[]" class="js-example-basic-multiple form-control" onchange="myRole()"  multiple="multiple">
-
+<select id="ruolo" name="ruolo[]" class="js-example-basic-multiple form-control" multiple="multiple">
     <option></option>
     @foreach($ruolo_utente as $ruolo_utente)
       <option value="{{ $ruolo_utente->ruolo_id }}">
@@ -155,8 +141,19 @@ li label {
 </select>
 
       <script type="text/javascript">
-
         $(".js-example-basic-multiple").select2();
+		$('#ente').on("select2:selecting", function(e) { 
+			/*var selectad=$(".select2-selection").html();			
+			$("#show_ente").html(selectad);*/
+		   	//var theSelection = $('#ente').select2('data').text;
+			//alert(theSelection);
+   			// what you would like to happen
+		});
+		$('#ente').on("change", function(e) { 
+			var selectad=$(".select2").html();			
+			$("#show_ente").html(selectad);
+		});
+		
 
         function myEnte() {
           var ente = document.getElementsByName("ente");
