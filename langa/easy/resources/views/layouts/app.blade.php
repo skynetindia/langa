@@ -615,18 +615,19 @@
           ->where('id_ente', $userId)
           ->where('conferma', '!=', 'LETTO')
           ->get();  
+          ?>
+          
+        <div id="success_message"></div>
+        <div class="col-md-6">  
 
-        foreach ($notification as $notification) {  ?>
-
-          <div id="success_message"></div>
-
-          <div class="alert alert-success">
-
+        <?php foreach ($notification as $notification) {  ?>
+          <div class="alert alert-warning">
+        
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <h4>
               <div id="alert" class="comment" > {{ $notification->nome_alert }} 
 
-              <div id="comment" style="display: none;"> 
+              <div id="comment" style="display: none;font-weight: bold;"> 
                   {{ $notification->  messaggio }}  
 
                   <textarea id="messaggio" rows="4" cols="5" style="color: black"> </textarea> 
@@ -646,10 +647,10 @@
 
             </h4> 
           </div>
-      
       <?php
           }
       ?>
+      </div>
 
       <?php
 
@@ -665,6 +666,7 @@
                 ->join('notifica', 'invia_notifica.notification_id', '=', 'notifica.id')
                 ->where('user_id', $userId)
                 ->where('invia_notifica.id_ente', '=', '')
+                ->where('conferma', '!=', 'LETTO')
                 ->get();
 
             foreach ($notifica as $notifica) {  ?>
@@ -675,7 +677,7 @@
 
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                   <h4>
-                    <div id="notifica" class="comment" > {{ $notifica->notification_type }} 
+                    <div id="notifica" class="comment" style="font-weight: bold;"> {{ $notifica->notification_type }} 
 
                     <br><br>
 
@@ -716,6 +718,7 @@
                 ->join('notifica', 'invia_notifica.notification_id', '=', 'notifica.id')
                 ->where('user_id', $userId)
                 ->where('invia_notifica.id_ente', '!=', '')
+                ->where('conferma', '!=', 'LETTO')
                 ->distinct()
                 ->get();
 
@@ -727,7 +730,7 @@
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                   <h4>
 
-                  <div id="role_notifica" class="comment" > 
+                  <div id="role_notifica" class="comment" style="font-weight: bold;"> 
                   {{ $notifica->notification_type }} 
 
                     <br><br>
@@ -795,7 +798,6 @@
 
     <!-- jQuery validation js -->
     <script src="{{ url('public/scripts/jquery.validate.min.js')}}"></script>
-
 
     <!-- Custom Theme Scripts -->
     <script src="{{asset('/build/js/custom.js')}}"></script>

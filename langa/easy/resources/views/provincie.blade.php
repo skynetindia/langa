@@ -27,7 +27,7 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header" style="padding:35px 50px;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+      
           <h4><span class=""></span> Add Provincie</h4>
         </div>
 
@@ -70,6 +70,7 @@
             </div>
             
             <button type="button" id="btn_save" class="btn btn-success btn-block"><span class="glyphicon"></span> Save </button>
+
           </form>
         </div>
 
@@ -130,9 +131,18 @@ $(document).ready(function(){
 
 <div class="row">   
 
+@php
+
+$i = 1
+
+@endphp
+
 @foreach($stato as $state)
 
-<div class="col-md-4">
+@if($i/3 == 1)
+
+<div class="row">  
+  <div class="col-md-4">
 
     <label for="nome_stato" style="background: GRAY; color: black; width: 350px; text-align: center; font-size: 18px;"> {{ $state->nome_stato }} </label>
 
@@ -151,6 +161,37 @@ $(document).ready(function(){
        @endforeach
   
 </div>
+</div>
+<br>
+@else
+  
+  <div class="col-md-4">
+
+    <label for="nome_stato" style="background: GRAY; color: black; width: 350px; text-align: center; font-size: 18px;"> {{ $state->nome_stato }} </label>
+
+        @foreach($provincie as $citta)
+    
+          @if($citta->id_stato == $state->id_stato)
+    
+            <input type="text" name="citta[]" value="{{ $citta->nome_citta }}" style="width: 170px;">
+
+            <input type="text" name="provincie[]" value="{{ $citta->provincie }}" style="width: 170px;">
+
+            <input type="hidden" name="id_citta[]" value="{{ $citta->id_citta }}">
+
+          @endif
+
+       @endforeach
+  
+</div>
+
+@endif
+
+
+
+@php
+  $i++
+@endphp
 
 @endforeach
 </div>

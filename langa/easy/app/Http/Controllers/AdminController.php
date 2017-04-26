@@ -132,7 +132,8 @@ class AdminController extends Controller
          DB::table('invia_notifica')
                 ->where('id', $id)
                 ->update(array(
-                    'data_lettura' => $today
+                    'data_lettura' => $today,
+                    'conferma' => 'LETTO'
                     ));
                 
         return Redirect::back();
@@ -166,7 +167,8 @@ class AdminController extends Controller
          DB::table('invia_notifica')
                 ->where('id', $id)
                 ->update(array(
-                    'data_lettura' => $today
+                    'data_lettura' => $today,
+                    'conferma' => 'LETTO'
                     ));
                 
         return Redirect::back();
@@ -374,6 +376,11 @@ class AdminController extends Controller
             $notifica = DB::table('notifica')
                 ->where('created_at', $today)
                 ->get();
+
+            if(empty($notifica)) {
+
+                return "Notification not set for today.!!";
+            }
 
             foreach ($notifica as $value) {
                 
@@ -828,24 +835,22 @@ class AdminController extends Controller
         $check_citta = DB::table('citta')->get();
 
         foreach ($check_citta as $check_citta) {
+     
+            if($check_citta->nome_citta == $citta && $check_citta->id_stato == $stato)
+            {
 
-        if($check_citta->nome_citta == $citta && $check_citta->id_stato == $stato)
-        {
+                return '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> can not add same city in same state.! </h4></div>';
+            } 
 
-            return '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> can not add same city in same state.! </h4></div>';
-        } else {
+        }
 
-            DB::table('citta')->insert(        
+        DB::table('citta')->insert(        
                 ['id_stato' => $stato, 'nome_citta' => $citta, 
                 'provincie' => $provincie]
             );
 
-            return '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> Provincie added succesfully..!! </h4></div>';
+        return '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> Provincie added succesfully..!! </h4></div>';
       
-        }
-
-        }
-
         }
    
     }
