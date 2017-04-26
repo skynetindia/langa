@@ -243,6 +243,96 @@ class AdminController extends Controller
         }
     }
 
+    // show notification
+    public function showadminnotification(Request $request)
+    {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+            
+            return view('elenconotifiche', [
+                'elenconotifiche' => DB::table('notifica')
+                    ->get()            
+            ]);
+        }
+    }
+
+    public function deletenotification(Request $request) {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+
+            DB::table('notifica')
+                ->where('id', $request->id)
+                ->delete();
+
+            return Redirect::back()
+                ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>notification eliminata correttamente!</h4></div>');
+        }
+    }
+
+    // detail notification
+    public function detailadminnotification(Request $request)
+    {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+
+            if($request->id) {
+                return view('notifichedetails', [
+                    'detail_notifica' => DB::table('invia_notifica')
+                    ->where('notification_id', "=", $request->id)
+                    ->get()      
+                ]);
+            } else {
+                 return view('notifichedetails', [
+                    'detail_notifica' => DB::table('invia_notifica')
+                    ->get()      
+                ]);
+            }
+           
+        }
+    }
+
+
+    // add notification
+    public function addadminnotification(Request $request)
+    {
+        if($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+
+            if($request->id){
+
+                return view('addadminnotification', [
+                    'notifica' => DB::table('notifica')
+                        ->where('id', "=", $request->id)
+                        ->first(),
+                    'enti' => DB::table('corporations')
+                        ->get(),
+                    'modulo' => DB::table('modulo')
+                        ->where('modulo_sub', '=', null)
+                        ->get(),
+                    'ruolo_utente' => DB::table('ruolo_utente')
+                        ->get()                
+                ]);
+
+            } else {
+
+                return view('addadminnotification', [
+                    'enti' => DB::table('corporations')
+                        ->get(),
+                    'modulo' => DB::table('modulo')
+                        ->where('modulo_sub', '=', null)
+                        ->get(),
+                    'ruolo_utente' => DB::table('ruolo_utente')
+                        ->get()                
+                ]);
+            }
+            
+        }
+    }
+
     // store admin alert
     public function storeadminalert(Request $request)
     {
@@ -284,6 +374,94 @@ class AdminController extends Controller
 
             return Redirect::back()
                 ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Alert add correttamente!</h4></div>');
+        }
+    }
+
+     // store admin notification
+    public function storeadminnotification(Request $request)
+    {
+        if($request->user()->id != 0) {
+            
+            return redirect('/unauthorized');
+
+        } else {
+
+            $id = $request->input('id');
+
+            if($id){
+
+                $validator = Validator::make($request->all(), [
+                    'type' => 'required',
+                    'modulo' => 'required',
+                    'tempo_avviso' => 'required',
+                    'ente' => 'required',
+                    'ruolo' => 'required'
+                ]);
+
+                if ($validator->fails()) {
+                    return Redirect::back()
+                        ->withInput()
+                        ->withErrors($validator);
+                }
+
+                $ente = implode(",", $request->input('ente'));
+                $ruolo = implode(",", $request->input('ruolo'));  
+
+                $today = date("Y-m-d");
+
+                $description = strip_tags($request->description);
+
+                    DB::table('notifica')
+                    ->where('id', $id)
+                    ->update(array(
+                        'notification_type' => $request->type,
+                        'modulo' => $request->modulo,
+                        'tempo_avviso' => $request->tempo_avviso,
+                        'id_ente' => $ente,
+                        'ruolo' => $ruolo,
+                        'notification_desc' => $description,
+                        'created_at' => $today
+                    ));
+
+                    return Redirect::back()
+                    ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Notification update correttamente!</h4></div>');
+
+            } else {
+
+                $validator = Validator::make($request->all(), [
+                'type' => 'required',
+                'modulo' => 'required',
+                'tempo_avviso' => 'required',
+                'ente' => 'required',
+                'ruolo' => 'required'
+                ]);
+
+                if ($validator->fails()) {
+                    return Redirect::back()
+                        ->withInput()
+                        ->withErrors($validator);
+                }
+
+                $ente = implode(",", $request->input('ente'));
+                $ruolo = implode(",", $request->input('ruolo'));  
+
+                $today = date("Y-m-d");
+
+                $description = strip_tags($request->description);
+
+                 DB::table('notifica')->insert([
+                    'notification_type' => $request->type,
+                    'modulo' => $request->modulo,
+                    'tempo_avviso' => $request->tempo_avviso,
+                    'id_ente' => $ente,
+                    'ruolo' => $ruolo,
+                    'notification_desc' => $description,
+                    'created_at' => $today
+                ]);
+
+                return Redirect::back()
+                    ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Notification add correttamente!</h4></div>');
+            }    
         }
     }
 
@@ -491,6 +669,52 @@ class AdminController extends Controller
                     ->get();  
 
         return json_encode($ente);
+    }
+
+    public function getnotificationjson(Request $request)
+    {
+        $notifica = DB::table('notifica')
+                    ->get();  
+
+        $role_values = DB::table('ruolo_utente')
+                ->get();
+
+        $notification = [];
+
+        foreach ($notifica as $notifica) {
+
+            $ruolo = explode(",", $notifica->ruolo);
+
+            $r = '';
+            foreach($role_values as $role) {
+
+
+                if(in_array($role->ruolo_id, $ruolo)){
+
+                    $r .= "<input type='checkbox' name='ruolo' id='ruolo' value='$role->ruolo_id' disabled='disabled' checked /> $role->nome_ruolo ";
+
+                } else {
+
+                    $r .= "<input type='checkbox' name='ruolo' id='ruolo' disabled='disabled' value='$role->ruolo_id' /> $role->nome_ruolo ";
+                }
+
+            }
+            
+            $notifica->ruolo = $r;
+
+            array_push($notification, $notifica);
+            
+        }
+
+        return json_encode($notification);
+    }
+
+    public function getentinotificationjson(Request $request)
+    {
+        $invia_notifica = DB::table('invia_notifica')
+                    ->get();  
+
+        return json_encode($invia_notifica);
     }
 
 
