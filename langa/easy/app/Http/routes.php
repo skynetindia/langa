@@ -42,9 +42,9 @@ Route::get('/rifiutareenti/{id}', 'AdminController@rifiutareenti');
 // user permessi
 Route::get('/utente-permessi', 'AdminController@permessiutente');
 // role permessi
-Route::get('/role-permessi/{ruolo_id}', 'AdminController@permessirole');
+Route::get('/role-permessi/{ruolo_id?}', 'AdminController@permessirole');
 // role delete
-Route::get('//admin/destroy/ruolo/{ruolo_id}', 
+Route::get('/admin/destroy/ruolo/{ruolo_id}', 
 	'AdminController@deleterole');
 // store permessi
 Route::post('/store-permessi', 'AdminController@storepermessi');
@@ -61,7 +61,50 @@ Route::get('/admin/alert', 'AdminController@addadminalert');
 // store admin alert
 Route::post('/admin/alert/store', 'AdminController@storeadminalert');
 // send alert
-Route::get('/send-alert/{ruolo_id}', 'AdminController@sendalert');
+Route::get('/send-alert', 'AdminController@sendalert');
+// get alert ente json
+Route::get('/alert/enti/json', 'AdminController@getalertjson');
+// make comment in alert notification
+Route::get('/alert/make-comment', 'AdminController@alertmakecomment');
+// user read alert notification
+Route::get('/alert/user-read', 'AdminController@userreadalert');
+// send alert
+Route::get('/send-notification', 'AdminController@sendnotification');
+
+
+// show notification
+Route::get('/admin/notification', 'AdminController@showadminnotification');
+// get notification json
+Route::get('/notification/json', 'AdminController@getnotificationjson');
+
+// add notification
+Route::get('/admin/notification', 'AdminController@addadminnotification');
+
+// store notification
+Route::post('/admin/notification/store', 'AdminController@storeadminnotification');
+// make comment in notification
+Route::get('/notification/make-comment', 'AdminController@notificationmakecomment');
+// user read notification
+Route::get('/notification/user-read', 'AdminController@userreadnotification');
+
+
+// make comment in role wised notification
+Route::get('/note_role/make-comment', 'AdminController@notemakecomment');
+// role wised read notification
+Route::get('/note_role/user-read', 'AdminController@userreadnote');
+
+// show taxation 
+Route::get('/taxation', 'AdminController@showtaxation');
+// add taxation
+Route::get('/taxation/add/{id?}', 'AdminController@addtaxation');
+// store taxation
+Route::post('/taxation/store', 'AdminController@storetaxation');
+// delete taxation
+Route::get('/taxation/delete/{id}', 'AdminController@deletetaxation');
+// get taxation
+Route::get('taxation/json', 'AdminController@getjsontaxation');
+
+
 // add new provinces
 // Route::get('/admin/add/utente', 'AdminController@addutente');
 
@@ -155,6 +198,10 @@ Route::get('/enti/add/', 'CorporationController@nuovo');
 Route::post('/enti/store/', 'CorporationController@store');
 Route::get('/enti/miei', 'CorporationController@miei');
 Route::get('enti/json', 'CorporationController@getjson');
+
+
+
+
 Route::get('enti/miei/json', 'CorporationController@getJsonMiei');
 
 Route::get('/admin', 'AdminController@index');

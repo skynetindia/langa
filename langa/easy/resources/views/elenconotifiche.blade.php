@@ -95,6 +95,7 @@ li label {
 
 </a>
 
+<<<<<<< HEAD
 <a id="delete" onclick="multipleAction('delete');" style="display:inline;">
 
 <button class="btn btn-danger" type="button" name="remove" title="Elimina - Elimina gli enti selezionati"><i class="glyphicon glyphicon-erase"></i></button>
@@ -104,6 +105,13 @@ li label {
 <a id="detail" onclick="multipleAction('detail');" style="display:inline;">
 
 <button class="btn btn-info" type="button" name="detail" title="detail - detail gli enti selezionati"><i class="glyphicon glyphicon-list-alt"></i></button>
+=======
+
+
+<a id="delete" onclick="multipleAction('delete');" style="display:inline;">
+
+<button class="btn btn-danger" type="button" name="remove" title="Elimina - Elimina gli enti selezionati"><i class="glyphicon glyphicon-erase"></i></button>
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
 
 </a>
 
@@ -113,11 +121,18 @@ li label {
 
 <table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="{{ url('/notification/json') }}" data-classes="table table-bordered" id="table">
         <thead>
+<<<<<<< HEAD
             <th data-field="id" data-sortable="true">n° id
             <th data-field="notification_type" data-sortable="true">Tipo
             <th data-field="tempo_avviso" data-sortable="true">Tempo di Avviso
            <th data-field="ruolo" data-sortable="true">Visualizzazione
 
+=======
+            <!-- <th data-field="id" data-sortable="true">n° id -->
+            <th data-field="notification_type" data-sortable="true">Tipo
+            <th data-field="tempo_avviso" data-sortable="true">Tempo di Avviso
+           <th data-field="ruolo" data-sortable="true">Visualizzazione
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
         </thead>
     </table>
 <script>
@@ -157,7 +172,11 @@ function multipleAction(act) {
   });
   switch(act) {
     case 'delete':
+<<<<<<< HEAD
       link.href = "{{ url('/notification/delete/') }}" + '/';
+=======
+      link.href = "{{ url('/newsletter/delete/') }}" + '/';
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
       if(check() && n!=0) {
         for(var i = 0; i < n; i++) {
           $.ajax({
@@ -165,7 +184,11 @@ function multipleAction(act) {
             url : link.href + indici[i],
             error: function(url) {
               if(url.status==403) {
+<<<<<<< HEAD
                 link.href = "{{ url('/notification/delete/') }}" + '/' + indici[n];
+=======
+                link.href = "{{ url('/newsletter/delete/') }}" + '/' + indici[n];
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
                 link.dispatchEvent(clickEvent);
                           } 
             }
@@ -179,13 +202,18 @@ function multipleAction(act) {
     case 'modify':
                 if(n!=0) {
           n--;
+<<<<<<< HEAD
 
           link.href = "{{ url('/admin/notification') }}" + '/' + indici[n];
+=======
+          link.href = "{{ url('/newsletter/modify/') }}" + '/' + indici[n];
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
           n = 0;
           selezione = undefined;
           link.dispatchEvent(clickEvent);
         }
       break;
+<<<<<<< HEAD
     case 'add':{
                 
           link.href = "{{ url('/admin/notification/') }}";
@@ -208,6 +236,16 @@ function multipleAction(act) {
         }
       break;
   }
+=======
+    case 'add':
+                
+          link.href = "{{ url('/admin/notification') }}";
+          link.dispatchEvent(clickEvent);
+          
+        }
+      break;
+    }
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
 }
 </script>
 

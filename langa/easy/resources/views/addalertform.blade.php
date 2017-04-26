@@ -174,7 +174,7 @@ li label {
         function myRole() {
           var x = document.getElementById("ruolo").value;
           console.log(x);
-          document.getElementById("show_role").innerHTML = x;
+          // document.getElementById("show_role").innerHTML = x;
         }
 
       </script>
@@ -207,17 +207,17 @@ li label {
 
 <h1>Elenco Activity</h1>
 
-<table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="" data-classes="table table-bordered" id="table">
+<table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="{{ url('/alert/enti/json') }}" data-classes="table table-bordered" id="table">
         <thead>
-            <th data-field="id" data-sortable="true">n° ente
-            <th data-field="name" data-sortable="true">Nome azienda
-            <th data-field="dipartimento" data-sortable="true">Nome referente
-            <th data-field="id" data-sortable="true">Settore
-            <th data-field="name" data-sortable="true">Telefono azienda
-            <th data-field="dipartimento" data-sortable="true">Email
-            <th data-field="id" data-sortable="true">Data e Ora di Lettura
-            <th data-field="name" data-sortable="true">Responsible LANGA 
-            <th data-field="dipartimento" data-sortable="true">Conferma
+            <th data-field="id_ente" data-sortable="true">n° ente
+            <th data-field="nome_azienda" data-sortable="true">Nome azienda
+            <th data-field="nome_referente" data-sortable="true">Nome referente
+            <th data-field="settore" data-sortable="true">Settore
+            <th data-field="telefono_azienda" data-sortable="true">Telefono azienda
+            <th data-field="email" data-sortable="true">Email
+            <th data-field="data_lettura" data-sortable="true">Data e Ora di Lettura
+            <th data-field="responsible_langa" data-sortable="true">Responsible LANGA 
+            <th data-field="conferma" data-sortable="true">Conferma
         </thead>
     </table>
 <script>

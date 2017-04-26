@@ -74,6 +74,12 @@ li label {
 <!-- ckeditor -->
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 
+<<<<<<< HEAD
+=======
+
+<h1>Aggiungi Notification</h1><hr>
+
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
 @if(!empty(Session::get('msg')))
     <script>
     var msg = '<?php echo html_entity_decode(htmlentities(Session::get('msg'))); ?>';
@@ -81,6 +87,7 @@ li label {
     </script>
 @endif
 
+<<<<<<< HEAD
 
 
 <div class="row">
@@ -262,11 +269,25 @@ li label {
     <label> Tempo di Avviso </label>
 
     <input class="form-control" id="tempo_avviso" name="tempo_avviso" value="" placeholder="enter tempo di avviso">
+=======
+<div class="row">
+
+  <form action="{{url('/admin/alert/store')}}" method="post" id="addalert">
+
+  {{ csrf_field() }}
+
+  <div class="col-md-8">
+
+    <label>Tipo</label>
+
+    <input class="form-control" id="nome_alert" name="nome_alert" value="" placeholder="Nome Alert">
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
 
   </div>
 
   <div class="col-md-4">
 
+<<<<<<< HEAD
     <label> Modulo </label>
 
       <select class="form-control" id="modulo" name="modulo">
@@ -277,6 +298,14 @@ li label {
             {{$modulo->modulo}}
           </option>
         @endforeach
+=======
+    <label>Tipo Alert</label>
+
+      <select class="form-control" id="tipo_alert" name="tipo_alert">
+        <option value="1">Colore Alert</option>
+        <option value="2">Colore Alert1</option>
+        <option value="3">Colore Alert2</option>
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
       </select><br>
 
   </div>
@@ -358,6 +387,7 @@ li label {
 
     <label> Description </label>
 
+<<<<<<< HEAD
     <textarea name="description" id="description" rows="10" cols="50" class="form-control"></textarea>
 
     <script type="text/javascript" >
@@ -367,6 +397,15 @@ li label {
   @endif
 
       <br>
+=======
+    <textarea name="messaggio" id="messaggio" rows="10" cols="50" class="form-control"></textarea>
+
+    <script type="text/javascript" >
+      CKEDITOR.replace( 'messaggio' );
+    </script>
+
+    <br>
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
 
     <input class="btn btn-warning" type="submit" value="INVIA">
 
@@ -374,7 +413,29 @@ li label {
 
   </div>
 
+<<<<<<< HEAD
 
+=======
+</div>
+
+
+
+<h1>Elenco Activity</h1>
+
+<table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="{{ url('/alert/enti/json') }}" data-classes="table table-bordered" id="table">
+        <thead>
+            <th data-field="id_ente" data-sortable="true">n° ente
+            <th data-field="nome_azienda" data-sortable="true">Nome azienda
+            <th data-field="nome_referente" data-sortable="true">Nome referente
+            <th data-field="settore" data-sortable="true">Settore
+            <th data-field="telefono_azienda" data-sortable="true">Telefono azienda
+            <th data-field="email" data-sortable="true">Email
+            <th data-field="data_lettura" data-sortable="true">Data e Ora di Lettura
+            <th data-field="responsible_langa" data-sortable="true">Responsible LANGA 
+            <th data-field="conferma" data-sortable="true">Conferma
+        </thead>
+    </table>
+>>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
 <script>
 var selezione = [];
 var indici = [];
