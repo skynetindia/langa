@@ -290,11 +290,12 @@ $(document).ready(function() {
             rules: {
                 name: {
                     required: true,
-                    maxlength: 20
+                    maxlength: 50
                 },
                 add_password: {
                     required: true,
-                    maxlength: 64
+					minlength : 8,
+                    maxlength: 16
                 },
                 email: {
                     required: true,
@@ -336,13 +337,18 @@ $(document).ready(function() {
             messages: {
                 name: {
                     required: "Please enter a name",
-                    maxlength: "Your name must consist of at least 2 characters"
+                    maxlength: "Name must be less than 50 charcters"
                 },
                 add_password: {
-                    required: "Please provide a password",
-                    maxlength: "Your password must be at least 6 characters long"
+                    required: "Please enter a password",
+					minlength : "Password must at least 6 characters long",
+                    maxlength: "Password must be less than 16 characters"
                 },
-                email: "Please enter a valid email address",
+				email: {
+                    required: "Please enter emaail address",
+                    email: "Please enter valid email address",
+                    maxlength: "Email character must be less than 64 characters",
+                },
                 idente: {
                     required: "Please enter a idente",
                     maxlength: "Your idente maximum length should be 35 characters"
@@ -458,6 +464,7 @@ $(document).ready(function() {
             rules: {
                 tassazione_nome: {
                     required: true,
+					maxlength: 35
                 },
                 tassazione_percentuale: {
                     required: true,
@@ -466,10 +473,11 @@ $(document).ready(function() {
             },
             messages: {
                 tassazione_nome: {
-                    required: "Please enter a alert name"
+                    required: "Please enter a Tassazione name",
+					maxlength: "Please enter less than 35 charcters"
                 },
                 tassazione_percentuale: {
-                    required: "Please Select a alert type",
+                    required: "Please enter Tassazione Percentuale",
                     digits: "only digits allowed"
                 }
             }

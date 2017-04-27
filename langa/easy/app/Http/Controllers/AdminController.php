@@ -232,8 +232,8 @@ class AdminController extends Controller
     {
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
-        } else {
-            
+        } 
+		else {            
             return view('addalertform', [
                 'enti' => DB::table('corporations')
                     ->get(),
@@ -404,7 +404,7 @@ class AdminController extends Controller
                 }
 
             
-                if(isset($ente)){
+                if(isset($request->ente)){
                     $ente = implode(",", $request->input('ente'));
                 } else {
                     $ente = null;
@@ -1452,10 +1452,13 @@ class AdminController extends Controller
                 return view('modificautente', [
                     'enti' => DB::table('corporations')
                                 ->select('id', 'nomereferente')
+								->whereNotNull('nomereferente')
+								->where('nomereferente','!=',"")
                                 ->orderBy('nomeazienda')
                                 ->get(),
                     'citta' => DB::table('citta')
                                 ->select('*')
+								->where('nome_citta','!=',"")
                                 ->get(),
                 
                 ])->with(array('module'=>$module, 'utente' => $utente, 'permessi' => $permessi));
@@ -1465,10 +1468,13 @@ class AdminController extends Controller
                     return view('modificautente', [
                     'enti' => DB::table('corporations')
                                 ->select('id', 'nomereferente')
+								->whereNotNull('nomereferente')
+								->where('nomereferente','!=',"")
                                 ->orderBy('nomeazienda')
                                 ->get(),
                     'citta' => DB::table('citta')
                                 ->select('*')
+								->where('nome_citta','!=',"")								
                                 ->get(),
                 
                 ])->with(array('module'=>$module));

@@ -524,14 +524,14 @@ else {
         <br><label for="telefonoresponsabile">Telefono responsabile Langa</label>
 		<input class="form-control" type="text" name="telefonoresponsabile" readonly="readonly" id="telefonoresponsabile" placeholder="Telefono responsabile Langa"><br>
 
-		<div title="Se Sì, ente mostrato solamente all'utente che l'ha creato e all'admin" style="text-align:right">
+		<?php /*<div title="Se Sì, ente mostrato solamente all'utente che l'ha creato e all'admin" style="text-align:right">
 			<label for="privato">Ente Privato?</label>
 			No <input type="radio" @if(isset($corp->privato) && $corp->privato == '0') checked @endif value="0" name="privato">
 			Sì <input type="radio" @if(isset($corp->privato) && $corp->privato == '1') checked @endif value="1" name="privato">
             <label for="cliente">         Login Attivo?</label>
 			No <input type="radio" @if(isset($corp->id_cliente) && $corp->id_cliente == 0) checked @endif value="0" name="cliente">
 			Sì <input type="radio" @if(isset($corp->id_cliente) && $corp->id_cliente != 0) checked @endif value="1" name="cliente">
-		</div>
+		</div>*/?>
         
 	    </div><!-- FINE 3 COLONNE (NOTE SEDE LOGO/RESP/TEL/PARTECIPANTI) -->
   </div>

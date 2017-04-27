@@ -244,7 +244,7 @@ class CorporationController extends Controller
 				'telefonoazienda' => $request->telefonoazienda,
 				'cellulareazienda' => $request->cellulareazienda,
 				'emailsecondaria' => $request->emailsecondaria,
-				'privato' => $request->privato,
+				/*'privato' => $request->privato,*/
 				'fax' => $request->fax,
 				'email' => $request->email,
 				'logo' => $nome,
@@ -479,7 +479,7 @@ class CorporationController extends Controller
 			'emailsecondaria' => $request->emailsecondaria,
 			'sedelegale' => $request->sedelegale,
 			'indirizzospedizione' => $request->indirizzospedizione,
-			'privato' => $request->privato,
+			/*'privato' => $request->privato,*/
             'fax' => $request->fax,
             'email' => $request->email,
 			'logo' => $nome,
