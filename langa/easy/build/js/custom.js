@@ -377,6 +377,12 @@ $(document).ready(function() {
 
         });
 
+        $.validator.setDefaults({
+        ignore: []
+    });
+        
+
+
         // validate signup form on keyup and submit
         $("#addalert").validate({
 
@@ -411,6 +417,40 @@ $(document).ready(function() {
 
         });
 
+
+        // validate notification form on keyup and submit
+        $("#addnotification").validate({
+
+            rules: {
+                type: {
+                    required: true,
+                },
+                tempo_avviso: {
+                    required: true
+                },
+                modulo: {
+                    required: true,
+                },
+                ruolo: {
+                    required: true,              
+                }
+            },
+            messages: {
+                type: {
+                    required: "Please enter a notification type"
+                },
+                tempo_avviso: {
+                    required: "Please enter a notification tempo di avviso"
+                },
+                modulo: {
+                    required: "Please Select a modulo"
+                },
+                ruolo: {
+                    required: "Please Select a role"                    
+                }
+            }
+
+        });
 
         // validate taxation form on keyup and submit
         $("#taxation_form").validate({
