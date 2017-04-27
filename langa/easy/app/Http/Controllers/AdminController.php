@@ -2100,18 +2100,23 @@ class AdminController extends Controller
         }
     }
     
-    public function salvamodificheoptional(Request $request)
-    {
+    /* Optional section save : Paras */
+    public function salvamodificheoptional(Request $request) {
         if ($request->user()->id != 0) {
             return redirect('/unauthorized');
-        } else {
+        } 
+		else {
             $validator = Validator::make($request->all(), [
                         'code' => 'required|max:35',
-                        'label' => 'required|max:35',
+                        /*'label' => 'required|max:35',*/
                         'description' => 'max:255',
+						'description_quize' => 'max:255',
                         'price' => 'max:16',
+						'sconto_reseller' => 'max:16',
                         'frequenza' => 'required',
-                        'dipartimento' => 'required'
+                        'dipartimento' => 'required',
+						'logo'=>'mimes:jpeg,jpg,png | max:1000',
+						'immagine'=>'mimes:jpeg,jpg,png | max:1000'
             ]);
 
             if ($validator->fails()) {
@@ -2120,11 +2125,12 @@ class AdminController extends Controller
                                 ->withErrors($validator);
             }
             $logo = DB::table('optional')
-                    ->select('icon')
+                    ->select('icon','immagine')
                     ->where('id', $request->optional)
                     ->first();
             $arr = json_decode(json_encode($logo), true);
             $nome = $arr['icon'];
+			$immagine = $arr['immagine'];
             if ($request->logo != null) {
                 // Memorizzo l'immagine nella cartella public/imagesavealpha
                 Storage::put(
@@ -2132,15 +2138,28 @@ class AdminController extends Controller
                 );
                 $nome = $request->file('logo')->getClientOriginalName();
             }
-
+			
+			if ($request->immagine != null) {
+                // Memorizzo l'immagine nella cartella public/imagesavealpha
+                Storage::put(
+                        'images/' . $request->file('immagine')->getClientOriginalName(), file_get_contents($request->file('immagine')->getRealPath())
+                );
+                $immagine = $request->file('immagine')->getClientOriginalName();
+            }
+			$escludi_da_quiz = isset($request->escludi_da_quiz) ? $request->escludi_da_quiz : '0';
             DB::table('optional')
                     ->where('id', $request->optional)
                     ->update(array(
                         'code' => $request->code,
+						'escludi_da_quiz' => $escludi_da_quiz,
                         'icon' => $nome,
-                        'label' => $request->label,
+						'immagine'=>$immagine,
+                        /*'label' => $request->label,*/
                         'description' => $request->description,
+						'description_quize'=>$request->description_quize,
                         'price' => $request->price,
+						'sconto_reseller'=>$request->sconto_reseller,
+						'lavorazione'=>$request->lavorazione,
                         'frequenza' => $request->frequenza,
                         'dipartimento' => $request->dipartimento,
             ));
@@ -2149,20 +2168,17 @@ class AdminController extends Controller
                             ->with('msg', '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Optional modificato correttamente!</h4></div>');
         }
     }
-    
+	
+    /* Modification : paras */
     public function modificaoptional(Request $request)
     {
         if($request->user()->id != 0)
             return redirect('/unauthorized');
 	else {
-            return view('modificaoptional', [
-                'optional' => DB::table('optional')
-                    ->where('id', $request->optional)
-                    ->first(),
-		'dipartimenti' => DB::table('departments')
-                        ->get(),
-                'frequenze' => DB::table('frequenze')
-                        ->get(),
+            return view('modificaoptional', ['optional' => DB::table('optional')->where('id', $request->optional)->first(),
+											'dipartimenti' => DB::table('departments')->get(),
+											'lavorazioni' => DB::table('lavorazioni')->get(),
+											'frequenze' => DB::table('frequenze')->get(),
             ]);
         }
     }
@@ -2174,11 +2190,15 @@ class AdminController extends Controller
         } else {
             $validator = Validator::make($request->all(), [
                         'code' => 'required|max:35',
-                        'label' => 'required|max:35',
+                       /*'label' => 'required|max:35',*/
                         'description' => 'max:255',
+						'description_quize' => 'max:255',
                         'price' => 'max:16',
+						'sconto_reseller' => 'max:16',
                         'frequenza' => 'required',
-                        'dipartimento' => 'required'
+                        'dipartimento' => 'required',
+						'logo'=>'mimes:jpeg,jpg,png|max:1000',
+						'immagine'=>'mimes:jpeg,jpg,png|max:1000'
             ]);
 
             if ($validator->fails()) {
@@ -2187,42 +2207,61 @@ class AdminController extends Controller
                                 ->withErrors($validator);
             }
             $nome = "";
-            if ($request->logo != null) {
+			$immagine = "";
+			 if ($request->logo != null) {
                 // Memorizzo l'immagine nella cartella public/imagesavealpha
                 Storage::put(
                         'images/' . $request->file('logo')->getClientOriginalName(), file_get_contents($request->file('logo')->getRealPath())
                 );
                 $nome = $request->file('logo')->getClientOriginalName();
-            } else {
+            }
+			else {
                 // Imposto l'immagine di default
                 $nome = "mancalogo.jpg";
             }
-
+			
+			if ($request->immagine != null) {
+                // Memorizzo l'immagine nella cartella public/imagesavealpha
+                Storage::put(
+                        'images/' . $request->file('immagine')->getClientOriginalName(), file_get_contents($request->file('immagine')->getRealPath())
+                );
+                $immagine = $request->file('immagine')->getClientOriginalName();
+            }else {
+                // Imposto l'immagine di default
+                $immagine = "mancalogo.jpg";
+            }
+			$escludi_da_quiz = isset($request->escludi_da_quiz) ? $request->escludi_da_quiz : '0';
+			
             DB::table('optional')->insert([
-                'code' => $request->code,
-                'icon' => $nome,
-                'label' => $request->label,
-                'description' => $request->description,
-                'price' => $request->price,
-                'frequenza' => $request->frequenza,
-                'dipartimento' => $request->dipartimento,
+        	    	    'code' => $request->code,
+						'escludi_da_quiz' => $escludi_da_quiz,
+                        'icon' => $nome,
+						'immagine'=>$immagine,
+                        /*'label' => $request->label,*/
+                        'description' => $request->description,
+						'description_quize'=>$request->description_quize,
+                        'price' => $request->price,
+						'sconto_reseller'=>$request->sconto_reseller,
+						'lavorazione'=>$request->lavorazione,
+                        'frequenza' => $request->frequenza,
+                        'dipartimento' => $request->dipartimento,
             ]);
 
             return Redirect::back()
-                            ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Dipartimento aggiunto correttamente!</h4></div>');
+                            ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Optional aggiunto correttamente!</h4></div>');
         }
     }
     
+	/*Add the optional : Paras */
     public function aggiungioptional(Request $request)
     {
         if ($request->user()->id != 0) {
             return redirect('/unauthorized');
-        } else {
-            return view('aggiungioptional', [
-                'dipartimenti' => DB::table('departments')
-                        ->get(),
-                'frequenze' => DB::table('frequenze')
-                        ->get()
+        } 
+		else {
+            return view('aggiungioptional', ['dipartimenti' => DB::table('departments')->get(),
+			'frequenze' => DB::table('frequenze')->get(),
+			'lavorazioni' => DB::table('lavorazioni')->get()
             ]);
         }
     }
@@ -2727,4 +2766,59 @@ class AdminController extends Controller
             return $this->show($request);
         }
     }
+	/* ==================================== Lavorazioni section START Paras ======================================== */
+	public function lavorazioni() {
+		/*tassonomie_enti */		
+		return view('tassonomie_lavorazioni', [
+			'departments' => DB::table('departments')->get(),
+			'lavorazioni' => DB::table('departments')
+			->leftJoin('lavorazioni', 'departments.id', '=', 'lavorazioni.departments_id')
+			->select('departments.id as departmentsID','departments.nomedipartimento','lavorazioni.*')
+			->get(),
+		]);
+	}
+	
+	public function nuovolavorazioni(Request $request)
+	{
+        if ($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } 
+		else {
+            // Creo il nuovo tipo e lo memorizzo nel DB masterdatatypes
+            DB::table('lavorazioni')->insert([
+                'nome' => $request->name,
+                'description' => $request->description,
+				'color' => $request->color,
+                'departments_id' => $request->departments_id,
+            ]);
+			return Redirect::back()->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Lavorazioni aggiunto correttamente!</h4></div>');
+        }
+    }
+	
+	public function lavorazionidelete(Request $request)
+	{
+		DB::table('masterdatatypes')
+			->where('id', $request->id)
+			->delete();
+		  return Redirect::back()
+                            ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Lavorazioni eliminato correttamente!</h4></div>');
+	}
+	
+	public function lavorazioniUpdate(Request $request)
+	{
+            if ($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+            DB::table('lavorazioni')
+                    ->where('id', $request->id)
+                    ->update(array(
+                        'nome' => $request->name,
+                        'description' => $request->description,
+                        'color' => $request->color,
+            ));
+			return Redirect::back()->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Lavorazioni aggiunto correttamente!</h4></div>');
+        }
+    }
+	/* ==================================== Lavorazioni section END ======================================== */
+  
 }
