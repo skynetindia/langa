@@ -38,6 +38,10 @@ tr:hover td {
 
 @include('common.errors')
 
+<?php echo Form::open(array('url' => '/preventivi/modify/quote' . '/' . $preventivo->id, 'files' => true)) ?>
+{{ csrf_field() }}
+<input type="hidden" name="idutente" value="{{$preventivo->idutente}}">
+
 <script>$.datepicker.setDefaults(
     $.extend(
         {'dateFormat':'dd/mm/yy'},
@@ -46,12 +50,6 @@ tr:hover td {
 );</script>
 <div class="col-md-12">
     <div class="col-md-8">
-    <?php echo Form::open(array('url' => '/preventivi/modify/quote' . '/' . $preventivo->id, 'files' => true)) ?>
-    <?php $mediaCode = date('dmyhis');?>
-{{ csrf_field() }}
-<input type="hidden" name="idutente" value="{{$preventivo->idutente}}">
-<input type="hidden" name="mediaCode" id="mediaCode" value="{{$mediaCode}}" />
-
         <label for="id">n° preventivo
 			<input disabled value=":{{$preventivo->id}}/{{$preventivo->anno}}" type="text" id="id" name="id" placeholder="Codice del preventivo" class="form-control">
 		</label>
@@ -653,14 +651,9 @@ tr:hover td {
         }
       </script>
 		</div>
-        <div class="col-md-6">
-    <button onclick="mostra2()" type="submit" class="btn btn-warning">Salva</button>
-</div>
-        </form>
 	</div>
+    
 	<div class="col-md-4">
-	
-
 		<label for="statoemotivo">Stato emotivo</label>
 		<select name="statoemotivo" class="form-control" id="statoemotivo" style="color:#ffffff">
 			<!-- statoemotivoselezionato -->
@@ -683,38 +676,23 @@ tr:hover td {
 			document.getElementById("statoemotivo").style.backgroundColor = yourSelect.options[yourSelect.selectedIndex].style.backgroundColor;
 		});
 		</script>
-            <div class="col-md-12">
-	        <label for="scansione">Allega file amministrativo (Scansione preventivo, contratto, ...)</label><br>
-	        <br>
+                <div class="col-md-12">
+	        <label for="scansione">Allega file amministrativo (Scansione preventivo, contratto, ...)</label>	<br>
 	        <div class="col-md-12">
+	                <a class="btn btn-warning" style="text-decoration: none; color:#fff" id="aggiungiFile"><i class="fa fa-plus"></i></a>
+	                <a class="btn btn-danger" style="text-decoration: none; color:#fff" id="eliminaFile"><i class="fa fa-eraser"></i></a>
+                    <a target="new" href="{{url('/preventivi/files') . '/' . $preventivo->id}}" class="btn btn-info" style="color:#ffffff;text-decoration: none" title="Vedi files"><i class="fa fa-info"></i></a>
+	        </div><br>
+	        <div class="col-md-12">
+            <form action="upload.php" class="dropzone"></form>
             	<div class="image_upload_div">
-                <?php echo Form::open(array('url' => '/preventivi/modify/quote/uploadfiles/'. $mediaCode, 'files' => true,'class'=>'dropzone')) ?>
-{{ csrf_field() }}
-    			</form>				
-				</div><script>
-				var url = '<?php echo url('/preventivi/modify/quote/getfiles/'.$mediaCode); ?>';
-				Dropzone.autoDiscover = false;
-				$j(".dropzone").each(function() {
-				  $j(this).dropzone({
-					complete: function(file) {
-					  if (file.status == "success") {
-					  	 $j.ajax({url: url, success: function(result){
-        					$j("#files").html(result);
-							$j(".dz-preview").remove();
-							$j(".dz-message").show();
-					    }});
-					  }
-					}
-				  });
-				});
-				function deleteQuoteFile(id){
-					var urlD = '<?php echo url('/preventivi/modify/quote/deletefiles/'); ?>/'+id;
-						$j.ajax({url: urlD, success: function(result){
-							$j(".quoteFile_"+id).remove();
-					    }});
-				}
-                </script>
-	            <table class="table table-striped table-bordered">	                
+    				<form action="upload.php" class="dropzone"></form>
+				</div>
+	            <table class="table table-striped table-bordered">
+	                <thead>
+	                    <th>#</th>
+	                    <th>Sfoglia</th>
+	                </thead>
 	                <tbody id="files">
 	                </tbody>
 	                <script>
@@ -754,7 +732,6 @@ tr:hover td {
 	                </script>
 	            </table><hr>
 	            </div>
-
             </div>
             <!-- fase 3 -->
             <div class="col-md-12"><label for="notecontrattuali">Note private per il tecnico</label><a onclick="mostraTecnico()" id="mostra"> <i class="fa fa-eye"></i></a>  
@@ -843,6 +820,13 @@ tr:hover td {
 		
 	</div>
 </div>
+<div class="col-md-6">
+    <button onclick="mostra2()" type="submit" class="btn btn-warning">Salva</button>
+</div>
+</form>
+
+
+
 <script>
 
     

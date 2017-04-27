@@ -128,7 +128,8 @@ class CorporationController extends Controller
 	public function getjson(Request $request)
 	{
 		$enti = $this->corporations->forUser2($request->user());
-
+		//$this->compilaStatiEmotivi($enti);
+		//$this->compilaTipi($enti);
 		return json_encode($enti);
 	}
 	

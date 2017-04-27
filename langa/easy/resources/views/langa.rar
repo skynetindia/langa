@@ -1,0 +1,1922 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="row"> 
+      <!-------------------- Form-1 start -------------------------->
+      
+      <div class="col-md-8">
+        <form method="POST" action="http://166.62.11.51/langa/easy/preventivi/modify/quote/162" accept-charset="UTF-8" enctype="multipart/form-data">
+          <div class="row">
+            <div class="col-md-3">
+            <div class="form-group">
+              <label for="id">n° preventivo</label>
+              <input disabled="" value=":162/16" id="id" name="id" placeholder="Codice del preventivo" class="form-control" type="text">
+              </div>
+            </div>
+            <div class="col-md-3">
+            <div class="form-group">
+              <label>&nbsp;</label>
+              <div class="btn-group"> <a target="new" href="http://166.62.11.51/langa/easy/preventivi/pdf/quote/162" class="btn" title="Vedi preventivo" style="display:inline;background-color:#DDD"><i class="fa fa-file-pdf-o"></i></a> </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+            <div class="form-group">
+              <label for="oggetto">Oggetto</label>
+              <input value="TEST PREVENTIVO" id="oggetto" name="oggetto" placeholder="Oggetto del preventivo" class="form-control" type="text">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="dipartimento">DA</label>
+              <select name="dipartimento" class="js-example-basic-single form-control select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                <option selected=""></option>
+                <option value="1">LANGA WEB</option>
+                <option value="2">LANGA PRINT</option>
+                <option value="3">LANGA VIDEO</option>
+                <option selected="" value="5">Team FOO99</option>
+              </select>
+              <span class="select2 select2-container select2-container--default" dir="ltr" style="width: 340px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-dipartimento-42-container"><span class="select2-selection__rendered" id="select2-dipartimento-42-container" title="Team FOO99">Team FOO99</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> 
+			</div>              
+              </div>
+              
+            <div class="col-md-4">
+             <div class="form-group">
+              <label for="idente">A</label>
+              <select name="idente" class="js-example-basic-single form-control select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                <option selected=""></option>
+                <option value="0">ADMIN</option>
+                <option value="11">21.9</option>
+                <option value="12">AGRICOLA MARRONE</option>
+                <option value="13"> SIG.RA TIRANINI </option>
+                <option value="14">ACQUA CALIZZANO</option>
+                <option value="15">ACQUA EVA</option>
+                <option value="16">ACQUA LAURETANA</option>
+                <option value="17">ACQUA SANT’ANNA</option>
+                <option value="18">ACQUA SERVICE</option>
+                <option value="19">ACQUA VALMORA/ SPAREA</option>
+                <option value="20">AD GALLIAS</option>
+                <option value="21">ADRAGNA</option>
+                <option value="22">AGRICOLA S. BIAGIO</option>
+                <option value="23">AGRIMONTANA</option>
+                <option value="24">AGRITURISMO BODRITO</option>
+                <option value="25">AGRITURISMO CASCINA ABATE</option>
+                <option value="26">AGRITURISMO LA BELLA ESTATE</option>
+                <option value="27">AGRITURISMO LA MEZZALUNA</option>
+                <option value="28">AGRODOLCE</option>
+                <option value="29">AI CANALIN</option>
+                <option value="30">AL 23 DALLA BIRRA AL QUAGLIANO</option>
+                <option value="31">AL CANTUN</option>
+                <option value="32">AL CASTELLO</option>
+                <option value="33">AL DESINAR DIVINO (DUE PALME)</option>
+                <option value="34">AL PONT DE FERR</option>
+                <option value="35">AL PRIMO PIANO</option>
+                <option value="36">AL SORRISO</option>
+                <option value="37">AL VECCHIO TRE STELLE</option>
+                <option value="38">ALBERGO HOTEL REALE</option>
+                <option value="39">ALBERTENGO</option>
+                <option value="40">ALESSANDRIA FRATELLI AZ. AGR.</option>
+                <option value="41">ALL’ENOTECA</option>
+                <option value="42">ALMO NATURE</option>
+                <option value="43">ALPI COSTRUZIONI</option>
+                <option value="44">ALTE ALPI</option>
+                <option value="45">AMATI MODEL</option>
+                <option value="46">AMBROSIO &amp; COSTA</option>
+                <option value="47">CANTINE AMERIO</option>
+                <option value="48">ANTICA CASA RIVERA</option>
+                <option value="49">ANTICA CORONA REALE</option>
+                <option value="50">ANTICA SALUMERIA ARIANO</option>
+                <option value="51">ANTICA TORRONERIA PIEMONTESE</option>
+                <option value="52">ANTICO CASOLARE</option>
+                <option value="53">APICOLTURA ABRATE</option>
+                <option value="54">APICOLTURA CAUDA F.LLI</option>
+                <option value="55">ARIA DI LANGA</option>
+                <option value="56">ARTIGIANA SEDIE</option>
+                <option value="57">ATELIER DELL ALBERGO</option>
+                <option value="58">ATTACCATI AL FUSTO</option>
+                <option value="59">ATTILIO GHISOLFI</option>
+                <option value="60">AURORA</option>
+                <option value="61">AUTOLEONE 2</option>
+                <option value="62">AVEZZA PAOLO</option>
+                <option value="63">AZ. AGR. ALESSANDRIA</option>
+                <option value="64">AZ. AGR. CANONICA</option>
+                <option value="65">AZ. AGR. CARRA’</option>
+                <option value="66">AZ. AGR. COSTA CATTERINA</option>
+                <option value="67">AZ. AGR. DESTEFANIS CATTERINA</option>
+                <option value="68">AZ. AGR. FENOCCHIO</option>
+                <option value="69">AZ. AGR. PORRO</option>
+                <option value="70">AZ. AGR. SEGHESIO</option>
+                <option value="71">AZ. SILVIO GRASSO</option>
+                <option value="72">AZ. VINICOLA MASSIMO CLERICO</option>
+                <option value="73">AZ. VINICOLA ROLEJ</option>
+                <option value="74">AZ.AGR. BENEVELLI PIERO</option>
+                <option value="75">AZ.AGR. CAUDRINA</option>
+                <option value="76">AZ.AGR. MOLINO FRANCO</option>
+                <option value="77">AZ.AGR. PENNA CLAUDIO</option>
+                <option value="78">AZ.AGR. RABINO LUIGI</option>
+                <option value="79">BABETTE</option>
+                <option value="80">BALDI SNC</option>
+                <option value="81">BALDIN</option>
+                <option value="82">BALZI ROSSI</option>
+                <option value="83">BALZOLA </option>
+                <option value="84">BARALE FRATELLI</option>
+                <option value="85">BARBERO CONFETTERIA</option>
+                <option value="86">BATTAGLINO</option>
+                <option value="87">BAUDINO EMILIO</option>
+                <option value="88">BEAUTY LAB</option>
+                <option value="89">BEL COLLE</option>
+                <option value="90">BELLA</option>
+                <option value="91">BELVEDERE</option>
+                <option value="92">BEPPINO OCCELLI</option>
+                <option value="93">BERA</option>
+                <option value="94">BIO VIO</option>
+                <option value="95">BIRAGHI</option>
+                <option value="96">BIRRIFICIO ARTIGIANALE B&amp;C</option>
+                <option value="97">BIRRIFICIO ARTIGIANALE BOERO</option>
+                <option value="98">BIRRIFICIO ARTIGIANALE CALIGOLA</option>
+                <option value="99">BIRRIFICIO ARTIGIANALE CEREA</option>
+                <option value="100">BIRRIFICIO ARTIGIANALE CITABIUNDA</option>
+                <option value="101">BIRRIFICIO ARTIGIANALE FRE'</option>
+                <option value="102">BIRRIFICIO ARTIGIANALE KAUSS</option>
+                <option value="103">BIRRIFICIO ARTIGIANALE TROLL</option>
+                <option value="104">BIRRIFICIO TRUNASSE</option>
+                <option value="105">BIRRIFICIO DELLA GRANDA</option>
+                <option value="106">BISCOTTIFICIO CAVANNA</option>
+                <option value="107">BMV</option>
+                <option value="108">BO LORENZO</option>
+                <option value="109">GABUTTI BOASSO</option>
+                <option value="110">BOFFANO</option>
+                <option value="111">BOGLIETTI</option>
+                <option value="112">BOITE DOR</option>
+                <option value="113">BONARDO</option>
+                <option value="114">BONELLO</option>
+                <option value="115">BONIFANTI</option>
+                <option value="116">BORDIGA LIQUORI</option>
+                <option value="117">BORELLI GROUP</option>
+                <option value="118">BOROLI</option>
+                <option value="119">BOSIO</option>
+                <option value="120">BOTALLA</option>
+                <option value="121">BOTTERO &amp; VIGNOLO</option>
+                <option value="122">BOVE’S</option>
+                <option value="123">BOVIO</option>
+                <option value="124">BRADIPO LIBRI</option>
+                <option value="125">BRAIDA DI BOLOGNA GIACOMO SRL</option>
+                <option value="126">BRAMARDI MACCHINE AGRICOLE</option>
+                <option value="127">BRC</option>
+                <option value="128">BRETTA ROSSA</option>
+                <option value="129">BRUNO FRANCO</option>
+                <option value="130">BURDISSO MARCO</option>
+                <option value="131">CA D ANGEL</option>
+                <option value="132">CA DEL BAIO</option>
+                <option value="133">CA NELIDE</option>
+                <option value="134">CA VITTORIA</option>
+                <option value="135">CA’ DEL LUPO</option>
+                <option value="136">CAFE QUINSON</option>
+                <option value="137">CAFFE BARALE TORREFAZIONE</option>
+                <option value="138">CAFFE BIANCHI</option>
+                <option value="139">CAFFE VERGNANO</option>
+                <option value="140">CAFFE’ FANTINO</option>
+                <option value="141">CAGLIERO</option>
+                <option value="142">CAMERANO</option>
+                <option value="143">CAMPEGGIO PIAN BOSCO</option>
+                <option value="144">CAMPEGGIO VALLE GESSO</option>
+                <option value="145">CAMPING LA CASCINA</option>
+                <option value="146">CAMPING LOU DAHU</option>
+                <option value="147">CAMPING YOGHI e BUBU</option>
+                <option value="148">CANTINA BORGOGNO</option>
+                <option value="149">CANTINA DEI CACCIATORI</option>
+                <option value="150">CANTINA DEL RONDO’</option>
+                <option value="151">CANTINA LO ZOCCOLAIO</option>
+                <option value="152">CANTINA MOSCONE</option>
+                <option value="153">CANTINA TORINO</option>
+                <option value="154">CANTINA TRE PILE</option>
+                <option value="155">CANTINA VIBERTI</option>
+                <option value="156">CANTINE COLVINI</option>
+                <option value="157">CANTONDIVINO</option>
+                <option value="158">CAPELLO SRL</option>
+                <option value="159">CAPPA ANGELO E FIGLI</option>
+                <option value="160">CARDINAL MASSAIA</option>
+                <option value="161">CARONI SPA</option>
+                <option value="162">CARTIERA PIRINOLI</option>
+                <option value="163">CASA BEATRICE</option>
+                <option value="164">CASA CIABOTTO</option>
+                <option value="165">CASCINA ABRIGO</option>
+                <option value="166">CASCINA BARICCHI</option>
+                <option value="167">CASCINA CHICCO</option>
+                <option value="168">CASCINA CUCCO</option>
+                <option value="169">CASCINA DEI GRIFONI</option>
+                <option value="170">CASCINA GRANGIA</option>
+                <option value="171">CASCINA MORASSINO</option>
+                <option value="172">CASCINA PISTONE</option>
+                <option value="173">CASCINA ROSSA</option>
+                <option value="174">CASCINA SOFFIETTI</option>
+                <option value="175">CASEIFICIO ALTA LANGA</option>
+                <option value="176">CASEIFICIO SEPERTINO</option>
+                <option value="177">CASEIFICIO VALLE JOSINA</option>
+                <option value="178">CASEIFICIO VALLE STURA</option>
+                <option value="179">CASIGLIANO</option>
+                <option value="180">CASORZO</option>
+                <option value="181">CASTELLO DEI SOLARO</option>
+                <option value="182">CASTELLO DI ROPPOLO</option>
+                <option value="183">CANTINE CASTELLO DI VERDUNO</option>
+                <option value="184">CAV. VINCENZI FRANCO</option>
+                <option value="185">CAVA DEI VINI</option>
+                <option value="186">CAVAGNERO CARLO</option>
+                <option value="187">CAVALLO SCOSSO</option>
+                <option value="188">CAVASIN DANIELE</option>
+                <option value="189">CEA CORNAGLIA</option>
+                <option value="190">CENCIO TENDE</option>
+                <option value="191">CENNAMO</option>
+                <option value="192">CERESA</option>
+                <option value="193">CESARE ENRICO</option>
+                <option value="194">CESARE GATTI</option>
+                <option value="195">CFG</option>
+                <option value="196">CI &amp; GI CARTONGESSI</option>
+                <option value="197">CICINBARLICHIN</option>
+                <option value="198">CINZIA DA CRISTIAN E MANUEL</option>
+                <option value="199">CIOCCOLATERIA RAVERA</option>
+                <option value="200">CLAPSY JEANS</option>
+                <option value="201">CLARES</option>
+                <option value="202">CO DI BLIN</option>
+                <option value="203">COCCHI </option>
+                <option value="204">COFFE MATIC</option>
+                <option value="205">COMBAL ZERO</option>
+                <option value="206">CONSORZIO ALTALANGA</option>
+                <option value="207">CONSORZIO BARAGGIA</option>
+                <option value="208">CONTERNO</option>
+                <option value="209">CONTI ROERO</option>
+                <option value="210">CROSETTO</option>
+                <option value="211">CRUSETIN</option>
+                <option value="212">D ANDREA</option>
+                <option value="213">DA AURORA</option>
+                <option value="214">DA CASETTA</option>
+                <option value="215">DA GIANNI </option>
+                <option value="216">DA GIN</option>
+                <option value="217">DAIMEX SRL</option>
+                <option value="218">DAMILANO </option>
+                <option value="219">DE FORVILLE</option>
+                <option value="220">DECAR</option>
+                <option value="221">DELLA ROSA ROSSA</option>
+                <option value="222">DELLAVALLE LEGNO</option>
+                <option value="223">DELLE ANTICHE CONTRADE</option>
+                <option value="224">DERMASOLE SYSTEM</option>
+                <option value="225">CANTINA FEDERICO DESTEFANIS</option>
+                <option value="226">DEVERO RISTORANTE</option>
+                <option value="227">DI VITA</option>
+                <option value="228">DISTILLERIA CASTELLI GIUSEPPE</option>
+                <option value="229">DISTILLERIA SIBONA</option>
+                <option value="230">DIUSAPET</option>
+                <option value="231">DO.MI.TO CAFFE’</option>
+                <option value="232">DOC</option>
+                <option value="233">DOLCE STILNOVO ALLA REGGIA</option>
+                <option value="234">DOMUS</option>
+                <option value="235">DONATELLA</option>
+                <option value="236">DORADO</option>
+                <option value="237">DOSIO VIGNETI</option>
+                <option value="238">DULCIS VITIS</option>
+                <option value="239">EDELWEISS</option>
+                <option value="240">EDILARTE Srl</option>
+                <option value="241">EFFE EFFE</option>
+                <option value="242">EL SACOCIN</option>
+                <option value="243">EL-TO SRL</option>
+                <option value="244">ELIA</option>
+                <option value="245">ELIO GRASSO</option>
+                <option value="246">EMME 2 DESIGN</option>
+                <option value="247">ENOCLUB</option>
+                <option value="248">ENOTECA LE TORRI</option>
+                <option value="249">ENRICO SERAFINO</option>
+                <option value="250">ERALDO VIBERTI</option>
+                <option value="251">ERO-FIL</option>
+                <option value="252">ESSE.T.O</option>
+                <option value="253">CANTINA ETTORE GERMANO</option>
+                <option value="254">EUROSPAND CAVALLO</option>
+                <option value="255">F.LLI BIAMINO</option>
+                <option value="256">F.LLI CIGLIUTTI</option>
+                <option value="257">FABRIZIO GIORDANO</option>
+                <option value="258">FAMAARCO</option>
+                <option value="259">FELLINI/DOLCEVITA</option>
+                <option value="260">FIMER SRL</option>
+                <option value="261">FIRSTS FILET</option>
+                <option value="262">FORESTERIA DEL CASTELLO DI SANFRE</option>
+                <option value="263">FORZA 10</option>
+                <option value="264">FRA DIAVOLO</option>
+                <option value="265">FRANCO MARTINETTI</option>
+                <option value="266">FRATELLI CAFFA</option>
+                <option value="267">FRATELLI NATTA</option>
+                <option value="268">GABRIELLA FIORA</option>
+                <option value="269">GAJA</option>
+                <option value="270">GALFRE’</option>
+                <option value="271">GALIASSO VINI</option>
+                <option value="272">GALLERIA MONTMARTRE</option>
+                <option value="273">GALLESIO</option>
+                <option value="274">GALLIA FRANCESCO</option>
+                <option value="275">GALLO WINE GALLERY</option>
+                <option value="276">GALUP Srl</option>
+                <option value="277">GARDENIA</option>
+                <option value="278">GARIBALDI</option>
+                <option value="279">GAVAZZA CLAUDIO -NIERO</option>
+                <option value="280">GENER NEUV</option>
+                <option value="281">GHIGO</option>
+                <option value="282">GIACOMO FENOCCHIO</option>
+                <option value="283">GIACOMO VICO</option>
+                <option value="284">GIGI BIANCO</option>
+                <option value="285">GOURMET &amp; CHARME</option>
+                <option value="286">GRAND HOTEL ALASSIO </option>
+                <option value="287">GRANI DI PEPE</option>
+                <option value="288">GRASSO FRATELLI</option>
+                <option value="289">GRAZIANO</option>
+                <option value="290">GUELFO COSTRUZIONI</option>
+                <option value="291">GUFRAM</option>
+                <option value="292">GUIDO</option>
+                <option value="293">HASU</option>
+                <option value="294">HERBERT HOUSE</option>
+                <option value="295">HOTEL RISTORANTE CASTELLO ROSSO</option>
+                <option value="296">HOTEL VILLA BECCARIS</option>
+                <option value="297">HOTEL VILLA BONIFANTI</option>
+                <option value="298">HYATT HOTEL</option>
+                <option value="299">I CAFFI</option>
+                <option value="300">I CASTAGNI</option>
+                <option value="301">I CASTELLI</option>
+                <option value="302">I TEMPLARI</option>
+                <option value="303">IJ PICAPERA</option>
+                <option value="304">IL BORRO TUSCAN BISTRO</option>
+                <option value="305">IL BOSCARETO</option>
+                <option value="306">IL CAMINETTO</option>
+                <option value="307">ILCASCINALENUOVO</option>
+                <option value="308">IL CENTRO</option>
+                <option value="309">IL CIGNO NERO</option>
+                <option value="310">IL CORTILE</option>
+                <option value="311">IL FORNO DEL BUON PANE</option>
+                <option value="312">IL GABBIANO </option>
+                <option value="313">IL GRECALE</option>
+                <option value="314">IL MOLINO</option>
+                <option value="315">IL PATIO POLLONE</option>
+                <option value="316">IL PODIO SPORT</option>
+                <option value="317">IL PORTALE</option>
+                <option value="318">IL TROVAROBE DI COSE BUONE</option>
+                <option value="319">IL VECCHIO FORNO</option>
+                <option value="320">IL VERSO DEL GHIOTTONE</option>
+                <option value="321">ILARIO ORMEZZANO - SAI</option>
+                <option value="322">INAUDI CLEMENTE &amp; C. Srl</option>
+                <option value="323">INNOCENTI EVASIONI</option>
+                <option value="324">IO E LUNA</option>
+                <option value="325">ISIDE</option>
+                <option value="326">JOIA</option>
+                <option value="327">JOSETTA SAFFIRIO</option>
+                <option value="328">L ALBERO FIORITO</option>
+                <option value="329">L ASTIGIANA</option>
+                <option value="330">L’AGRARIA </option>
+                <option value="331">L’ARCHE’</option>
+                <option value="332">L’ORTO SMERALDO</option>
+                <option value="333">LA BADESSA</option>
+                <option value="334">LA BOTTEGA DEI SAPORI</option>
+                <option value="335">LA CA’ BIANCA</option>
+                <option value="336">LA CANEVA DE NINO</option>
+                <option value="337">LA CASCATA</option>
+                <option value="338">LA CASSOLETTE</option>
+                <option value="339">LA CIAU DEL TORNAVENTO</option>
+                <option value="340">LA CICALA</option>
+                <option value="341">LA CLUSAZ</option>
+                <option value="342">LA CONCHIGLIA</option>
+                <option value="343">LA CONTEA</option>
+                <option value="344">LA CREDENZA</option>
+                <option value="345">LA DOLCE LANGA</option>
+                <option value="346">LA FEMME MERIDIANA</option>
+                <option value="347">LA FERMATA</option>
+                <option value="348">LA FILANDA</option>
+                <option value="349">LA FIORAIA</option>
+                <option value="350">LA GALLINA</option>
+                <option value="351">LA GENTILE</option>
+                <option value="353">LA LICENZIANA</option>
+                <option value="354">LA LOCANDA</option>
+                <option value="355">LA MADERNASSA</option>
+                <option value="356">LA MADONNINA</option>
+                <option value="357">LA MASCA</option>
+                <option value="358">LA MASSERIA</option>
+                <option value="359">LA MERIDIANA</option>
+                <option value="360">LA PIEMONTESE</option>
+                <option value="361">LA PRUA</option>
+                <option value="362">LA REI</option>
+                <option value="363">LA RUE (RU)</option>
+                <option value="364">LA RUOTA</option>
+                <option value="365">LA SCALA</option>
+                <option value="366">LA SPADA REALE</option>
+                <option value="367">LA TORRE</option>
+                <option value="368">LA TRAVA</option>
+                <option value="369">LA VIGNA DEL MAESTRO</option>
+                <option value="370">LA VITE TURCHESE</option>
+                <option value="371">LABORATORIO DI RESISTENZA DOLCIARIA</option>
+                <option value="372">LAMBERTI</option>
+                <option value="373">LANGHE E LOUNGE</option>
+                <option value="374">LANIFICIO FERLA</option>
+                <option value="375">LASERGATE</option>
+                <option value="376">LE CICALE IN CITTA</option>
+                <option value="377">LE DUE VALLI CENTRO COMM.</option>
+                <option value="378">LE PETIT RESTAURANT</option>
+                <option value="379">LE QUATTRO STAGIONI</option>
+                <option value="380">LIFE</option>
+                <option value="381">LIVIO MONTALDO</option>
+                <option value="382">LO SPRIN</option>
+                <option value="383">LO STECCO</option>
+                <option value="384">LOCANDA ARIA DI LANGA</option>
+                <option value="385">LOCANDA BARBABUC</option>
+                <option value="386">LOCANDA DEI VAGABONDI</option>
+                <option value="387">LOCANDA DEL CAMINO</option>
+                <option value="388">LOCANDA DIJ TRE AMIS</option>
+                <option value="389">LOCANDA SAN GIORGIO</option>
+                <option value="390">LOCANDA VECCHIA PAVIA "AL MULINO"</option>
+                <option value="391">LOU BEQUET</option>
+                <option value="392">LUCERNA SNC</option>
+                <option value="393">LUCIANO SOBRINO</option>
+                <option value="394">LUNGASERRA</option>
+                <option value="395">MAESS</option>
+                <option value="396">MAGORABIN</option>
+                <option value="397">MAINA</option>
+                <option value="398">MANZONE FRATELLI</option>
+                <option value="399">MANZONE GIOVANNI</option>
+                <option value="400">MARCELIN</option>
+                <option value="401">MARZANO</option>
+                <option value="402">MASCARELLO </option>
+                <option value="403">MASSETTI-LA CATTOLICA</option>
+                <option value="404">MASSIMO CAMIA</option>
+                <option value="405">MASSUCCO</option>
+                <option value="406">MASTER SECURITY</option>
+                <option value="407">MATTEO CORREGGIA</option>
+                <option value="408">MENABREA</option>
+                <option value="409">MERLO S.p.a.</option>
+                <option value="410">MERLONE &amp; PEROTTI</option>
+                <option value="411">MIELOTECA ITALIANA</option>
+                <option value="412">MOKAFE</option>
+                <option value="413">MOLECOLA</option>
+                <option value="414">MONCHIERO FRATELLI</option>
+                <option value="415">MONFORTE ACERBA/ ANTICA DISPENSA</option>
+                <option value="416">MONGE</option>
+                <option value="417">MONTELEONE GROUP</option>
+                <option value="418">MORANDO</option>
+                <option value="419">MORRA STEFANINO</option>
+                <option value="420">MSETUTTA</option>
+                <option value="421">MULINO MARINO</option>
+                <option value="422">MUSCARELLA</option>
+                <option value="423">MUSO</option>
+                <option value="424">NEW PET FOOD</option>
+                <option value="425">NOBERASCO S.P.A</option>
+                <option value="426">NORD TRACTORS</option>
+                <option value="427">NOVA FOODS</option>
+                <option value="428">NUTKAO</option>
+                <option value="429">ODDERO</option>
+                <option value="430">OLIMAC </option>
+                <option value="431">ONDABLU</option>
+                <option value="432">ONORANZE FUNEBRI L’ALBA</option>
+                <option value="433">ORALBA SpA</option>
+                <option value="434">ORTA SAN GIULIO</option>
+                <option value="435">OSSON GROUP</option>
+                <option value="436">OSTERIA DEI LEONI</option>
+                <option value="437">OSTERIA DEL VIGNAIOLO</option>
+                <option value="438">OSTERIA DELL UNIONE</option>
+                <option value="439">OSTERIA ITALIA</option>
+                <option value="440">OSTERIA PORTA DI PO</option>
+                <option value="441">OSTERIEONLINE</option>
+                <option value="442">OSTU D DJUN</option>
+                <option selected="" value="444">ONORANZA FUNEBRE PALMA ROBERTO | PALMA ROBERTO</option>
+                <option value="445">PANETTERIA CERRATO ALESSANDRO</option>
+                <option value="446">PANETTERIA F.LLI CRAVERO</option>
+                <option value="447">PANIFICIO PASTICCERIA FORNO A LEGNA</option>
+                <option value="448">PAOLO BERUTTI</option>
+                <option value="449">PARUSSO</option>
+                <option value="450">PASCIA</option>
+                <option value="451">PASQUALE PELLISERO</option>
+                <option value="452">PASTA BERRUTO</option>
+                <option value="453">PASTICCERIA CONVERSO</option>
+                <option value="454">PASTICCERIA GIORDANINO</option>
+                <option value="455">PASTICCERIA SCAGLINE</option>
+                <option value="456">PASTICCERIA TRUFFA</option>
+                <option value="457">PASTICCERIA VOGLINO</option>
+                <option value="458">PASTIFICIO ALFIERI</option>
+                <option value="459">PASTIFICIO MONTE</option>
+                <option value="460">PELISSERO</option>
+                <option value="461">PERLAGE</option>
+                <option value="462">PETIT ROYAL</option>
+                <option value="463">PIACENZA CASHMERE</option>
+                <option value="464">PIANBELLO VINI</option>
+                <option value="465">PIAZZA DUOMO</option>
+                <option value="466">PIAZZO VINI</option>
+                <option value="467">PICCOLO LAGO</option>
+                <option value="468">PINBOLOGNA SRL</option>
+                <option value="469">PIO CESARE</option>
+                <option value="470">PIOVANO VINI</option>
+                <option value="471">PIROTECNICA ASTESANA</option>
+                <option value="472">PITTATORE GIUSEPPE</option>
+                <option value="473">PIZZERIA DA MICHELE</option>
+                <option value="474">PODERI ALDO CONTERNO</option>
+                <option value="475">PODERI GIANNI GAGLIARDO</option>
+                <option value="476">POGGIO VINI</option>
+                <option value="477">POMIROEU</option>
+                <option value="478">POST DAL VIN</option>
+                <option value="479">POWER HOUSE</option>
+                <option value="480">PROFUMO DI VINO</option>
+                <option value="481">PROPRIETA’ SPERINO</option>
+                <option value="482">R.P.B. S.R.L.</option>
+                <option value="483">RA CA D BARUC</option>
+                <option value="484">RABELLINO SEDIE </option>
+                <option value="485">RABINO LUIGI</option>
+                <option value="486">RATTI TOURS</option>
+                <option value="487">RELAIS VILLA D AMELIA</option>
+                <option value="488">RENZO DROCCO</option>
+                <option value="489">RESORT MONVISO</option>
+                <option value="490">REVELLI Srl</option>
+                <option value="491">REVELLO</option>
+                <option value="492">RIBAUTO 2</option>
+                <option value="493">RISERIA MERLANO</option>
+                <option value="494">RISO GUERRINI</option>
+                <option value="495">RISO SANTA</option>
+                <option value="496">RISORGIMENTO</option>
+                <option value="497">RIST. PIZZ. MARECHIARO</option>
+                <option value="498">RIST. SAN MARCO</option>
+                <option value="499">RIST.LOCANDA DEL PILONE</option>
+                <option value="500">RISTORANTE ANTINE'</option>
+                <option value="501">RISTORANTE BERTON</option>
+                <option value="502">RISTORANTE D LA PICOCARDA</option>
+                <option value="503">RISTORANTE DONATELLA</option>
+                <option value="504">RISTORANTE GIARDINO DA FELICIN</option>
+                <option value="505">RISTORANTE LA LUNA NEL POZZO</option>
+                <option value="506">RISTORANTE LAROSSA</option>
+                <option value="507">RISTORANTE PINOCCHIO</option>
+                <option value="508">RISTORANTINO NEL CASTELLO</option>
+                <option value="509">ROCCHE COSTAMAGNA</option>
+                <option value="510">ROCCHE DEI BARBARI</option>
+                <option value="511">RODARI ART GALLERY </option>
+                <option value="512">ROERO INFISSI</option>
+                <option value="513">ROSA ROSSA</option>
+                <option value="514">ROSSINI</option>
+                <option value="515">S. MARTINO</option>
+                <option value="516">SALA</option>
+                <option value="517">SALVANO VINI</option>
+                <option value="518">SAN GIORGIO</option>
+                <option value="519">SANTERO VINI</option>
+                <option value="520">SARTIRANO FIGLI</option>
+                <option value="521">SAUNATOUR</option>
+                <option value="522">SAVIMACOS</option>
+                <option value="523">SAVINO MONGELLI</option>
+                <option value="524">SCARZELLO</option>
+                <option value="525">SCM</option>
+                <option value="526">SCOLA</option>
+                <option value="527">SEGHESIO</option>
+                <option value="528">SEGUGIO SOLAR</option>
+                <option value="529">SENZA TEMPO</option>
+                <option value="530">SERAM SRL</option>
+                <option value="531">SICCA GIOVANNI</option>
+                <option value="532">SILVIO GRASSO</option>
+                <option value="533">SINTEXA SRL</option>
+                <option value="534">SOBRERO CARLO</option>
+                <option value="535">SOC. AGR. CATELLA</option>
+                <option value="536">SORDO GIOVANNI</option>
+                <option value="537">SOTTO LA MOLE</option>
+                <option value="538">STAAMP SRL</option>
+                <option value="539">STIERA SPORT &amp; VACANZA</option>
+                <option value="540">TALLONE EDITORE</option>
+                <option value="541">TANO PASSAMI L OLIO</option>
+                <option value="542">TANTRIS </option>
+                <option value="543">TARICCO COMMERCIALE</option>
+                <option value="544">TARTUFI MORRA</option>
+                <option value="545">TARTUFI&amp;CO</option>
+                <option value="546">TARTUFLANGHE</option>
+                <option value="547">TASTE VIN</option>
+                <option value="548">TAVERNA DEI PORTI SCURI</option>
+                <option value="549">TECNOLAV</option>
+                <option value="550">TENUTA ARNULFO</option>
+                <option value="551">TENUTA MONTANELLO</option>
+                <option value="552">TENUTE CISA ASINARI</option>
+                <option value="553">TENUTE SELLA</option>
+                <option value="554">TERRALUNA</option>
+                <option value="555">TERRE NOSTRE</option>
+                <option value="556">THE BOS</option>
+                <option value="557">TOBACCO’S IMEX</option>
+                <option value="558">TORREFAZIONE MOKA SIR’S</option>
+                <option value="559">TORRONE SEBASTE</option>
+                <option value="560">TRATTORIA DEL PESO</option>
+                <option value="561">TRATTORIA NELLE VIGNE</option>
+                <option value="562">TRATTORIA PAUTASSI</option>
+                <option value="563">TRATTORIA PRIMO INCONTRO</option>
+                <option value="564">TRATTORIA SAN BERNARDO</option>
+                <option value="565">TRUSSARDI ALLA SCALA</option>
+                <option value="566">U GIANCU</option>
+                <option value="567">UNICO RISTORANTE</option>
+                <option value="568">VALGRANA</option>
+                <option value="569">VALTRIVERSA</option>
+                <option value="570">VECCHIO RISTORO</option>
+                <option value="571">VEGLIO GIOVANNI</option>
+                <option value="572">VENCHI SPA</option>
+                <option value="573">VENERE</option>
+                <option value="574">VESCOVADO &amp; FORNACE</option>
+                <option value="575">VETRALNEIVESE</option>
+                <option value="576">VIETTI</option>
+                <option value="577">VIGLINO</option>
+                <option value="578">VILLA GELSO</option>
+                <option value="579">VILLA SAN CARLO</option>
+                <option value="580">VILLADORIA</option>
+                <option value="581">VILLADORIA</option>
+                <option value="582">VINERIA DELL ENOTECA</option>
+                <option value="583">VINTAGE 1997</option>
+                <option value="584">VO</option>
+                <option value="585">WS </option>
+                <option value="586">ZACCARIA</option>
+                <option value="587">LOCANDA DI ORTA</option>
+                <option value="588">LA BARRIQUE</option>
+                <option value="589">FROSIO RISTORANTE</option>
+                <option value="590">ANTICA OSTERIA DEI CAMELI</option>
+                <option value="591">IL SARACENO</option>
+                <option value="592">AL VIGNETO</option>
+                <option value="593">LoRO</option>
+                <option value="594">SAN MARTINO</option>
+                <option value="595">OSTERIA DELLA BRUGHIERA</option>
+                <option value="596">RISTORANTE AL GAMBERO</option>
+                <option value="597">DA NADIA </option>
+                <option value="598">DUE COLOMBE BORGO ANTICO</option>
+                <option value="599">ESPLANADE</option>
+                <option value="600">LIDO 84</option>
+                <option value="601">LA TORTUGA</option>
+                <option value="602">RISTORANTE IL CAPRICCIO</option>
+                <option value="603">LOCANDA LEON D ORO</option>
+                <option value="604">LA RUCOLA SIRMIONE</option>
+                <option value="605">VILLA ALTHEA</option>
+                <option value="606">IL GIARDINO DI OLIVIA</option>
+                <option value="607">CASA GIROMET</option>
+                <option value="608">CASTELLO DI BUBBIO</option>
+                <option value="609">VAL BORMIDA</option>
+                <option value="610">RIST. SAN PIETRO</option>
+                <option value="611">AL PAESE DI FIABA</option>
+                <option value="612">SCUDERIE DEL CASTELLO DI GOVONE</option>
+                <option value="613">LA VOLTA ROSSA</option>
+                <option value="614">RISTORANTE VIOLA</option>
+                <option value="615">VILLA TIBOLDI</option>
+                <option value="616">ANTICO CASALE </option>
+                <option value="617">LOCANDA DELLA TORRE ANTICA</option>
+                <option value="618">LOCANDA DELL ASINO</option>
+                <option value="619">IL FRANTOIO ALASSIO</option>
+                <option value="620">AGRICONTROL</option>
+                <option value="621">CANTINA ROBERTO VOERZIO</option>
+                <option value="622">MAGLIANO PARRUCCHIERI</option>
+                <option value="623">CA VIOLA</option>
+                <option value="624">EQUIP LAVAGGI INDUSTRIALI</option>
+                <option value="625">GIOVI</option>
+                <option value="626">CENTRO COMMERCIALE I BRICCHI</option>
+                <option value="627">SAN CASSIANO</option>
+                <option value="628">MARCARINI</option>
+                <option value="629">RENATO RATTI</option>
+                <option value="630">CAVALLOTTO</option>
+                <option value="631">CAPPELLANO 1870</option>
+                <option value="632">MASSOLINO</option>
+                <option value="633">LUCIANO SANDRONE</option>
+                <option value="634">G.D. VAJRA</option>
+                <option value="635">MARCHESI DI BAROLO</option>
+                <option value="636">CHIARA BOSCHIS</option>
+                <option value="637">PAOLO SCAVINO</option>
+                <option value="638">MASCARELLO</option>
+                <option value="639">GIUSEPPE RINALDI</option>
+                <option value="640">FERDINANDO PRINCIPIANO</option>
+                <option value="641">PAOLO CONTERNO</option>
+                <option value="642">CONTERNO FANTINO</option>
+                <option value="643">FLAVIO RODDOLO</option>
+                <option value="644">DOMENICO CLERICO</option>
+                <option value="645">TECNO-3</option>
+                <option value="646">DOSIO VIGNETI</option>
+                <option value="647">SELMI GROUP</option>
+                <option value="648">MONDOVICINO OUTLET VILLAGE</option>
+                <option value="649">DIMAR SPA</option>
+                <option value="650">ASSELLE MOBILI</option>
+                <option value="651">ASTA DEL MOBILE</option>
+                <option value="652">OUTLET BOTTERO SKI</option>
+                <option value="653">GRUPPO MONTELLO</option>
+                <option value="654">EQUO SOLIDALE</option>
+                <option value="655">FONDAZIONE CAMPAGNA AMICA</option>
+                <option value="656">SHOPPING VILLE LE GRU</option>
+                <option value="657">SERENO SPA</option>
+                <option value="658">ROERO CENTER</option>
+                <option value="659">UNICOOP SRL</option>
+                <option value="660">BEST ONE DI HAO QUINN</option>
+                <option value="661">IL GIALDO</option>
+                <option value="662">MALIGNO ARREDAMENTI</option>
+                <option value="663">CUNEO AUTO SERVICE</option>
+                <option value="664">BERGUI COSTRUZIONI</option>
+                <option value="665">GAGLIARDINI BICI</option>
+                <option value="666">MATTEO MORRA</option>
+                <option value="667">Biologicafe</option>
+                <option value="668">Caff Excelsior</option>
+                <option value="669">LAZZARONI SPA</option>
+                <option value="670">DELIZIA DELLE FATE (UNICA)</option>
+                <option value="671">DAL FORNO DEI FRATELLI CRAVERO</option>
+                <option value="672">DCAF SPA</option>
+                <option value="673">SALUMIFICIO SUBALPINO</option>
+                <option value="674">HOTEL VILLA D ESTE</option>
+                <option value="675">EFFEPI srl</option>
+                <option value="676">G. CRAVERO</option>
+                <option value="677">GRISSINIFICIO EUROPA srl</option>
+                <option value="678">LA PASTA srl</option>
+                <option value="679">Molini VALENTE</option>
+                <option value="680">CASCINA SAN GIOVANNI</option>
+                <option value="681">ROCCHE DEI BARBARI</option>
+                <option value="682">PASTIFICIO CORINO</option>
+                <option value="683">ITALIANA</option>
+                <option value="684">ARTEPAGLIA </option>
+                <option value="685">CARBONE</option>
+                <option value="686">TEO COSTA</option>
+                <option value="687">OFAI</option>
+                <option value="688">ORO CASH</option>
+                <option value="689">TERRE DA VINO</option>
+                <option value="690">BIG STORE</option>
+                <option value="691">CONAD</option>
+                <option value="692">CONCESSIONARIA SPAZIO</option>
+                <option value="693">PANEALBA</option>
+                <option value="694">DISTILLERIA SIBONA</option>
+                <option value="695">DISTILLERIA MAROLO</option>
+                <option value="696">CAVEAU DISCO</option>
+                <option value="697">SYLLA SEBASTE</option>
+                <option value="698">CONCESSIONARIA OPEL</option>
+                <option value="699">PRIMO</option>
+                <option value="700">HOTEL LANGHE</option>
+                <option value="701">ANTICO ANTICO</option>
+                <option value="702">ANTIQUARIO DELLAPIANA</option>
+                <option value="703">FIA SISTEM</option>
+                <option value="704">IL POMODORO</option>
+                <option value="705">SCHELLINO</option>
+                <option value="706">MARCO GIACOSA</option>
+                <option value="707">NEGRO ANGELO CANTINA</option>
+                <option value="708">MARZERO ARCH METALLICHE</option>
+                <option value="709">2C COMPUTER</option>
+                <option value="710">4DSOFT</option>
+                <option value="711">A &amp; Z SAS</option>
+                <option value="712">ALBA SISTEMI</option>
+                <option value="713">ALPIDUE INFORMATICA</option>
+                <option value="714">AMEDEO BENNATI</option>
+                <option value="716">GIOSOFT</option>
+                <option value="717">BB ELETRONICS</option>
+                <option value="718">BI.EMME UFFICIO</option>
+                <option value="719">BIEFFE INFORMATICA</option>
+                <option value="720">BIT MANIAX</option>
+                <option value="721">BMS COMPUTER SERVICE</option>
+                <option value="722">BOVO SRL</option>
+                <option value="723">BUSINESS SPACE</option>
+                <option value="724">BV COMPUTER</option>
+                <option value="725">CAMPERI ALBERTO</option>
+                <option value="726">CARIN S.A.S.</option>
+                <option value="727">FABIO GIANPAOLO</option>
+                <option value="728">CGP COMPUTER HARDWARE E SOFTWARE</option>
+                <option value="729">CI INFORMATICA</option>
+                <option value="730">CLICK PLAY</option>
+                <option value="731">CNR SERVICE</option>
+                <option value="732">COGITO ITALIA SRL</option>
+                <option value="733">COLPODINCHIOSTRO</option>
+                <option value="734">COMPUTECH ASSISTENZA HARDWARE</option>
+                <option value="735">COMPUTER M@NIA</option>
+                <option value="736">COMPUTER MGM INFORMATICA</option>
+                <option value="737">COMPUTER SERVICE</option>
+                <option value="738">COMPUTER SERVICE DI LODI ALFONSO</option>
+                <option value="739">COPY SYSTEM SOLUZIONI UFFICIO</option>
+                <option value="740">CUNEOINFORMATICA</option>
+                <option value="741">DAVITE</option>
+                <option value="742">DELTA SISTEMI</option>
+                <option value="743">DHS</option>
+                <option value="744">DIGISTORE SNC</option>
+                <option value="745">DIGITAL GARAGE</option>
+                <option value="746">ELECTRONIC LAB</option>
+                <option value="747">ESSETRE</option>
+                <option value="748">FERLAIRA LABORATORIO INFORMATICA</option>
+                <option value="749">FULL SERVICE</option>
+                <option value="750">GAMMA</option>
+                <option value="751">GANDOLFO ADRIANO</option>
+                <option value="752">GECOM</option>
+                <option value="753">GOLD PC</option>
+                <option value="754">GR INFORMATICA</option>
+                <option value="755">GSC GENERAL SYSTEM</option>
+                <option value="756">GV FORMACAD </option>
+                <option value="757">INFOGROUP INGROSSO INFORMATICA</option>
+                <option value="758">INFORMATICA SERVICE</option>
+                <option value="759">INFORMATICA SYSTEM SRL</option>
+                <option value="760">JUICE</option>
+                <option value="761">L’ULTIMO BYTE INFORMATICA</option>
+                <option value="762">LABORATORIO DI INFORMATICA E ELETTRONICA</option>
+                <option value="763">LR 2</option>
+                <option value="764">M.D. INFORMATICA</option>
+                <option value="765">MONFERRATO SERVIZI SNC</option>
+                <option value="766">MP ASTI</option>
+                <option value="767">NEW FILES S.A.S.</option>
+                <option value="768">NEW TRADE INFORMATICA INFORMATICA</option>
+                <option value="769">NEWTECH INFORMATICA</option>
+                <option value="770">NOTEBOOK RIPARAZIONE COMPUTER</option>
+                <option value="771">P.C. SERVICE</option>
+                <option value="772">P.I COMPUTERS</option>
+                <option value="773">PC REPAIR</option>
+                <option value="774">PDM INFORMATICA</option>
+                <option value="775">PLANET INFORMATICA</option>
+                <option value="776">PM 2000 COMPUTERS</option>
+                <option value="777">PRINTOFFICE</option>
+                <option value="778">RABBIA VALERIO&amp; MELLANO MAURIZIO</option>
+                <option value="779">ROSSI COMPUTERS</option>
+                <option value="780">SI.TEK INFORMATICA</option>
+                <option value="781">T.R.E INFORMATICA</option>
+                <option value="782">TECHNONET</option>
+                <option value="783">TECNODATA</option>
+                <option value="784">VIDEO SERVICE L2 DI LOCCI</option>
+                <option value="785">XTREME PC</option>
+                <option value="786">ZEROUNO SOFTWARE SRL</option>
+                <option value="787">ZOPEDIDA</option>
+                <option value="788">ASSEMBLER COMPUTER</option>
+                <option value="789">CARTUCCIA EXPRESS</option>
+                <option value="790">MIDA COMPUTER</option>
+                <option value="791">ALEX COMPUTER- ASUS POINT</option>
+                <option value="792">VG INFORMATICA</option>
+                <option value="793">T.S.A INFORMATICA</option>
+                <option value="794">BIT INFORMATICA</option>
+                <option value="795">COMPUTER ASSISTANCE</option>
+                <option value="796">DIGITAL SYSTEM</option>
+                <option value="797">PIXEL</option>
+                <option value="798">COMPUTER PROJECT</option>
+                <option value="799">GESTIONAL SERVICE</option>
+                <option value="800">ASSISTENZA S. RITA</option>
+                <option value="801">C.R.C CENTRO RIPARAZIONE CELLULARI</option>
+                <option value="802">VIDEO SYSTEM</option>
+                <option value="803">FASTER PC</option>
+                <option value="804">ASSISTENZA COMPUTER</option>
+                <option value="805">ASSISTENZA COMPUTER</option>
+                <option value="806">ASSISTENZA ASSEMBLAGGIO SISTEMI INFORMATICI</option>
+                <option value="807">ASSISTENZA PCDGTECH</option>
+                <option value="808">EUROPHOTO TRADING SRL</option>
+                <option value="809">VISOCOM</option>
+                <option value="810">INTERCOPIA</option>
+                <option value="811">M2 INFORMATICA SRL</option>
+                <option value="812">ULIVETO MACCHINE PER UFFICIO E COMPUTER</option>
+                <option value="813">POINTEK</option>
+                <option value="814">COMPUTER HOSPITAL</option>
+                <option value="815">RNT COMPUTER</option>
+                <option value="816">GLOBAL PC</option>
+                <option value="817">DUE EMME INFORMATICA</option>
+                <option value="818">RIPARAZIONE TELEFONIA DA MARCO</option>
+                <option value="819">DR ELETRONICS</option>
+                <option value="820">BORGI srl</option>
+                <option value="821">COMPUTER VALLEY</option>
+                <option value="822">VOYAGER COMPUTER</option>
+                <option value="823">WIZARD COMPUTER</option>
+                <option value="824">STUDIO INFORMATICA</option>
+                <option value="825">APS INFORMATICA</option>
+                <option value="826">ATS ANPRESS</option>
+                <option value="827">FROM TORINO</option>
+                <option value="828">TORINO PC</option>
+                <option value="829">ELSI PIEMONTE</option>
+                <option value="830">TORCHIO CARLO MACCHINE DA UFFCIO</option>
+                <option value="831">FUTURTECNICA</option>
+                <option value="832">O.C.R SYSTEM</option>
+                <option value="833">AM.BO SERVICE</option>
+                <option value="834">MARCK COMPUTER</option>
+                <option value="835">P.R.F SNC</option>
+                <option value="836">MANUGUERRA</option>
+                <option value="837">SISPAC</option>
+                <option value="838">COMPUTER QUALITY SERVICE</option>
+                <option value="839">MAV COMPUTER</option>
+                <option value="840">HIGH TECH ASSIST</option>
+                <option value="841">LARRY BRAVI</option>
+                <option value="842">COMPUTER LAB</option>
+                <option value="843">SG SISTEMI</option>
+                <option value="844">C3 CONSULTING</option>
+                <option value="845">SIAT ASSISTENZA</option>
+                <option value="846">DM COMPUTER</option>
+                <option value="847">PERMAC</option>
+                <option value="848">BARBON FABIO</option>
+                <option value="849">GRILLO ROSARIO</option>
+                <option value="850">EBOLI SISTEMI</option>
+                <option value="851">CTS FOTOCOPIATRICI E PLOTTER</option>
+                <option value="852">SISTEMA UFFICIO</option>
+                <option value="853">LABTECH</option>
+                <option value="854">INTERMEDIA SERVICE</option>
+                <option value="855">TELM 80</option>
+                <option value="856">INFORMATICA GASTALDI</option>
+                <option value="857">GPS</option>
+                <option value="858">ALGOSYSTEM SAS</option>
+                <option value="859">GALLO HARDWARE SOLUTIONS</option>
+                <option value="860">ZANFROLIN LAURA</option>
+                <option value="861">P.D. COPERTURE</option>
+                <option value="862">TECHNOSITE S.R.L.</option>
+                <option value="863">GLOBOSYSTEM</option>
+                <option value="864">ECO LOGICA SNC</option>
+                <option value="865">ELETTRONICA</option>
+                <option value="866">MEGA LO MANIA</option>
+                <option value="867">MICROLAB SISTEMI</option>
+                <option value="868">ART COMPUTERS</option>
+                <option value="869">INFONEWS</option>
+                <option value="870">QUALITY DATA</option>
+                <option value="871">FAST MICROSYSTEM</option>
+                <option value="872">LE NET</option>
+                <option value="873">LYAN SNC</option>
+                <option value="874">C.D.S.</option>
+                <option value="875">COMPUTER ONE</option>
+                <option value="876">EFFEZETA INFORMATICA</option>
+                <option value="877">ESSEGI UFFICIO</option>
+                <option value="878">G.D.M.</option>
+                <option value="879">HAL SERVICE</option>
+                <option value="880">INFORMATICA DATA SYSTEM</option>
+                <option value="881">L.R.N.</option>
+                <option value="882">LINK</option>
+                <option value="883">NEW GENERATION</option>
+                <option value="884">PAOLONET</option>
+                <option value="885">QUALITY SERVICE</option>
+                <option value="886">SIGMA COMPUTER</option>
+                <option value="887">TECNO COMPUTERS</option>
+                <option value="888">PK COMPUTERS</option>
+                <option value="889">GIABARDO MARCO</option>
+                <option value="890">THUNDERS &amp; BYTE</option>
+                <option value="891">ASSISTENZA E COMPUTER </option>
+                <option value="892">TREE COMPUTER</option>
+                <option value="893">DIGITEC ELETTRONICA</option>
+                <option value="894">EASY MAC</option>
+                <option value="895">APICE SRL</option>
+                <option value="896">ASA S.R.L.</option>
+                <option value="897">ASSISTENZA E COMPUTER DI VANOLO ENRICO</option>
+                <option value="898">ATOR</option>
+                <option value="899">COMPUTER DISCOUNT</option>
+                <option value="900">COSMIC S.R.L.</option>
+                <option value="901">EFAR SRL</option>
+                <option value="902">ELABORA SRL</option>
+                <option value="903">HIGH TECH </option>
+                <option value="904">K&amp;G S.R.L.</option>
+                <option value="905">MGL INFORMATICA</option>
+                <option value="906">NONSOLOCOMPUTERWEB</option>
+                <option value="907">OBIUAN</option>
+                <option value="908">OFFICE COMPANY</option>
+                <option value="909">ORANGE S.R.L.</option>
+                <option value="910">PC MEDIA</option>
+                <option value="911">SB SYSTEM</option>
+                <option value="912">SHADO INFORMATICA</option>
+                <option value="913">SINOLO S.R.L.</option>
+                <option value="914">SZ INFORMATICA</option>
+                <option value="915">TECNO INFORMATICA</option>
+                <option value="916">TOP SOFT</option>
+                <option value="917">VIDEOCOMPUTING</option>
+                <option value="918">ZERO PROBLEMI</option>
+                <option value="919">NDUTECH.COM</option>
+                <option value="920">ALMATECHNOLOGIES</option>
+                <option value="921">MYTECH</option>
+                <option value="922">SPATERI COMPUTERS</option>
+                <option value="923">JVS COMPUTERS</option>
+                <option value="924">E.M. AUTOMAZIONI</option>
+                <option value="925">G.M SISTEMI</option>
+                <option value="926">MEDIA HOUSE</option>
+                <option value="927">MULTIBIT</option>
+                <option value="928">PPM S.N.C.</option>
+                <option value="929">SMART.NET </option>
+                <option value="930">A&amp;D COMPUTER</option>
+                <option value="931">ELETTROTECNICA S. AGATA</option>
+                <option value="932">MEDIAPLANET INFORMATICA</option>
+                <option value="933">UPDATE S.RL.</option>
+                <option value="934">BONELL S.A.S</option>
+                <option value="935">ALIAS COMPUTER</option>
+                <option value="936">AQUINI INFORMATICA</option>
+                <option value="937">BLOTTO UFFICIO</option>
+                <option value="938">DADO COMPUTER</option>
+                <option value="939">INFORMATICA PESSA</option>
+                <option value="940">MH &amp; S</option>
+                <option value="941">PLANET INFORMATICA</option>
+                <option value="942">PROGETTO INFORMATICO</option>
+                <option value="943">SOTGIU RAG. GIANLUCA</option>
+                <option value="944">COMPUTER MAD 2 COMP</option>
+                <option value="945">INFORMATICA BIELLA</option>
+                <option value="946">ELCO</option>
+                <option value="947">PC OVER CLOCK</option>
+                <option value="948">ROBINSON S.R.L.</option>
+                <option value="949">PC HITECH</option>
+                <option value="950">PROTONE</option>
+                <option value="951">PRUDENZA MARIO</option>
+                <option value="952">TECH LINE</option>
+                <option value="953">ACME ELETTRONICA</option>
+                <option value="954">BOOMTECH</option>
+                <option value="955">COPIA &amp; INCOLLA</option>
+                <option value="956">GARBOLI PER L’UFFICIO</option>
+                <option value="957">COMPUTER DISCOUNT PC SYSTEM 2000</option>
+                <option value="958">MYTHOS COMPUTER</option>
+                <option value="959">MINAURO RICCARDO CONSULENZA SOFTWARE</option>
+                <option value="960">VITTORIO ALBERTI</option>
+                <option value="961">CENTRO COMPUTER</option>
+                <option value="962">COBALTOOL</option>
+                <option value="963">BOOTCOMPUTER</option>
+                <option value="964">FRANZONI GIANCARLO</option>
+                <option value="965">PC SERVICE</option>
+                <option value="966">TECNODATA</option>
+                <option value="967">COMPUTERS KAT</option>
+                <option value="968">DATASOFT</option>
+                <option value="969">E STA BI</option>
+                <option value="970">FARO CONSULTING</option>
+                <option value="971">NUOVA MITHOS</option>
+                <option value="972">COMPUTER LAB</option>
+                <option value="973">FUTHURA COMPUTER</option>
+                <option value="974">AB COMPUTERS</option>
+                <option value="975">M2 OFFICE</option>
+                <option value="976">N.C. SERVICE</option>
+                <option value="977">NEW DATA</option>
+                <option value="978">PARADOX</option>
+                <option value="979">PC COMPANY</option>
+                <option value="980">PC OK</option>
+                <option value="981">HSP COMPUTER</option>
+                <option value="982">MIMESI</option>
+                <option value="983">COMAX COMPUTERS</option>
+                <option value="984">RESET COMPUTERS</option>
+                <option value="985">INFORMATIQUE SRL</option>
+                <option value="986">FOTOGRAFICA EVANCON</option>
+                <option value="987">IMPUT COMPUTERS</option>
+                <option value="988">WELLCOME</option>
+                <option value="989">DIGITAL SYSTEM COMPUTERS</option>
+                <option value="990">SOLUZIONE S.R.L.</option>
+                <option value="991">DESANDRE</option>
+                <option value="992">S.E.A. SISTEMI ELETTRONICI AVANZATI</option>
+                <option value="993">FREE SOLUTION</option>
+                <option value="994">GLOBAL VILLAGE 3000</option>
+                <option value="995">INFORMA WEB</option>
+                <option value="996">M.T. COMPUTERS</option>
+                <option value="997">SICPA ITALIA</option>
+                <option value="998">VALCAISSE</option>
+                <option value="999">VLG STORE</option>
+                <option value="1000">COMPUTER HOUSE</option>
+                <option value="1001">COMPUTER EASY</option>
+                <option value="1002">ASC SERVICES</option>
+                <option value="1003">PUNTO COMPUTER</option>
+                <option value="1004">WLNET SOLUZIONI INFORMATICHE</option>
+                <option value="1005">COMPUTER ART</option>
+                <option value="1006">PC LAND</option>
+                <option value="1007">INSIDE SNC</option>
+                <option value="1008">M &amp; M COMPUTER</option>
+                <option value="1009">DIGITAL MEDIA STORE</option>
+                <option value="1010">ESSEGI COMPUTER</option>
+                <option value="1011">GAJA INFORMATICA</option>
+                <option value="1012">NUOVA DIFFEL</option>
+                <option value="1013">RAMOINO ERNESTO</option>
+                <option value="1014">STUDIO CONTATTO</option>
+                <option value="1015">COMPUTERS 2000</option>
+                <option value="1016">IN.NET</option>
+                <option value="1017">SOS COMPUTER</option>
+                <option value="1018">E@SY IT</option>
+                <option value="1019">ELAB </option>
+                <option value="1020">HAKME COMPUTERS</option>
+                <option value="1021">SOFTWARE 2000</option>
+                <option value="1022">COMPUTER CLUB</option>
+                <option value="1023">COMPUTERS POINT</option>
+                <option value="1024">2 GIGA POINT</option>
+                <option value="1025">C.S SANREMO</option>
+                <option value="1026">HARD SOFT TEAM</option>
+                <option value="1027">VIDEO DREAMS</option>
+                <option value="1028">NEW COMPUTER SYSTEM</option>
+                <option value="1029">4D COMPUTER</option>
+                <option value="1030">MODESTI</option>
+                <option value="1031">C.F. COMPUTERS</option>
+                <option value="1032">ECITALY</option>
+                <option value="1033">I. E O. SANREMO</option>
+                <option value="1034">IL BORGO</option>
+                <option value="1035">M.R. CRAZY PC SHOP</option>
+                <option value="1036">PCM </option>
+                <option value="1037">ALEX COMPUTER</option>
+                <option value="1038">COMPUTER DESIGN</option>
+                <option value="1039">MONTANO ENRICO</option>
+                <option value="1040">COMPUTER ASSISTENZA</option>
+                <option value="1041">EVERTECH.IT</option>
+                <option value="1042">SHUN QI</option>
+                <option value="1043">COMPUTER TOWER</option>
+                <option value="1044">COMUNICAZIONE INFORMATICA</option>
+                <option value="1045">CELLULARE RE</option>
+                <option value="1046">TECNOSERVICE</option>
+                <option value="1047">BM SOLUZIONI UFFICIO</option>
+                <option value="1048">POWER LINE</option>
+                <option value="1049">AW SYSTEM</option>
+                <option value="1050">PRIMEDIA</option>
+                <option value="1051">TALLINI CARLO</option>
+                <option value="1052">ASSISTENZA PC GIARRUSSO</option>
+                <option value="1053">BRIANO MULTIMEDIA</option>
+                <option value="1054">LETIMBRO COMPUTERS</option>
+                <option value="1055">MERIDIANA</option>
+                <option value="1056">PC PLANET</option>
+                <option value="1057">ZANARDI FRANCESCO</option>
+                <option value="1058">VOBIS</option>
+                <option value="1059">BIT AND BYTE</option>
+                <option value="1060">BREDAN</option>
+                <option value="1061">ELETTRONICA GALLI</option>
+                <option value="1062">MORDEGLIA MARCO</option>
+                <option value="1063">TOP BYTE</option>
+                <option value="1064">IL COMPUTER SOCCORSO</option>
+                <option value="1065">DF SYSTEM</option>
+                <option value="1066">ECOMM GROUP</option>
+                <option value="1067">DE MARTINO M.</option>
+                <option value="1068">HS INFOTRONICA</option>
+                <option value="1069">MS SPACE COMPUTERS</option>
+                <option value="1070">ANSELMO COMPUTERS</option>
+                <option value="1071">ENERGY PC</option>
+                <option value="1072">NET.LAB</option>
+                <option value="1073">PC AIUTO</option>
+                <option value="1074">QUICK DATA</option>
+                <option value="1075">VERBACOM</option>
+                <option value="1076">CAMINO GIANCARLO</option>
+                <option value="1077">COMPUTER ASSISTANCE</option>
+                <option value="1078">SICURMATICA</option>
+                <option value="1079">SOS COMPUTER</option>
+                <option value="1080">TECNOSISTEMI S.R.L.</option>
+                <option value="1081">VNET SOFTWARE</option>
+                <option value="1082">SFERA S.R.L.</option>
+                <option value="1083">LOGICA SRL</option>
+                <option value="1084">NEWTEK</option>
+                <option value="1085">2K1</option>
+                <option value="1086">COMPAT</option>
+                <option value="1087">COMPUTER ON LINE</option>
+                <option value="1088">COMPUTERS HOUSE</option>
+                <option value="1089">COPIA E INCOLLA</option>
+                <option value="1090">DI VITA LEONARDO</option>
+                <option value="1091">GRASSO MARCO MOBILI</option>
+                <option value="1092">LASER INFORMATICA LIGURE</option>
+                <option value="1093">LCA MEDIA</option>
+                <option value="1094">LIGURE SISTEMI</option>
+                <option value="1095">LOCOMPROPERTE</option>
+                <option value="1096">PC TRADING ITALIA</option>
+                <option value="1097">TRADINVEST ITALIA</option>
+                <option value="1098">LA CLINICA DEL COMPUTER</option>
+                <option value="1099">RB ASSISTENZA COMPUTER</option>
+                <option value="1100">NEW SISTEM</option>
+                <option value="1101">EL INFORMATICA &amp; MULTIMEDIA</option>
+                <option value="1102">INFOTECH</option>
+                <option value="1103">OFFICE EXPRESS</option>
+                <option value="1104">PC HELP</option>
+                <option value="1105">PC TUNING</option>
+                <option value="1106">ASSISTENZA COMPUTER</option>
+                <option value="1107">TELMAC</option>
+                <option value="1108">INFONET</option>
+                <option value="1109">MONDO UFFICIO</option>
+                <option value="1110">CALL AND PLAY</option>
+                <option value="1111">ASSISTENZA E VENDITA COMPUTER</option>
+                <option value="1112">C.P.C</option>
+                <option value="1113">MBR COMPUTER</option>
+                <option value="1114">COMPUTER HOUSE</option>
+                <option value="1115">SOFTMANIA</option>
+                <option value="1116">CASAVECCHIA</option>
+                <option value="1117">E-BOT S.R.L.</option>
+                <option value="1118">ESSEBI PC ASSISTANCE</option>
+                <option value="1119">HALLEY INFORMATICA</option>
+                <option value="1120">KIKA PC</option>
+                <option value="1121">L’ALTRA MELA S.R.L.</option>
+                <option value="1122">LEVANTE SISTEMI SAS</option>
+                <option value="1123">M.G.</option>
+                <option value="1124">MACSI SERVICE</option>
+                <option value="1125">PC INSIDE</option>
+                <option value="1126">TAM COMPUTERS</option>
+                <option value="1127">VIAGGI DE FRANCHI</option>
+                <option value="1128">EMMECI COMPUTERS</option>
+                <option value="1129">AD SOFT</option>
+                <option value="1130">PENTASYS</option>
+                <option value="1131">SINFO INTERNATIONAL</option>
+                <option value="1132">3D CREATIVE</option>
+                <option value="1133">COMPUTERMANIA</option>
+                <option value="1134">MICRODATA SISTEMI</option>
+                <option value="1135">MISTER ALED POINT</option>
+                <option value="1136">OFFICE LINE</option>
+                <option value="1137">TED VALET</option>
+                <option value="1138">THENAX COMPUTER</option>
+                <option value="1139">DATAMAX</option>
+                <option value="1140">COMPUTER ASSISTENCE</option>
+                <option value="1141">MICROBYTE</option>
+                <option value="1142">A.T.C.</option>
+                <option value="1143">ABM COMPUTERS SAS</option>
+                <option value="1144">ALBATROS</option>
+                <option value="1145">ALL IN ONE</option>
+                <option value="1146">ARIONI</option>
+                <option value="1147">ASSISTENZA WEB</option>
+                <option value="1148">ATH COMPUTERS</option>
+                <option value="1149">C.S. SNC</option>
+                <option value="1150">C.S. TECNICA</option>
+                <option value="1151">COMPUNET SRL</option>
+                <option value="1152">COMPUTER LAB</option>
+                <option value="1153">COMPUTER SHOPPING 3</option>
+                <option value="1154">COMPUTER VAR SPA</option>
+                <option value="1155">COMPUTERIDEA SNC</option>
+                <option value="1156">COMPUTER S NEW ERA</option>
+                <option value="1157">DIGIT WORLD</option>
+                <option value="1158">E.GROUP.NET</option>
+                <option value="1159">EDISOFTWARE SRL</option>
+                <option value="1160">ENRICO PER IL COMPUTER</option>
+                <option value="1161">FAST COMPUTER</option>
+                <option value="1162">FORMENTINI INFORMATICA</option>
+                <option value="1163">FRANCHI SISTEMI</option>
+                <option value="1164">GATTAVECCHIA LUCIANO</option>
+                <option value="1165">GENESYS INFORMATICA SRL</option>
+                <option value="1166">INFONET SAS</option>
+                <option value="1167">INFORMATICS SHOP</option>
+                <option value="1168">ISORE PINAPPLE</option>
+                <option value="1169">IT SERVICE</option>
+                <option value="1170">IT SOLUZIONI SRL</option>
+                <option value="1171">IT TIME</option>
+                <option value="1172">LABORATORIO INFORMATICO</option>
+                <option value="1173">LEO S COMPUTER SRL</option>
+                <option value="1174">MAC IN SRL</option>
+                <option value="1175">MAINTE SRL</option>
+                <option value="1176">MARCO LANDINI VIDEO CLUB</option>
+                <option value="1177">MEDIA ELECTRICS COMPUTER</option>
+                <option value="1178">MEDIACOM SAS</option>
+                <option value="1179">MF ELETTRONICA</option>
+                <option value="1180">MILLENIUM </option>
+                <option value="1181">MRP2 INFORMATICA</option>
+                <option value="1182">NEXT SRL</option>
+                <option value="1183">PC &amp; MODDING</option>
+                <option value="1184">PC RESOLVING</option>
+                <option value="1185">PC SERVICE</option>
+                <option value="1186">PRINK</option>
+                <option value="1187">PWR</option>
+                <option value="1188">R&amp;B SRL</option>
+                <option value="1189">SAT</option>
+                <option value="1190">SATELMI SRL</option>
+                <option value="1191">SMART PC SERVICE</option>
+                <option value="1192">T.M.Y. LABORATORIO INFORMATICO</option>
+                <option value="1193">TECHCOM</option>
+                <option value="1194">TP TECNOLOGIE INDUSTRIALI</option>
+                <option value="1195">TRILOGICK SOLUZIONI INFORMATICHE</option>
+                <option value="1196">VIDEO SERVICE</option>
+                <option value="1197">COMPUTER ASSISTENZA</option>
+                <option value="1198">BLUE BYTE</option>
+                <option value="1199">INFORMATICA PEGLIESE</option>
+                <option value="1200">MAZZOLA GIULIANO</option>
+                <option value="1201">LANGA WEB INFORMATICA</option>
+                <option value="1202">LANGA WEB INFORMATICA</option>
+                <option value="1203">MARTINELLI</option>
+                <option value="1204">BISCONOVA </option>
+                <option value="1205">ARREDO IDEA</option>
+                <option value="1206">OLIO CARLI</option>
+                <option value="1207">FRATELLI FRESIA</option>
+                <option value="1209">OLIO POLLA</option>
+                <option value="1210">FRANTOIO MAGNONE</option>
+                <option value="1211">FRANTOIO ARMANDO GARELLO</option>
+                <option value="1213">VIGNAIOLI PIEMONTESI</option>
+                <option value="1214">PUNTO AUTO</option>
+                <option value="1215">fabbri</option>
+                <option value="1216">CAREGLIO MOTO</option>
+                <option value="1217">CASCINA ROSA</option>
+                <option value="1218">la cascata</option>
+                <option value="1219">UNICAR CAGNOTTO</option>
+                <option value="1220">VEGLIO SRL</option>
+                <option value="1221">DAVIDE CARBONE SRL</option>
+                <option value="1223">F.LLI TESTA COSTRUZIONI</option>
+                <option value="1224">AMEC  DI CHIAPPERO SCC</option>
+                <option value="1225">SCANFRANCESCO</option>
+                <option value="1226">PARADISO D ACQUA</option>
+                <option value="1227">GRUPPO LENTA</option>
+                <option value="1228">IMPRESA EDILE PATRIZIO GIORDANO</option>
+                <option value="1229">MPM COSTRUZIONI</option>
+                <option value="1234">IMMOBILIARE FALDE</option>
+                <option value="1235">ANDREA DOTTA</option>
+                <option value="1236">LUIGI PERRONE</option>
+                <option value="1238">ShyNetIndia Technologies</option>
+                <option value="1239">LANGA WEB INFORMATICA</option>
+                <option value="1240">MAURO ROSSO</option>
+                <option value="1241">FARMACIA BAINOTTI</option>
+                <option value="1242">Studio Comm. Stefano Balestra</option>
+                <option value="1243">FARMACIA GRUPPO BENESSERE</option>
+                <option value="1244">LANGA PRINT</option>
+                <option value="1245">LANGA WEB</option>
+                <option value="1246">LANGA VIDEO</option>
+                <option value="1247">MARINO GASTELURRUTIA</option>
+                <option value="1249">LANGA WEB INFORMATICA</option>
+                <option value="1250">Langa Web Informatica</option>
+                <option value="1251">ARAGON@ STORE</option>
+                <option value="1252">DENISE VENTURA</option>
+                <option value="1254">RISTORANTE BISTROT DUOMO</option>
+                <option value="1255">LA TAVERNA DI NOE'</option>
+                <option value="1256">LA FAVORITA LIVE</option>
+                <option value="1257">DIVOE PERSONAL TRAINING</option>
+                <option value="1258">STROPPIANA ASSICURAZIONI</option>
+                <option value="1260">ARCHITETTO FREA</option>
+                <option value="1261">AGRITURISMO CA DEL RE'</option>
+                <option value="1264">ANTICO CASALE MATTEI</option>
+                <option value="1265">WhyInn S.r.l.</option>
+                <option value="1267">LANGA Group</option>
+                <option value="1268">GPS.BIO</option>
+                <option value="1397">Arrlem Mobilificio</option>
+                <option value="1398">FABRIZIO TARICCO COSTRUZIONI S.r.l.</option>
+                <option value="1400">ICA TISSUE</option>
+                <option value="1402">Galleri dei Fiori Bra</option>
+                <option value="1403">An Pais</option>
+                <option value="1404">An Front</option>
+                <option value="1416">C.E.E.D. S.r.l.s.</option>
+                <option value="1419">Boutique Hotel</option>
+                <option value="1420">Locanda in Cannubi</option>
+                <option value="1421">MOD'S ART PARRUCCHIERI</option>
+                <option value="1422">OSTERIA DEL DIAVOLO</option>
+                <option value="1423">RISIE'</option>
+                <option value="1424">LOCANDA DEL CENTRO</option>
+                <option value="1425">PAOLO &amp; BARBARA</option>
+                <option value="1426">AGRIPASSIONE</option>
+                <option value="1427">OSTERIA I REBBI</option>
+                <option value="1428">SANSILVESTRO-COSTA DI BUSSIA</option>
+                <option value="1429">BURZI CANTINA</option>
+                <option value="1436">ert</option>
+                <option value="1438">sdfg</option>
+                <option value="1456">PROVA ENTE</option>
+                <option value="1465">EDILIZIA SUBALPINA</option>
+                <option value="1466">CANTINA LIVIO MACCAGNO</option>
+                <option value="1467">MOCCAGATTA</option>
+                <option value="1468">FALEGNAMERIA VALTORTA</option>
+                <option value="1469">FACCIA E BERNARDI</option>
+                <option value="1470">bruna grimaldi</option>
+                <option value="1471">gabutti boasso</option>
+                <option value="1472">olio fausone</option>
+                <option value="1473">24 voglie</option>
+                <option value="1474">CASCATA</option>
+                <option value="1475">cantina penna luigi e figli</option>
+                <option value="1476">ceretto</option>
+                <option value="1477">azienda agricola pietro rinaldi</option>
+                <option value="1478">farmacia fiora</option>
+                <option value="1479"> beb la collinetta</option>
+                <option value="1481">DOLCI TENTAZIONI</option>
+                <option value="1482">LA BELLA EPOQUE</option>
+                <option value="1483">FARMACIA GALENICA</option>
+                <option value="1485">racca impianti srl</option>
+                <option value="1487">AZIENDA VITIVINICOLA RIZZI</option>
+                <option value="1488">AZIENDA VITIVINICOLA durio adriano</option>
+                <option value="1489">azienda agricola alessandria</option>
+                <option value="1491">az agricola mauro molino</option>
+                <option value="1492">AZIENDA VITIVINICOLA ENRICO RAINERO</option>
+                <option value="1493">DROCCO LUIGI</option>
+                <option value="1494">CASCINA SCIULIN</option>
+                <option value="1495">ANOMALYZE</option>
+                <option value="1496">azieda vinicola chiarla giovanni</option>
+                <option value="1497">az agricola del cavaliere</option>
+                <option value="1498">azienda vinicola chiarla giovanni</option>
+                <option value="1499">az agricola cascina palazzo rosso</option>
+                <option value="1500">cantine manfredi</option>
+                <option value="1501">azienda vinicola  palladino</option>
+                <option value="1502">ASSOCIAZIONE WINE EXPERIENCE</option>
+                <option value="1503">CAFFE' MACCHIATO</option>
+                <option value="1504">TECNOCASA EMILIA</option>
+                <option value="1505">MARINO DELLAPIANA SRL</option>
+                <option value="1506">GIOVANNA MANZO</option>
+                <option value="1507">AZ. AGRICOLA CASSINELLI MARIA</option>
+                <option value="1508">SAN GIOVENALE ONORANZE</option>
+                <option value="1509">az agricola filippo gallino</option>
+                <option value="1510">az agricola filippo gallino</option>
+                <option value="1511">monchiero carbone az vitivinicola</option>
+                <option value="1512">AZ AGRICOLA FILIPPO BROCCARDO</option>
+                <option value="1513"> AZ AGRICOLA FILIPPA AGIANO</option>
+                <option value="1514">AZ AGRICOLA FILIPPO GRASSO</option>
+                <option value="1515">IL PICCOLO | Giornale</option>
+                <option value="1516">AZ AGRICOLA FIA MARIO</option>
+                <option value="1517">agriturismo ca d'mattia</option>
+                <option value="1518">VETOS ITALIA</option>
+                <option value="1519">APA PRINT</option>
+                <option value="1520">ABBAZIA</option>
+                <option value="1521">AGRICOLA BRANDINI</option>
+                <option value="1522">GIANPAOLO SANTINI</option>
+                <option value="1523">AGRICOLA MARRONE</option>
+                <option value="1524">GIOVANNI ALMONDO</option>
+                <option value="1525">GOLDEN CAR Srl | Automotive</option>
+                <option value="1526">TERME VALDIERI</option>
+                <option value="1527">LURISIA TERME</option>
+                <option value="1528">LURISIA ACQUE MINERALI</option>
+                <option value="1529">HOTEL MANDOLE'</option>
+                <option value="1530">ONORANZE FUNEBRI LA GUARENESE</option>
+                <option value="1531">LUCREZIA SANDRI</option>
+                <option value="1532">ALCOOL ITAL</option>
+                <option value="1533">BOGETTI GIACOMO</option>
+                <option value="1534">L'ORTO DEL PIAN BOSCO</option>
+                <option value="1535">OBERTO</option>
+                <option value="1536">PIEFFE</option>
+                <option value="1537">CEAM</option>
+                <option value="1538">TOPPINO Fuoco &amp; Design</option>
+                <option value="1539">OR.VE.CA</option>
+                <option value="1540">PROGETTI ARREDAMENTI</option>
+                <option value="1541">SP SERVICE</option>
+                <option value="1542">CAGLIERO VINI</option>
+                <option value="1543">STUDIO ANSALDI</option>
+                <option value="1544">GRIMALDI VINI</option>
+                <option value="1545">ALBA TARTUFI</option>
+                <option value="1546">ARREDAMENTI BERUTTI</option>
+                <option value="1547">CALCESTRUZZO STROPPIANA</option>
+                <option value="1548">CASCINA SAN CASSIANO</option>
+                <option value="1549">CLAUDIO ELEVATORI</option>
+                <option value="1550">FEDRIGONI SPA</option>
+                <option value="1551">Anta Vigna</option>
+                <option value="1552">FIERA GOURMET</option>
+                <option value="1553">LA COMMERCIALE</option>
+                <option value="1554">LANGA Tree</option>
+                <option value="1555">IL PARTICOLARE</option>
+                <option value="1556">Cartitalia</option>
+                <option value="1557">Uve Rooms</option>
+                <option value="1558">BALOCCO</option>
+                <option value="1559">CONFARTIGIANATO</option>
+                <option value="1560">CEDIS Srl</option>
+                <option value="1562">STUDIO RATTI</option>
+                <option value="1563">CENTRO ESTETICO SIANABA</option>
+                <option value="1564">ACCADEMIA ARTE E SPETTACOLO</option>
+                <option value="1565">CA D LINET</option>
+                <option value="1566">CASCINA CA' ROSSA</option>
+                <option value="1567">MAZAL CUNEO</option>
+                <option value="1568">MAZAL ALBA</option>
+                <option value="1569">STUDIO BONARDO</option>
+                <option value="1570">GONELLA F.LLI</option>
+                <option value="1571">ThermaEurope</option>
+                <option value="1572">AGRITURISMO CA' TRINCHE'</option>
+                <option value="1573">POSTA EXPRESS</option>
+                <option value="1574">IL MIO CAFFE' ROSSINI SRL</option>
+                <option value="1575">WhyEat</option>
+                <option value="1576">Centro Artigiano Revisione C.A.R.</option>
+                <option value="1577">HOTEL GRISELDA</option>
+                <option value="1578">IL DRAGO E LA FATA </option>
+                <option value="1579">PIUNS </option>
+                <option value="1580">PACIFICO DISCO</option>
+                <option value="1581">AGRITURISMO FIORENDO</option>
+                <option value="1582">CIDIMU</option>
+                <option value="1583">MATTEO</option>
+                <option value="1584">MARA</option>
+                <option value="1585">MARCO</option>
+                <option value="1586">AGRITER</option>
+                <option value="1587">AFF CAMERE CASAMATTA</option>
+                <option value="1588">FARMACIA DEL MUSSOTTO</option>
+                <option value="1589">TORRE DEI FRATI</option>
+                <option value="1590">FanEm</option>
+                <option value="1591">OPENJOBS</option>
+                <option value="1592">CASCINA LA CORTE</option>
+                <option value="1593">PRODUTTORI DEL BARBARESCO</option>
+                <option value="1594">GIUSEPPE CORTESE</option>
+                <option value="1595">Sfregola Cinzia</option>
+                <option value="1596">HOTEL VILLA LAURI</option>
+                <option value="1597">CASA BOFFA</option>
+                <option value="1598">RISTORANTE RABAYA</option>
+                <option value="1599">MAISON DU SOLEIL</option>
+                <option value="1600">Coffeel | Quality Coffe Experience</option>
+                <option value="1601">PRONTO SERVICE</option>
+                <option value="1602">ARTMENU</option>
+                <option value="1603">PARAFARMACIA MADONNA DEI FIORI</option>
+                <option value="1604">RELAIS DEL MONASTERO</option>
+                <option value="1605">WordsSkillsPiemonte</option>
+                <option value="1606">EVENTI E SAPORI</option>
+                <option value="1607">BIRRERIA DEL VICHINGO</option>
+                <option value="1609">BISTROT DELLA BOTTEGA DEL GUSTO</option>
+                <option value="1610">MAMMANELLA</option>
+                <option value="1611">Spartan street Food</option>
+                <option value="1612">ARCADIA</option>
+                <option value="1613">Scuola Materna di Vaccheria</option>
+                <option value="1614">LORENZO PAGLIUZZI</option>
+                <option value="1615">ASTEGGIANO NOCCIOLE</option>
+                <option value="1616">Cantina Giobajaj</option>
+                <option value="1617">PUNTO EAT</option>
+                <option value="1618">BMP EUROPE</option>
+                <option value="1619">DAVIDE VICO</option>
+                <option value="1620">GIESSE LOGISTICA</option>
+                <option value="1621">GIUSEPPE SACCHETTO</option>
+                <option value="1622">PHOBOS GROUP SRL</option>
+                <option value="1623">LUCIANO CHIUSURE</option>
+                <option value="1624">L'ISOLA CHE C'E'</option>
+                <option value="1625">CANTINA PAITIN</option>
+                <option value="1626">CERIMONIE FUNEBRI L'ARCANGELO</option>
+                <option value="1627">Cascina Bambi</option>
+                <option value="1628">FARMACIA BERGONZO</option>
+                <option value="1629">CANTINE CAVALLOTTI</option>
+                <option value="1630">TENUTA CARRETTA</option>
+                <option value="1631">ELISABETTA VACCHETTO</option>
+                <option value="1632">DELIZIE BAKERY SRL</option>
+                <option value="1633">Consulenza Informatica Ulbani</option>
+                <option value="1634">AGR LE RONDINI</option>
+                <option value="1635">CASCINA SAN LETO</option>
+                <option value="1636">CONVIVIUM RISTORANTE</option>
+                <option value="1637">AGR ANGELI CUSTODI</option>
+                <option value="1638">MORANDI LORENZO</option>
+                <option value="1639">BOFFA ALIMENTTARI</option>
+                <option value="1640">L'BUNET</option>
+                <option value="1641">LUIS FRANI</option>
+              </select>
+              <span class="select2 select2-container select2-container--default" dir="ltr" style="width: 340px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-idente-ie-container"><span class="select2-selection__rendered" id="select2-idente-ie-container" title="ONORANZA FUNEBRE PALMA ROBERTO | PALMA ROBERTO">ONORANZA FUNEBRE PALMA ROBERTO | PALMA ROBERTO</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+              </div>
+            </div>
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="data">Data</label>
+              <input value="27/07/2016" id="data" name="data" placeholder="Data creazione preventivo" class="form-control hasDatepicker" type="text">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <h4>Pacchetti e Optional</h4>
+                <hr>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4"> <a target="new" href="http://166.62.11.51/langa/easy/preventivi/optional/162" class="btn btn-info" style="color:#ffffff;text-decoration: none" title="Vedi Optional già inseriti"><i class="fa fa-info"></i></a> <a class="btn btn-warning" style="text-decoration: none; color:#fff" id="add"><i class="fa fa-plus"></i></a> <a class="btn btn-danger" style="text-decoration: none; color:#fff" id="delete"><i class="fa fa-eraser"></i></a> </div>
+              <div class="col-md-4">
+              <div class="form-group">
+                <label>Elenco pacchetti</label>
+                <select style="display:inline" id="pacchetti" class="js-example-basic-single form-control select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                  <option></option>
+                  <option value="2">PACCHETTO %WEB</option>
+                  <option value="3">PACCHETTO %ONE</option>
+                  <option value="4">PACCHETTO %COMMERCE</option>
+                  <option value="5">PACCHETTO %DIGITAL</option>
+                  <option value="6">PACCHETO %PRINT</option>
+                  <option value="7">PACCHETTO %EXHIBITION</option>
+                  <option value="9">PACCHETTO %VIDEO</option>
+                  <option value="10">PACCHETTO %FILM</option>
+                  <option value="22">PACCHETTO %SHOOTING</option>
+                  <option value="23">GESTIONALE TREE %T-CORE</option>
+                  <option value="24">GESTIONALE TREE %T-TRUNK</option>
+                  <option value="25">GESTIONALE TREE %T-BRANCK</option>
+                  <option value="26">GESTIONALE TREE %T-LEAF</option>
+                </select>
+                <span class="select2 select2-container select2-container--default" dir="ltr" style="width: 327px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-pacchetti-container"><span class="select2-selection__rendered" id="select2-pacchetti-container" title=""></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> 
+               </div>
+               </div>
+              <div class="col-md-4">
+              <div class="form-group">
+                <label>Elenco optional</label>
+                <select style="display:inline" id="optional" class="js-example-basic-single form-control select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                  <option></option>
+                  <option value="2">CURA %SOCIAL1 </option>
+                  <option value="3">CURA %SOCIAL3</option>
+                  <option value="4">CURA %SOCIAL5</option>
+                  <option value="5">GESTIONALE %INTERACTIVE </option>
+                  <option value="6">GESTIONALE %OPERATIVE FACTORY</option>
+                  <option value="7">GESTIONALE %OFFICE FACTORY</option>
+                  <option value="8">GESTIONALE %PUBBLICATION</option>
+                  <option value="9">GESTIONALE %FTP</option>
+                  <option value="10">TRADUZIONE %MULTILINGUAL2</option>
+                  <option value="11">SEZIONE %BLOG</option>
+                  <option value="12">SEZIONE %INTERACTIVE FLOW</option>
+                  <option value="13">SEZIONE %INTERACTIVE TIMELINE</option>
+                  <option value="14">SEZIONE %INTERACTIVE STORE LOCATOR</option>
+                  <option value="15">SEZIONE %INTERACTIVE HOTSPOT</option>
+                  <option value="16">SEZIONE %INTERACTIVE PRICE</option>
+                  <option value="17">SEZIONE %INTERACTIVE GAME</option>
+                  <option value="18">SEZIONE %INTERACTIVE CALENDAR</option>
+                  <option value="19">SEZIONE %SITEMAP</option>
+                  <option value="20">ELEMENTO %WIDGET</option>
+                  <option value="21">ELEMENTO %HEADER MORE</option>
+                  <option value="22">PANNELLO %SLIDER</option>
+                  <option value="23">PANNELLO %GALLERY</option>
+                  <option value="24">PANNELLO %VIDEO</option>
+                  <option value="25">PANNELLO %VIDEO MORE</option>
+                  <option value="26">PANNELLO %AUDIO</option>
+                  <option value="27">PANNELLO %AUDIO MORE</option>
+                  <option value="28">INDICIZZAZIONE %SEO BASE</option>
+                  <option value="29">INDICIZZAZIONE %SEO MEDIUM</option>
+                  <option value="30">INDICIZZAZIONE %SEO ADVANCED</option>
+                  <option value="31">AGGIORNAMENTO %REFRESH2</option>
+                  <option value="32">AGGIORNAMENTO %REFRESH4</option>
+                  <option value="33">AGGIORNAMENTO %REFRESH12</option>
+                  <option value="34">CODICE %MAPPA</option>
+                  <option value="35">CODICE %MAPPA FROM TO</option>
+                  <option value="36">CODICE %NEWSLETTERS</option>
+                  <option value="37">CODICE %DINAMICS MORE</option>
+                  <option value="38">CODICE %SOCIAL SHARE</option>
+                  <option value="39">CODICE %PHP</option>
+                  <option value="40">CODICE %AJAX FILTER</option>
+                  <option value="41">CODICE %AGE VERIFICATOR</option>
+                  <option value="42">CODICE %CHAT</option>
+                  <option value="43">CODICE %SHIPPING</option>
+                  <option value="44">CODICE %SOCIAL</option>
+                  <option value="45">CODICE %VELOX SCRIPT</option>
+                  <option value="46">REGISTRAZIONE %TRANSFER</option>
+                  <option value="47">REGISTRAZIONE %SERVER</option>
+                  <option value="48">SERVIZIO %INTERVENT</option>
+                  <option value="49">SERVIZIO %PHOTO</option>
+                  <option value="50">STAMPA %BUSINESS CARD</option>
+                  <option value="51">STAMPA %FLYER</option>
+                  <option value="52">STAMPA %DEPLIANT</option>
+                  <option value="53">STAMPA %BROCHURE</option>
+                  <option value="54">STAMPA %LABEL</option>
+                  <option value="55">STAMPA %STICKER</option>
+                  <option value="56">STAMPA %POSTER</option>
+                  <option value="57">STAMPA %BILLBOARD</option>
+                  <option value="58">STAMPA %RIGID</option>
+                  <option value="59">PACKAGING %GADGET</option>
+                  <option value="60">PACKAGING %T-SHIRT</option>
+                  <option value="61">PACKAGING %BOXES</option>
+                  <option value="62">PACKAGING %DESK</option>
+                  <option value="64">POST-PRODUZIONE %EDITING</option>
+                  <option value="65">POST-PRODUZIONE %3D</option>
+                  <option value="66">POST-PRODUZIONE %GADGET</option>
+                  <option value="67">CODICE %APP</option>
+                  <option value="68">CODICE %PHP FILTER</option>
+                  <option value="69">TRADUZIONE %MULTILINGUAL MORE</option>
+                  <option value="70">MODULO TREE %BATCALENDAR</option>
+                  <option value="71">MODULO TREE %FOXQUOTES</option>
+                  <option value="72">MODULO TREE %SQUIRRELWHOLE</option>
+                  <option value="73">MODULO TREE %EAGLEPROJECT</option>
+                  <option value="74">MODULO TREE %BUTTERFLYCOUNT</option>
+                </select>
+                <span class="select2 select2-container select2-container--default" dir="ltr" style="width: 327px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-optional-container"><span class="select2-selection__rendered" id="select2-optional-container" title=""></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> 
+               </div>
+               </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <table id="table" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Ordine</th>
+                      <th>Codice</th>
+                      <th>Oggetto</th>
+                      <th>Descrizione&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                      <th>Q.tà</th>
+                      <th>Prezzo unitario</th>
+                      <th>Subtotale</th>
+                      <th>Asterisca</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tabella">
+                    <tr>
+                      <td><div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">
+                          </label>
+                        </div></td>
+                      <td><input value="lorem ipsum donor" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><input value="lorem ipsum donor" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><input value="lorem ipsum donor" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><input value="12" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><input value="280" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><input value="3360" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><label class="radio-inline">
+                          <input type="radio" name="optradio">
+                          1</label>
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio">
+                          2</label>
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio">
+                          3</label></td>
+                      <td ><div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">
+                          </label>
+                        </div></td>
+                    </tr>
+                    <tr>
+                      <td><div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">
+                          </label>
+                        </div></td>
+                      <td><input value="lorem ipsum donor" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><input value="lorem ipsum donor" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><input value="lorem ipsum donor" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><input value="12" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><input value="280" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><input value="3360" id="" name="" placeholder="" class="form-control" type="text"></td>
+                      <td><label class="radio-inline">
+                          <input type="radio" name="optradio">
+                          1</label>
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio">
+                          2</label>
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio">
+                          3</label></td>
+                      <td ><div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="">
+                          </label>
+                        </div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="considerazioni">Considerazioni</label>
+              <textarea id="considerazioni" name="considerazioni" placeholder="Considerazioni sul preventivo" class="form-control">considerazioni</textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="noteimportanti">Note importanti</label>
+              <textarea id="noteimportanti" name="noteimportanti" placeholder="Note importanti" class="form-control">note importanti</textarea>
+              </div>
+            </div>
+            <div class="col-md-4">
+            
+              <label for="metodo">Metodo di pagamento</label>
+              <div class="row">
+                <div class="col-md-12"> <a target="new" href="http://166.62.11.51/langa/easy/preventivi/optional/162" class="btn btn-info" style="color:#ffffff;text-decoration: none" title="Vedi Optional già inseriti"><i class="fa fa-info"></i></a> <a class="btn btn-warning" style="text-decoration: none; color:#fff" id=""><i class="fa fa-plus"></i></a> <a class="btn btn-danger" style="text-decoration: none; color:#fff" id=""><i class="fa fa-eraser"></i></a> </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <table id="" class="table table-bordered">
+                    <tbody id="">
+                      <tr>
+                        <td><div class="checkbox">
+                            <label>
+                              <input type="checkbox" value="">
+                              Option 1</label>
+                          </div></td>
+                        <td><input value="" id="" name="" placeholder="data" class="form-control" type="text"></td>
+                        <td><input value="" id="" name="" placeholder="%" class="form-control" type="text"></td>
+                        <td><input value="" id="" name="" placeholder="importo" class="form-control" type="text"></td>
+                      </tr>
+                      <tr>
+                        <td><div class="checkbox">
+                            <label>
+                              <input type="checkbox" value="">
+                              Option 1</label>
+                          </div></td>
+                        <td><input value="" id="" name="" placeholder="data" class="form-control" type="text"></td>
+                        <td><input value="" id="" name="" placeholder="%" class="form-control" type="text"></td>
+                        <td><input value="" id="" name="" placeholder="importo" class="form-control" type="text"></td>
+                      </tr>
+                      <tr>
+                        <td><div class="checkbox">
+                            <label>
+                              <input type="checkbox" value="">
+                              Option 1</label>
+                          </div></td>
+                        <td><input value="" id="" name="" placeholder="data" class="form-control" type="text"></td>
+                        <td><input value="" id="" name="" placeholder="%" class="form-control" type="text"></td>
+                        <td><input value="" id="" name="" placeholder="importo" class="form-control" type="text"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <hr>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="valenza">Valenza</label>
+              <input value="11/11/2016" id="valenza" name="valenza" placeholder="Valenza del preventivo" class="form-control hasDatepicker" type="text">
+              </div>
+            </div>
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="finelavori">Data fine lavori</label>
+              <input value="31/07/2016" id="finelavori" name="finelavori" placeholder="Data presunta fine lavori" class="form-control hasDatepicker" type="text">
+              </div>
+            </div>
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="subtotale">Totale <span style="color:#f37f0d;display:inline">(€)</span> <a onclick="calcola()" style="text-decoration:none" class="" title="Compilazione assistita">&nbsp;&nbsp;Clicca <i class="fa fa-info"></i> per compilazione</a></label>
+              <input value="3800.256" step="any" id="subtotale" name="subtotale" placeholder="Prezzo iniziale" class="form-control" title="Valore iniziale calcolato dalla somma dei prezzi dei singoli pacchetti/optional oppure valore sovrascritto" type="number">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="scontoagente">Sconto agente<span style="color:#f37f0d;display:inline">(%)</span></label>
+              <input value="0" step="any" id="scontoagente" name="scontoagente" placeholder="Sconto agente - calcolato sul totale" class="form-control" title="% di sconto massimo attribuibile in base al proprio tipo di utenza" type="number">
+              </div>
+            </div>
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="scontobonus">Sconto bonus agente<span style="color:#f37f0d;display:inline">(%)</span> </label>
+              <input value="0" step="any" id="scontobonus" name="scontobonus" placeholder="Sconto bonus - calcolata sul totale già scontato" class="form-control" title="% di sconto guadagnata dal commerciale" type="number">
+              </div>
+            </div>
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="totale">
+              Totale scontato
+              <p style="color:#f37f0d;display:inline">(€)</p>
+              </label>
+              <input value="0" step="any" id="totale" name="totale" placeholder="Prezzo totale" class="form-control" title="Valore scontato oppure valore sovrascritto" type="number">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="totaledapagare">
+              Da pagare
+              <p style="color:#f37f0d;display:inline">(€)</p>
+              </label>
+              <input value="3200.267" step="any" id="totaledapagare" name="totaledapagare" placeholder="Prezzo totale da pagare" class="form-control" title="Valore da inserire per eventuale arrotondamenti" type="number">
+              </div>
+            </div>
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="lineebianche">Numero di linee</label>
+              <input value="4" id="lineebianche" name="lineebianche" placeholder="Numero di linee" class="form-control" title="Indicare quanti righe si vogliono avere nell'ultima pagina del preventivo" type="number">
+              </div>
+            </div>
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="noteintestazione">Note private relative al preventivo</label>
+              <a onclick="mostra()" id="mostra">&nbsp;<i class="fa fa-eye"></i></a>
+              <textarea style="background-color:#f39538;color:#ffffff" rows="2" title="Note nascoste, clicca l'occhio per mostrare" class="form-control nascondi" name="noteintestazione" id="noteenti" placeholder="Inserisci note commerciali del preventivo"></textarea>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <!-------------------- Form-1 END -------------------------->
+      
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-12"> 
+            
+            <!-------------------- Form-2 start -------------------------->
+            <form method="POST" action="http://166.62.11.51/langa/easy/preventivi/modify/quote/162" accept-charset="UTF-8" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="statoemotivo">Stato emotivo</label>
+              <select name="statoemotivo" class="form-control" id="statoemotivo" style="color: rgb(255, 255, 255); background-color: rgb(243, 127, 13);">
+                <!-- statoemotivoselezionato -->
+                <option style="background-color:#F3DA0D;color:#ffffff" value="IN ATTESA DI CONFERMA">IN ATTESA DI CONFERMA</option>
+                <option selected="" style="background-color:#f37f0d;color:#ffffff" value="CONFERMATO">CONFERMATO</option>
+                <option style="background-color:#000000;color:#ffffff" value="NON CONFERMATO">NON CONFERMATO</option>
+                <option style="background-color:#D37D29;color:#ffffff" value="CONFERMATO UN ALTRO">CONFERMATO UN ALTRO</option>
+              </select>
+              </div>
+            </form>
+            
+            <!-------------------- Form-2 END--------------------------> 
+          </div>
+        </div>
+        
+        <!-------------------- Form-3 start -------------------------->
+        <form method="POST" action="http://166.62.11.51/langa/easy/preventivi/modify/quote/162" accept-charset="UTF-8" enctype="multipart/form-data">
+          <div class="row">
+            <div class="col-md-12">
+            <div class="form-group">
+              <label for="scansione">Allega file amministrativo (Scansione preventivo, contratto, ...)</label>
+              <input type="file" class="form-control">
+              </div>
+              <!-------------------- Form-2 END --------------------------> 
+            </div>
+            <div class="col-md-12">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Sfoglia</th>
+                  </tr>
+                </thead>
+                <tbody id="files">
+                </tbody>
+              </table>
+              <hr>
+            </div>
+          </div>
+          
+          <!-- fase 3 -->
+          <div class="upload-file-list">
+            <div class="row">
+              <div class="file-box col-md-12">
+                <div class="file-thumb"> <img src="#" height="250" width="150"> </div>
+                <a class="btn btn-danger" style="text-decoration: none; color:#fff" id=""><i class="fa fa-eraser"></i></a>
+                <div class="file-box-footer">
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio">
+                    Option 1</label>
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio">
+                    Option 2</label>
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio">
+                    Option 3</label>
+                </div>
+              </div>
+              <div class="file-box col-md-12">
+                <div class="file-thumb"> <img src="#" height="250" width="150"> </div>
+                <a class="btn btn-danger" style="text-decoration: none; color:#fff" id=""><i class="fa fa-eraser"></i></a>
+                <div class="file-box-footer">
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio">
+                    Option 1</label>
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio">
+                    Option 2</label>
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio">
+                    Option 3</label>
+                </div>
+              </div>
+              <div class="file-box col-md-12">
+                <div class="file-thumb"> <img src="#" height="250" width="150"> </div>
+                <a class="btn btn-danger" style="text-decoration: none; color:#fff" id=""><i class="fa fa-eraser"></i></a>
+                <div class="file-box-footer">
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio">
+                    Option 1</label>
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio">
+                    Option 2</label>
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio">
+                    Option 3</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <button onclick="mostra2()" type="submit" class="btn btn-warning">Salva</button>
+  </div>
+</div>

@@ -71,22 +71,10 @@ Route::get('/alert/user-read', 'AdminController@userreadalert');
 // send alert
 Route::get('/send-notification', 'AdminController@sendnotification');
 
-
-// show notification
-Route::get('/admin/notification', 'AdminController@showadminnotification');
-// get notification json
-Route::get('/notification/json', 'AdminController@getnotificationjson');
-
-// add notification
-Route::get('/admin/notification', 'AdminController@addadminnotification');
-
-// store notification
-Route::post('/admin/notification/store', 'AdminController@storeadminnotification');
 // make comment in notification
 Route::get('/notification/make-comment', 'AdminController@notificationmakecomment');
 // user read notification
 Route::get('/notification/user-read', 'AdminController@userreadnotification');
-
 
 // make comment in role wised notification
 Route::get('/note_role/make-comment', 'AdminController@notemakecomment');
@@ -96,14 +84,13 @@ Route::get('/note_role/user-read', 'AdminController@userreadnote');
 // show taxation 
 Route::get('/taxation', 'AdminController@showtaxation');
 // add taxation
-Route::get('/taxation/add/{id?}', 'AdminController@addtaxation');
+Route::post('/taxation/add', 'AdminController@addtaxation');
 // store taxation
 Route::post('/taxation/store', 'AdminController@storetaxation');
 // delete taxation
-Route::get('/taxation/delete/{id}', 'AdminController@deletetaxation');
+Route::get('/delete-taxation', 'AdminController@deletetaxation');
 // get taxation
 Route::get('taxation/json', 'AdminController@getjsontaxation');
-
 
 // add new provinces
 // Route::get('/admin/add/utente', 'AdminController@addutente');
@@ -169,6 +156,12 @@ Route::get('/preventivi/optional/elimina/{id}', 'QuoteController@eliminaoptional
 Route::get('preventivi/json', 'QuoteController@getjson');
 Route::get('preventivi/miei/json', 'QuoteController@getJsonMiei');
 Route::get('/preventivi/files/{id}', 'QuoteController@filepreventivo');
+Route::post('/preventivi/modify/quote/uploadfiles/{code}', 'QuoteController@fileupload');
+Route::get('/preventivi/modify/quote/getfiles/{code}', 'QuoteController@fileget');
+Route::get('/preventivi/modify/quote/deletefiles/{id}', 'QuoteController@filedelete');
+
+
+
 
 // Progetti
 // Aggiungi nuovo progetto
@@ -219,6 +212,13 @@ Route::get('/admin/destroy/utente/{utente}', 'AdminController@destroyutente');
 //// Tassonomie
 /// Enti
 
+/// Pacchetto (Package)
+Route::get('/admin/pacchetto', 'AdminController@pacchetto');
+//Route::get('/admin/pacchetto/attiva/id/{id}/password/{password}/email/{email}', 'AdminController@attivapassword');
+Route::get('/admin/modify/pacchetto/{pacchetto?}', 'AdminController@modificapacchetto');
+Route::post('/admin/update/pacchetto/{pacchetto?}', 'AdminController@aggiornapacchettoquiz');
+Route::get('/admin/destroy/pacchetto/{pacchetto}', 'AdminController@destroypacchettoquiz');
+
 // Tipi enti
 Route::post('/admin/tassonomie/new', 'AdminController@nuovoTipo');
 Route::post('/admin/tassonomie/update', 'AdminController@tassonomieUpdate');
@@ -236,6 +236,17 @@ Route::get('admin/tassonomie/enti', 'AdminController@enti');
 Route::get('/admin/tassonomie/progetti', 'AdminController@progetti');
 Route::get('/admin/tassonomie/statiprogetti/delete/id/{id}', 'AdminController@deleteStatiProgetti');
 Route::post('/admin/tassonomie/aggiornastatiprogetti', 'AdminController@aggiornaStatiProgetti');
+
+// Progetti -> Lavorazioni
+Route::get('/admin/tassonomie/lavorazioni', 'AdminController@lavorazioni');
+Route::post('/admin/tassonomie/lavorazioninew', 'AdminController@nuovolavorazioni');
+Route::post('/admin/tassonomie/lavorazioniupdate', 'AdminController@lavorazioniUpdate');
+Route::get('/admin/tassonomie/lavorazionidelete/id/{id}', 'AdminController@lavorazionidelete');
+
+/*Route::get('/admin/tassonomie/statilavorazioni/delete/id/{id}', 'AdminController@deleteStatiLavorazioni');
+Route::post('/admin/tassonomie/aggiornastatilavorazioni', 'AdminController@aggiornaStatiLavorazioni');*/
+
+
 // Preventivi -> Stato emotivo
 Route::get('/admin/tassonomie/preventivi', 'AdminController@preventivi'); //fatto
 Route::get('/admin/tassonomie/statipreventivi/delete/id/{id}', 'AdminController@deleteStatiPreventivi'); //fatto
@@ -260,8 +271,8 @@ Route::post('/admin/tassonomie/dipartimenti/update/department/{department}', 'Ad
 /// Vendita
 // Optional
 Route::get('admin/tassonomie/vendita', 'AdminController@vendita');
-Route::get('/admin/tassonomie/optional/add', 'AdminController@mostraoptional');
-Route::post('/admin/tassonomie/optional/add', 'AdminController@aggiungioptional');
+Route::get('/admin/tassonomie/optional', 'AdminController@mostraoptional');
+Route::get('/admin/tassonomie/optional/add', 'AdminController@aggiungioptional');
 Route::post('/admin/tassonomie/optional/store', 'AdminController@salvaoptional');
 Route::get('/admin/tassonomie/modify/optional/{optional}', 'AdminController@modificaoptional');
 Route::post('/admin/tassonomie/update/optional/{optional}', 'AdminController@salvamodificheoptional');

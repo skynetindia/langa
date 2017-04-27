@@ -77,14 +77,12 @@ li label {
     </script>
 @endif
 
+<form action="{{ url('/taxation/add') }}" method="post" style="display:inline;">
+    {{ csrf_field() }}
+    <button class="btn btn-warning" type="submit" name="create" title="Crea nuovo - Aggiungi un nuovo taxation"><span class="fa fa-plus"></span></button>
+</form>
 
 <div class="btn-group" style="display:inline">
-
-<a onclick="multipleAction('add');" id="add" style="display:inline;">
-
-<button class="btn btn-warning" type="submit" name="create" title="Crea nuovo - Aggiungi un nuovo taxation"><span class="fa fa-plus"></span></button>
-
-
 <a onclick="multipleAction('modify');" id="modifica" style="display:inline;">
 
 <button class="btn btn-primary" type="button" name="update" title="Modifica - Modifica l'ultimo taxation selezionato"><span class="fa fa-pencil"></span></button>
@@ -166,17 +164,11 @@ function multipleAction(act) {
     case 'modify':
                 if(n!=0) {
           n--;
-          link.href = "{{ url('/taxation/add/') }}" + '/' + indici[n];
+          link.href = "{{ url('/taxation/modify/') }}" + '/' + indici[n];
           n = 0;
           selezione = undefined;
           link.dispatchEvent(clickEvent);
         }
-      break;
-    case 'add':
-             
-          link.href = "{{ url('/taxation/add/') }}";
-          link.dispatchEvent(clickEvent);
-        
       break;
     }
 }
