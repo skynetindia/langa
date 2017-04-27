@@ -85,9 +85,11 @@ li label {
 <!-- Latest compiled and minified Locales -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
 
-
-
-<h1>Progetti</h1><hr>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Elenco Progetti</h1><hr>        
+    </div>
+</div>
 
 <a href="{{url('/progetti/add')}}" id="modifica" style="display:inline;">
 
@@ -135,6 +137,7 @@ li label {
             <th data-field="codice" data-sortable="true">n° progetto
             <th data-field="ente" data-sortable="true">Ente
             <th data-field="nomeprogetto" data-sortable="true">Nome progetto
+            <th data-field="da" data-sortable="true">Da
             <th data-field="datainizio" data-sortable="true">Data inizio
             <th data-field="datafine" data-sortable="true">Data fine
             <th data-field="progresso" data-sortable="true">Progresso
