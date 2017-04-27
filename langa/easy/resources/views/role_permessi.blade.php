@@ -183,7 +183,7 @@ li label {
 
 <th>ID</th>
 
-<th>Nome_ruolo</th>
+<th>Ruolo</th>
 
 <!-- <th>Permessi</th> -->
 

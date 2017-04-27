@@ -70,7 +70,7 @@ li label {
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-<style>.select2-container, .select2-choices, .selection, .select2-selection, .select2-selection--multiple { height: 150px;}</style>
+
 <!-- ckeditor -->
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 
@@ -110,17 +110,26 @@ li label {
 
   </div>
 
- <?php /* <div class="col-md-6">
-  	<textarea id="show_ente" name="show_ente" class="form-control" rows="4"></textarea>
-	<br>
-  </div>
   <div class="col-md-6">
-  <textarea id="show_role" name="show_role" class="form-control" rows="4"></textarea><br>
+
+  <textarea id="show_ente" name="show_ente" class="form-control" rows="4"></textarea><br>
+
   </div>
-  <br>*/?>
+
+  <div class="col-md-6">
+
+  <textarea id="show_role" name="show_role" class="form-control" rows="4"></textarea><br>
+
+  </div>
+
+  <br>
+
 <div class="col-md-6">
+
 <label for="ente">Ente</label>
-<select id="ente" name="ente[]" class="js-example-basic-multiple form-control" multiple="multiple">
+
+<select id="ente" name="ente[]" class="js-example-basic-multiple form-control" onchange="myEnte()" multiple="multiple">
+
     <option></option>
     @foreach($enti as $enti)
       <option value="{{ $enti->id }}">
@@ -128,10 +137,15 @@ li label {
       </option>
     @endforeach
   </select>
+
   </div>
+
 <div class="col-md-6">
+
 <label for="ruolo">Ruolo</label>
-<select id="ruolo" name="ruolo[]" class="js-example-basic-multiple form-control" multiple="multiple">
+
+<select id="ruolo" name="ruolo[]" class="js-example-basic-multiple form-control" onchange="myRole()"  multiple="multiple">
+
     <option></option>
     @foreach($ruolo_utente as $ruolo_utente)
       <option value="{{ $ruolo_utente->ruolo_id }}">
@@ -141,19 +155,8 @@ li label {
 </select>
 
       <script type="text/javascript">
+
         $(".js-example-basic-multiple").select2();
-		$('#ente').on("select2:selecting", function(e) { 
-			/*var selectad=$(".select2-selection").html();			
-			$("#show_ente").html(selectad);*/
-		   	//var theSelection = $('#ente').select2('data').text;
-			//alert(theSelection);
-   			// what you would like to happen
-		});
-		$('#ente').on("change", function(e) { 
-			var selectad=$(".select2").html();			
-			$("#show_ente").html(selectad);
-		});
-		
 
         function myEnte() {
           var ente = document.getElementsByName("ente");
@@ -171,7 +174,7 @@ li label {
         function myRole() {
           var x = document.getElementById("ruolo").value;
           console.log(x);
-          document.getElementById("show_role").innerHTML = x;
+          // document.getElementById("show_role").innerHTML = x;
         }
 
       </script>
@@ -204,17 +207,17 @@ li label {
 
 <h1>Elenco Activity</h1>
 
-<table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="" data-classes="table table-bordered" id="table">
+<table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="{{ url('/alert/enti/json') }}" data-classes="table table-bordered" id="table">
         <thead>
-            <th data-field="id" data-sortable="true">n° ente
-            <th data-field="name" data-sortable="true">Nome azienda
-            <th data-field="dipartimento" data-sortable="true">Nome referente
-            <th data-field="id" data-sortable="true">Settore
-            <th data-field="name" data-sortable="true">Telefono azienda
-            <th data-field="dipartimento" data-sortable="true">Email
-            <th data-field="id" data-sortable="true">Data e Ora di Lettura
-            <th data-field="name" data-sortable="true">Responsible LANGA 
-            <th data-field="dipartimento" data-sortable="true">Conferma
+            <th data-field="id_ente" data-sortable="true">n° ente
+            <th data-field="nome_azienda" data-sortable="true">Nome azienda
+            <th data-field="nome_referente" data-sortable="true">Nome referente
+            <th data-field="settore" data-sortable="true">Settore
+            <th data-field="telefono_azienda" data-sortable="true">Telefono azienda
+            <th data-field="email" data-sortable="true">Email
+            <th data-field="data_lettura" data-sortable="true">Data e Ora di Lettura
+            <th data-field="responsible_langa" data-sortable="true">Responsible LANGA 
+            <th data-field="conferma" data-sortable="true">Conferma
         </thead>
     </table>
 <script>

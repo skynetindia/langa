@@ -292,7 +292,8 @@ $(document).ready(function() {
                     required: true,
                     maxlength: 20
                 },
-                password: {
+                add_password: {
+                    required: true,
                     maxlength: 64
                 },
                 email: {
@@ -337,7 +338,7 @@ $(document).ready(function() {
                     required: "Please enter a name",
                     maxlength: "Your name must consist of at least 2 characters"
                 },
-                password: {
+                add_password: {
                     required: "Please provide a password",
                     maxlength: "Your password must be at least 6 characters long"
                 },
@@ -376,6 +377,12 @@ $(document).ready(function() {
 
         });
 
+        $.validator.setDefaults({
+        ignore: []
+    });
+        
+
+
         // validate signup form on keyup and submit
         $("#addalert").validate({
 
@@ -410,5 +417,94 @@ $(document).ready(function() {
 
         });
 
-    });
+
+        // validate notification form on keyup and submit
+        $("#addnotification").validate({
+
+            rules: {
+                type: {
+                    required: true,
+                },
+                tempo_avviso: {
+                    required: true
+                },
+                modulo: {
+                    required: true,
+                },
+                ruolo: {
+                    required: true,              
+                }
+            },
+            messages: {
+                type: {
+                    required: "Please enter a notification type"
+                },
+                tempo_avviso: {
+                    required: "Please enter a notification tempo di avviso"
+                },
+                modulo: {
+                    required: "Please Select a modulo"
+                },
+                ruolo: {
+                    required: "Please Select a role"                    
+                }
+            }
+
+        });
+
+        // validate taxation form on keyup and submit
+        $("#taxation_form").validate({
+
+            rules: {
+                tassazione_nome: {
+                    required: true,
+                },
+                tassazione_percentuale: {
+                    required: true,
+                    digits: true
+                }
+            },
+            messages: {
+                tassazione_nome: {
+                    required: "Please enter a alert name"
+                },
+                tassazione_percentuale: {
+                    required: "Please Select a alert type",
+                    digits: "only digits allowed"
+                }
+            }
+
+        });
+
+        // validate provincie form on keyup and submit
+        $("#provincie_form").validate({
+            
+            rules: {
+                stato: {
+                    required: true,
+                },
+                citta: {
+                    required: true,
+                },
+                provincie: {
+                    required: true,
+                    digits: true
+                }
+            },
+            messages: {
+                stato: {
+                    required: "Please Select a state name"
+                },
+                citta: {
+                    required: "Please enter a city name"
+                },
+                provincie: {
+                    required: "Please enter a provincie",
+                    digits: "only digits allowed"
+                }
+            }
+
+        });
+
+});
 
