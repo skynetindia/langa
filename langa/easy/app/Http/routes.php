@@ -71,10 +71,35 @@ Route::get('/alert/user-read', 'AdminController@userreadalert');
 // send alert
 Route::get('/send-notification', 'AdminController@sendnotification');
 
+
+// show notification
+Route::get('/admin/shownotification', 
+	'AdminController@showadminnotification');
+// get notification json
+Route::get('/notification/json', 'AdminController@getnotificationjson');
+
+// get enti notification json
+Route::get('/notification/enti/json', 
+	'AdminController@getentinotificationjson');
+
+// add notification
+Route::get('/admin/notification/{id?}', 
+	'AdminController@addadminnotification');
+
+Route::get('/notification/delete/{id}', 'AdminController@deletenotification');
+
+// store notification
+Route::post('/admin/notification/store/{id?}', 'AdminController@storeadminnotification');
+
+// detail notification
+Route::get('/notification/detail/{id?}', 'AdminController@detailadminnotification');
+
 // make comment in notification
 Route::get('/notification/make-comment', 'AdminController@notificationmakecomment');
+
 // user read notification
 Route::get('/notification/user-read', 'AdminController@userreadnotification');
+
 
 // make comment in role wised notification
 Route::get('/note_role/make-comment', 'AdminController@notemakecomment');
@@ -84,13 +109,14 @@ Route::get('/note_role/user-read', 'AdminController@userreadnote');
 // show taxation 
 Route::get('/taxation', 'AdminController@showtaxation');
 // add taxation
-Route::post('/taxation/add', 'AdminController@addtaxation');
+Route::get('/taxation/add/{id?}', 'AdminController@addtaxation');
 // store taxation
 Route::post('/taxation/store', 'AdminController@storetaxation');
 // delete taxation
-Route::get('/delete-taxation', 'AdminController@deletetaxation');
+Route::get('/taxation/delete/{id}', 'AdminController@deletetaxation');
 // get taxation
 Route::get('taxation/json', 'AdminController@getjsontaxation');
+
 
 // add new provinces
 // Route::get('/admin/add/utente', 'AdminController@addutente');
@@ -159,8 +185,6 @@ Route::get('/preventivi/files/{id}', 'QuoteController@filepreventivo');
 Route::post('/preventivi/modify/quote/uploadfiles/{code}', 'QuoteController@fileupload');
 Route::get('/preventivi/modify/quote/getfiles/{code}', 'QuoteController@fileget');
 Route::get('/preventivi/modify/quote/deletefiles/{id}', 'QuoteController@filedelete');
-
-
 
 
 // Progetti
@@ -236,6 +260,14 @@ Route::get('admin/tassonomie/enti', 'AdminController@enti');
 Route::get('/admin/tassonomie/progetti', 'AdminController@progetti');
 Route::get('/admin/tassonomie/statiprogetti/delete/id/{id}', 'AdminController@deleteStatiProgetti');
 Route::post('/admin/tassonomie/aggiornastatiprogetti', 'AdminController@aggiornaStatiProgetti');
+// Preventivi -> Stato emotivo
+Route::get('/admin/tassonomie/preventivi', 'AdminController@preventivi'); //fatto
+Route::get('/admin/tassonomie/statipreventivi/delete/id/{id}', 'AdminController@deleteStatiPreventivi'); //fatto
+Route::post('/admin/tassonomie/aggiornastatipreventivi', 'AdminController@aggiornaStatiPreventivi'); //fatto(?)
+// Pagamenti -> Stato emotivo
+Route::get('/admin/tassonomie/pagamenti', 'AdminController@pagamenti');
+Route::get('/admin/tassonomie/statipagamenti/delete/id/{id}', 'AdminController@deleteStatiPagamenti');
+Route::post('/admin/tassonomie/aggiornastatipagamenti', 'AdminController@aggiornaStatiPagamenti');
 
 // Progetti -> Lavorazioni
 Route::get('/admin/tassonomie/lavorazioni', 'AdminController@lavorazioni');
@@ -245,16 +277,6 @@ Route::get('/admin/tassonomie/lavorazionidelete/id/{id}', 'AdminController@lavor
 
 /*Route::get('/admin/tassonomie/statilavorazioni/delete/id/{id}', 'AdminController@deleteStatiLavorazioni');
 Route::post('/admin/tassonomie/aggiornastatilavorazioni', 'AdminController@aggiornaStatiLavorazioni');*/
-
-
-// Preventivi -> Stato emotivo
-Route::get('/admin/tassonomie/preventivi', 'AdminController@preventivi'); //fatto
-Route::get('/admin/tassonomie/statipreventivi/delete/id/{id}', 'AdminController@deleteStatiPreventivi'); //fatto
-Route::post('/admin/tassonomie/aggiornastatipreventivi', 'AdminController@aggiornaStatiPreventivi'); //fatto(?)
-// Pagamenti -> Stato emotivo
-Route::get('/admin/tassonomie/pagamenti', 'AdminController@pagamenti');
-Route::get('/admin/tassonomie/statipagamenti/delete/id/{id}', 'AdminController@deleteStatiPagamenti');
-Route::post('/admin/tassonomie/aggiornastatipagamenti', 'AdminController@aggiornaStatiPagamenti');
 
 // route is repeat again 
 // Route::get('/admin/tassonomie/statiprogetti/delete/id/{id}', 'AdminController@deleteStatiPagamenti');
