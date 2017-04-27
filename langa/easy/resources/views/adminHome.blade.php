@@ -72,7 +72,16 @@
 
                             <li><a href="{{url('admin/tassonomie/preventivi')}}">Preventivi</a>
                             </li>
-                            <li><a href="{{url('/admin/tassonomie/progetti')}}">Progetti</a>
+                           <li><a>Progetti<span class="fa fa-chevron-down"></span></a>
+                              <ul class="nav child_menu">
+                              
+                                <li><a href="{{url('/admin/tassonomie/progetti')}}">Progetti</a>
+                                </li>
+
+                                <li><a href="{{url('admin/tassonomie/lavorazioni')}}">Lavorazioni</a>
+                                </li>
+                                
+                              </ul>
                             </li>
                             <li><a href="{{url('/admin/tassonomie/pagamenti')}}">Pagamenti</a>
                             </li>
@@ -109,11 +118,8 @@
 
                   <li><a><i class="fa fa-user-times"></i> Avvisi <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-<<<<<<< HEAD
+
                       <li><a href="{{url('/admin/shownotification')}}">Notifiche</a></li>
-=======
-                      <li><a href="{{url('/admin/notification')}}">Notifiche</a></li>
->>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
                       <li><a href="{{url('/admin/alert')}}">Alert</a></li>
                     </ul>
                   </li>

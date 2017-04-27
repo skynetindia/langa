@@ -17,11 +17,30 @@ class AdminController extends Controller
 
     }
 
+    public function deletetaxation(Request $request) {
+        if($request->user()->id != 0) {
+
+            return redirect('/unauthorized');
+
+        } else {
+
+            DB::table('tassazione')
+                ->where('tassazione_id', $request->id)
+                ->delete();
+
+            return Redirect::back()
+                ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Taxation eliminata correttamente!</h4></div>');
+        }
+    }
+
+
     public function storetaxation(Request $request) {
-        
+
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
         } else {
+
+            
             $validator = Validator::make($request->all(), [
                 'tassazione_nome' => 'required',
                 'tassazione_percentuale' => 'required|numeric'
@@ -33,13 +52,35 @@ class AdminController extends Controller
                     ->withErrors($validator);
             }
             
-            DB::table('tassazione')->insert([
+            $tassazione_id = $request->input('tassazione_id');
+
+            if($tassazione_id){
+
+            $tassazione_nome = $request->input('tassazione_nome');
+            $tassazione_percentuale = $request->input('tassazione_percentuale');
+
+                DB::table('tassazione')
+                    ->where('tassazione_id', $tassazione_id)
+                    ->update(array(
+                        'tassazione_nome' => $tassazione_nome,
+                        'tassazione_percentuale' => 
+                        $tassazione_percentuale
+                    ));
+
+               return Redirect::back()
+                    ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Tassazione update correttamente!</h4></div>');
+
+            } else {
+
+               DB::table('tassazione')->insert([
                 'tassazione_nome' => $request->tassazione_nome,
                 'tassazione_percentuale' => $request->tassazione_percentuale
-            ]);
+                ]);
 
-            return Redirect::back()
-                ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Tassazione aggiunta correttamente!</h4></div>');
+                return Redirect::back()
+                    ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Tassazione aggiunta correttamente!</h4></div>');
+
+            }
         }
     }
 
@@ -55,7 +96,19 @@ class AdminController extends Controller
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
         } else {
-            return view('aggiungitaxation');
+
+            if($request->id){
+
+                $taxation = DB::table('tassazione')
+                    ->where('tassazione_id', $request->id)
+                    -> first();
+
+                return view('aggiungitaxation')->with('taxation',                    $taxation);                
+
+            } else {
+                return view('aggiungitaxation');
+            }
+            
         }
     }
 
@@ -204,7 +257,6 @@ class AdminController extends Controller
         }
     }
 
-<<<<<<< HEAD
     public function deletenotification(Request $request) {
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
@@ -244,16 +296,12 @@ class AdminController extends Controller
 
 
     // add notification
-=======
-     // add notification
->>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
     public function addadminnotification(Request $request)
     {
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
         } else {
 
-<<<<<<< HEAD
             if($request->id){
 
                 return view('addadminnotification', [
@@ -281,14 +329,6 @@ class AdminController extends Controller
                         ->get()                
                 ]);
             }
-=======
-            return view('addadminnotification', [
-                'enti' => DB::table('corporations')
-                    ->get(),
-                'ruolo_utente' => DB::table('ruolo_utente')
-                    ->get()                
-            ]);
->>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
             
         }
     }
@@ -636,7 +676,6 @@ class AdminController extends Controller
         $notifica = DB::table('notifica')
                     ->get();  
 
-<<<<<<< HEAD
         $role_values = DB::table('ruolo_utente')
                 ->get();
 
@@ -676,9 +715,6 @@ class AdminController extends Controller
                     ->get();  
 
         return json_encode($invia_notifica);
-=======
-        return json_encode($notifica);
->>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
     }
 
 
@@ -2054,7 +2090,7 @@ class AdminController extends Controller
                             ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Optional eliminato correttamente!</h4></div>');
         }
     }
-	
+    
     /* Optional section save : Paras */
     public function salvamodificheoptional(Request $request) {
         if ($request->user()->id != 0) {
@@ -2721,7 +2757,6 @@ class AdminController extends Controller
             return $this->show($request);
         }
     }
-	
 	/* ==================================== Lavorazioni section START Paras ======================================== */
 	public function lavorazioni() {
 		/*tassonomie_enti */		
@@ -2777,4 +2812,5 @@ class AdminController extends Controller
     }
 	/* ==================================== Lavorazioni section END ======================================== */
         
+
 }

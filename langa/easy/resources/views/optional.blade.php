@@ -194,9 +194,9 @@ li label {
 
 <th>Codice</th>
 
-<th>Code</th>
+<th>Nome breve</th>
 
-<th>Nome</th>
+<?php /*<th>Nome</th>*/?>
 
 <th>Descrizione</th>
 
@@ -222,11 +222,11 @@ li label {
 
                 <td>{{$opt->code}}</td>
 
-                <td>{{$opt->label}}</td>
+                <?php /*<td>{{$opt->label}}</td>*/?>
 
                 <td>{{$opt->description}}</td>
 
-                <td><img src="http://easy.langa.tv/storage/app/images/<?php echo $opt->icon; ?>" style="max-width:100px; max-height:100px"></img></td>
+                <td><img src="{{url('/storage/app/images/'.$opt->icon)}}" style="max-width:100px; max-height:100px"></img></td>
 
                 <td>{{$opt->price}}</td>
 

@@ -198,14 +198,15 @@ class CorporationController extends Controller
 			'sedelegale' => 'max:1000',
 			'indirizzospedizione' => 'max:1000',
             'email' => 'required|max:64',
-            'indirizzo' => 'required',
+            /*'indirizzo' => 'required',*/
             'noteenti' => 'max:255',
             'iban' => 'max:64',
             'statoemotivo' => 'max:64',
 			'responsabilelanga' => 'required|max:12',
-			'telefonoresponsabile' => 'required|max:35',
+			'logo'=>'mimes:jpeg,jpg,png | max:1000',
+			/*'telefonoresponsabile' => 'required|max:35',*/
         ]);
-                $nome = "";
+        $nome = "";
 		$logo = DB::table('corporations')
                         ->select('logo')
                         ->where('id', $corporation->id)
@@ -215,13 +216,8 @@ class CorporationController extends Controller
 		if($request->logo!=null) {
             $nome = time() . uniqid() . '-' . '-ente.' . pathinfo($request->file('logo')->getClientOriginalName(), PATHINFO_EXTENSION);
 
-            Storage::put(
-
-			    'images/' . $nome,
-                file_get_contents($request->file('logo')->getRealPath())
-            );
+           Storage::put('images/'.$nome,file_get_contents($request->file('logo')->getRealPath()));
 		}
-		
 		if($request->cliente == 0) {
 			DB::table('clienti')
 				->where('id', $corporation->id_cliente)
@@ -252,7 +248,8 @@ class CorporationController extends Controller
 				'email' => $request->email,
 				'logo' => $nome,
 				'iban' => $request->iban,
-				'noteenti' => $request->noteenti,
+				'swift'=>$request->swift,
+				/*'noteenti' => $request->noteenti,*/
 				'indirizzo' => $request->indirizzo,
 				'responsabilelanga' => $request->responsabilelanga,
 				'telefonoresponsabile' => $request->telefonoresponsabile,
@@ -264,23 +261,32 @@ class CorporationController extends Controller
 			->delete();
 		
 		// Memorizza i partecipanti al progetto
-        if(isset($request->partecipanti)) {
+        if(isset($request->partecipanti)) {			
 			$options = $request->partecipanti;
+			$partecipantiNotifiche = $request->partecipantiNotifiche;
+			/*echo count($options);
+			print_r($options);
+			print_r($partecipantiNotifiche);
+			exit;*/
+			//$partecipantiNotifiche[$i] = isset($partecipantiNotifiche[$i]) ? $partecipantiNotifiche[$i] : '0';
 			for($i = 0; $i < count($options); $i++) {
+				$notifiche = isset($partecipantiNotifiche[$options[$i]]) ? $partecipantiNotifiche[$options[$i]] : '0';
+				//$partecipantiNotifiche = $request->partecipantiNotifiche.$options[$i]
+				//$partecipantiNotifiche = isset() ? $request->partecipantiNotifiche.$options[$i] : '';
 				DB::table('enti_partecipanti')->insert([
 					'id_ente' => $corporation->id,
 					'id_user' => $options[$i],
+					'notifiche'=> $notifiche, 					
 				]);
 			}
 		}
 		
-		DB::table('corporationtypes')->where(
+		/*DB::table('corporationtypes')->where(
 			'id_ente', $corporation->id
-		)
-			->delete();
+		)->delete();*/
 		
 		// Memorizza i tipi
-		if(isset($request->tipi)) {
+		/*if(isset($request->tipi)) {
 			$options = $request->tipi;
 			for($i = 0; $i < count($options); $i++) {
 				// echo $options[$i];
@@ -295,7 +301,7 @@ class CorporationController extends Controller
 					'id_ente' => $corporation->id,
 				]);
 			}
-		}
+		}*/
 
 		/*
 		Appunti = ric
@@ -305,19 +311,33 @@ class CorporationController extends Controller
 		*/
         if(isset($request->ric)) {
 			$appunti = $request->ric;
-			$ricontattare = $request->ricontattare;
+			$utente = $request->utente;
+			/*$ricontattare = $request->ricontattare;
 			$alle = $request->alle;
-			$datainserimento = $request->datainserimento;
+			$datainserimento = $request->datainserimento;*/
+			$datainserimento = $request->datepicker_to;
+			/*$da_data = $request->datepicker_from;*/
+			$banca = $request->banca;
+			$cassa = $request->cassa;
+			$notifiche = $request->notifiche;
+			
 			DB::table('messages')
 					->where('id_ente', $corporation->id)
 					->delete();
 			for($i = 0; $i < count($appunti); $i++) {
+				$frequenza = $request->frequenza;
 				DB::table('messages')->insert([
 					'id_ente' => $corporation->id,
+					'id_utente' =>$utente[$i],
 					'appunti' => $appunti[$i],
-					'ricontattare' => $ricontattare[$i],
-					'ora' => $alle[$i],
+					/*'ricontattare' => $ricontattare[$i],
+					'ora' => $alle[$i],*/
 					'datainserimento' => $datainserimento[$i],
+					/*'da_data' => $da_data[$i],*/
+					'banca' => $banca[$i],
+					'cassa' => $cassa[$i],
+					'frequenza' => isset($frequenza[$i]) ? $frequenza[$i] : "0",
+					'notifiche' => isset($notifiche[$i]) ? $notifiche[$i] : '0',
 				]);
 			}
 		} else {
@@ -326,7 +346,7 @@ class CorporationController extends Controller
 					->delete();	
 		}
 		
-		if(isset($request->oggettocosto)) {
+		/*if(isset($request->oggettocosto)) {
 			$appunti = $request->oggettocosto;
 			$ricontattare = $request->costi;
 			$alle = $request->datainserimentocosto;
@@ -345,7 +365,7 @@ class CorporationController extends Controller
 			DB::table('costi')
 					->where('id_ente', $corporation->id)
 					->delete();
-		}
+		}*/
 
 		if($request->statoemotivo!=null) {
 			// Aggiorno lo stato emotivo
@@ -386,7 +406,7 @@ class CorporationController extends Controller
 	
 	public function store(Request $request)
     {
-         $validator = Validator::make($request->all(), [
+         /*$validator = Validator::make($request->all(), [
             'nomeazienda' => 'required|max:35',
             'nomereferente' => 'required|max:35',
             'settore' => 'max:50',
@@ -399,14 +419,34 @@ class CorporationController extends Controller
 			'indirizzospedizione' => 'max:1000',
             'fax' => 'max:35',
             'email' => 'required|max:64',
-            'indirizzo' => 'required',
+           'indirizzo' => 'required',
             'noteenti' => 'max:255',
             'iban' => 'max:64',
             'statoemotivo' => 'max:64',
             'responsabilelanga' => 'required|max:12',
             'telefonoresponsabile' => 'required|max:35',
+        ]);*/
+		
+		$validator = Validator::make($request->all(),[
+            'nomeazienda' => 'required|max:35',
+            'nomereferente' => 'required|max:35',
+            'settore' => 'max:50',
+            'piva' => 'max:11',
+            'cf' => 'max:16',
+            'telefonoazienda' => 'required|max:25',
+            'cellulareazienda' => 'max:25',
+			'emailsecondaria' => 'max:64',
+            'fax' => 'max:35',
+			'sedelegale' => 'max:1000',
+			'indirizzospedizione' => 'max:1000',
+            'email' => 'required|max:64',
+            /*'indirizzo' => 'required',*/
+            'noteenti' => 'max:255',
+            'iban' => 'max:64',
+            'statoemotivo' => 'max:64',
+			'responsabilelanga' => 'required|max:12',
+			/*'telefonoresponsabile' => 'required|max:35',*/
         ]);
-        
         
         if($validator->fails()) {
             return Redirect::back()
@@ -443,14 +483,29 @@ class CorporationController extends Controller
             'email' => $request->email,
 			'logo' => $nome,
             'iban' => $request->iban,
-            'noteenti' => $request->noteenti,
-            'indirizzo' => $request->indirizzo,
+			'swift'=>$request->swift,
+            /*'noteenti' => $request->noteenti,*/
+           /* 'indirizzo' => $request->indirizzo,*/
 			'responsabilelanga' => $request->responsabilelanga,
 			'telefonoresponsabile' => $request->telefonoresponsabile,
         ]);
 		
 		// Memorizza i partecipanti al progetto
-        if(isset($request->partecipanti)) {
+        if(isset($request->partecipanti)) {			
+			$options = $request->partecipanti;
+			$partecipantiNotifiche = $request->partecipantiNotifiche;
+			for($i = 0; $i < count($options); $i++) {
+				$notifiche = isset($partecipantiNotifiche[$options[$i]]) ? $partecipantiNotifiche[$options[$i]] : '0';
+				DB::table('enti_partecipanti')->insert([
+					'id_ente' => $corp->id,
+					'id_user' => $options[$i],
+					'notifiche'=> $notifiche, 					
+				]);
+			}
+		}
+		
+		// Memorizza i partecipanti al progetto
+        /*if(isset($request->partecipanti)) {
 			$options = $request->partecipanti;
 			for($i = 0; $i < count($options); $i++) {
 				DB::table('enti_partecipanti')->insert([
@@ -458,10 +513,10 @@ class CorporationController extends Controller
 					'id_user' => $options[$i],
 				]);
 			}
-		}
+		}*/
 		
 		// Memorizza i tipi
-		if(isset($request->tipi)) {
+		/*if(isset($request->tipi)) {
 			$options = $request->tipi;
 			for($i = 0; $i < count($options); $i++) {
 				// echo $options[$i];
@@ -476,7 +531,7 @@ class CorporationController extends Controller
 					'id_ente' => $corp->id,
 				]);
 			}
-		}
+		}*/
         
 
         /*
@@ -487,16 +542,31 @@ class CorporationController extends Controller
 		*/
         if(isset($request->ric)) {
 			$appunti = $request->ric;
-			$ricontattare = $request->ricontattare;
+			$utente = $request->utente;
+			/*$ricontattare = $request->ricontattare;
 			$alle = $request->alle;
-			$datainserimento = $request->datainserimento;
+			$datainserimento = $request->datainserimento;*/
+
+			$datainserimento = $request->datepicker_to;
+			/*$da_data = $request->datepicker_from;*/
+			$banca = $request->banca;
+			$cassa = $request->cassa;
+			$notifiche = $request->notifiche;
+			
 			for($i = 0; $i < count($appunti); $i++) {
+				$frequenza = $request->frequenza;	
 				DB::table('messages')->insert([
 					'id_ente' => $corp->id,
+					'id_utente' =>$utente[$i],
 					'appunti' => $appunti[$i],
-					'ricontattare' => $ricontattare[$i],
-					'ora' => $alle[$i],
+					/*'ricontattare' => $ricontattare[$i],
+					'ora' => $alle[$i],*/
 					'datainserimento' => $datainserimento[$i],
+					/*'da_data' => $da_data[$i],*/
+					'banca' => $banca[$i],
+					'cassa' => $cassa[$i],
+					'frequenza' => isset($frequenza[$i]) ? $frequenza[$i] : "0",
+					'notifiche' => isset($notifiche[$i]) ? $notifiche[$i] : '0',
 				]);
 			}
 		}
@@ -519,14 +589,38 @@ class CorporationController extends Controller
 	
 	public function nuovo()
 	{
-		return view('aggiungiente', [
+		/*return view('modificaente', [
+			'action'=>'add',
 			'utenti' => DB::table('users')
 				->get(),
 			'tipi' => DB::table('masterdatatypes')
 				->get(),
 			'statiemotivi' => DB::table('statiemotivitipi')
 				->get(),
+		]);*/
+		return view('modificaente', [
+			'action'=>'add',
+			'utenti' => DB::table('users')
+				->get(),
+			'tipi' => DB::table('masterdatatypes')
+				->get(),
+			'tipiselezionati' => [],
+			'statiemotivi' => DB::table('statiemotivitipi')
+				->get(),
+			'statoemotivoselezionato' => [],
+			'partecipanti' => [],
+			'chiamate' => [],
+			'utente' => "",
+			'costi' => []
 		]);
+		/*return view('aggiungiente', [
+			'utenti' => DB::table('users')
+				->get(),
+			'tipi' => DB::table('masterdatatypes')
+				->get(),
+			'statiemotivi' => DB::table('statiemotivitipi')
+				->get(),
+		]);*/
 	}
 	
 	public function modify(Request $request, Corporation $corporation)
