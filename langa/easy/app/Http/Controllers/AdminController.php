@@ -257,7 +257,6 @@ class AdminController extends Controller
         }
     }
 
-<<<<<<< HEAD
     public function deletenotification(Request $request) {
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
@@ -297,16 +296,12 @@ class AdminController extends Controller
 
 
     // add notification
-=======
-     // add notification
->>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
     public function addadminnotification(Request $request)
     {
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
         } else {
 
-<<<<<<< HEAD
             if($request->id){
 
                 return view('addadminnotification', [
@@ -334,14 +329,6 @@ class AdminController extends Controller
                         ->get()                
                 ]);
             }
-=======
-            return view('addadminnotification', [
-                'enti' => DB::table('corporations')
-                    ->get(),
-                'ruolo_utente' => DB::table('ruolo_utente')
-                    ->get()                
-            ]);
->>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
             
         }
     }
@@ -407,7 +394,6 @@ class AdminController extends Controller
                     'type' => 'required',
                     'modulo' => 'required',
                     'tempo_avviso' => 'required',
-                    'ente' => 'required',
                     'ruolo' => 'required'
                 ]);
 
@@ -417,7 +403,13 @@ class AdminController extends Controller
                         ->withErrors($validator);
                 }
 
-                $ente = implode(",", $request->input('ente'));
+            
+                if(isset($ente)){
+                    $ente = implode(",", $request->input('ente'));
+                } else {
+                    $ente = null;
+                }
+
                 $ruolo = implode(",", $request->input('ruolo'));  
 
                 $today = date("Y-m-d");
@@ -445,7 +437,6 @@ class AdminController extends Controller
                 'type' => 'required',
                 'modulo' => 'required',
                 'tempo_avviso' => 'required',
-                'ente' => 'required',
                 'ruolo' => 'required'
                 ]);
 
@@ -455,7 +446,12 @@ class AdminController extends Controller
                         ->withErrors($validator);
                 }
 
-                $ente = implode(",", $request->input('ente'));
+                if(isset($ente)){
+                    $ente = implode(",", $request->input('ente'));
+                } else {
+                    $ente = null;
+                }
+                
                 $ruolo = implode(",", $request->input('ruolo'));  
 
                 $today = date("Y-m-d");
@@ -689,7 +685,6 @@ class AdminController extends Controller
         $notifica = DB::table('notifica')
                     ->get();  
 
-<<<<<<< HEAD
         $role_values = DB::table('ruolo_utente')
                 ->get();
 
@@ -729,9 +724,6 @@ class AdminController extends Controller
                     ->get();  
 
         return json_encode($invia_notifica);
-=======
-        return json_encode($notifica);
->>>>>>> cc608dbd5ac16ce94e0959332772b39d77ec0dbe
     }
 
 
