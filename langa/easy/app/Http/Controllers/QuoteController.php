@@ -109,14 +109,20 @@ class QuoteController extends Controller
                                 ->withInput()
                                 ->withErrors($validator);
             }*/
-			$updateData = DB::table('citazione_file')->where('code', $request->code)->get();						
+			if(isset($request->quote_id)){
+				$updateData = DB::table('citazione_file')->where('quote_id', $request->quote_id)->get();										
+			}
+			else {
+				$updateData = DB::table('citazione_file')->where('code', $request->code)->get();				
+			}
+						
 			foreach($updateData as $prev) {
 				$imagPath = url('/storage/app/images/quote/'.$prev->name);
 				$html = '<tr class="quoteFile_'.$prev->id.'"><td><img src="'.$imagPath.'" height="100" width="100"><a class="btn btn-danger pull-right" style="text-decoration: none; color:#fff" onclick="deleteQuoteFile('.$prev->id.')"><i class="fa fa-eraser"></i></a></td></tr>';
 				$html .='<tr class="quoteFile_'.$prev->id.'"><td>';
 				$utente_file = DB::table('ruolo_utente')->select('*')->get();							
 				foreach($utente_file as $key => $val){
-					$html .=' <input type="radio" name="rdUtente" id="rdUtente_'.$val->ruolo_id.'" value="'.$val->ruolo_id.'" /> '.$val->nome_ruolo;
+					$html .=' <input type="radio" name="rdUtente_'.$prev->id.'" id="rdUtente_'.$val->ruolo_id.'" onchange="updateType('.$val->ruolo_id.','.$prev->id.');"  value="'.$val->ruolo_id.'" /> '.$val->nome_ruolo;
 				}
 				echo $html .='</td></tr>';
 			}
@@ -139,6 +145,27 @@ class QuoteController extends Controller
 		}
 		exit;
 	}
+	public function filetypeupdate(Request $request){
+		/*$validator = Validator::make($request->all(), ['code' => 'required']);
+		if ($validator->fails()) {
+			return Redirect::back()
+							->withInput()
+							->withErrors($validator);
+							
+		}*/
+	 	$response = DB::table('citazione_file')
+			->where('id', $request->id)
+			->update(array('type' => $request->typeid));	    
+		if($response){
+			echo 'success';
+		}
+		else {
+			echo 'fail';
+		}
+		exit;
+	}
+	
+	
 		
 	
 	public function getJsonMiei(Request $request)
@@ -313,7 +340,7 @@ class QuoteController extends Controller
 				'noteimportanti' => $request->noteimportanti,
 				'valenza' => $request->valenza,
 				'finelavori' => $request->finelavori,
-				'notetecniche' => $request->notetecniche,
+				/*'notetecniche' => $request->notetecniche,*/
 				'lineebianche' => $request->lineebianche,
 				'id_notifica' => 0,
 				'subtotale' => $request->subtotale,
@@ -406,7 +433,12 @@ class QuoteController extends Controller
 					'id_preventivo' => $nuovopreventivo->id
 				]);
 			}
-		}
+		}		
+		/* Update Quote Id in Media files Paras */
+			DB::table('citazione_file')
+			->where('code', $request->mediaCode)
+			->update(array('quote_id' => $nuovopreventivo->id));
+		/* Update Quote Id in Media files */
 		
 		return redirect('/preventivi/modify/quote/' . $nuovopreventivo->id)
 				->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Preventivo creato correttamente!</h4></div>');
@@ -421,6 +453,10 @@ class QuoteController extends Controller
 								->select('*')
 								->where('id', $quote->id)
 								->first(),
+			'quotefiles' => DB::table('citazione_file')
+								->select('*')
+								->where('quote_id', $quote->id)
+								->get(),								
 			'utenti' => DB::table('users')
 							->select('*')
 							->get(),
@@ -455,7 +491,7 @@ class QuoteController extends Controller
 			'data' => 'required',
 			'oggetto' => 'required|max:150',
 			'dipartimento' => 'required',
-			'metodo' => 'required|max:1000',
+			/*'metodo' => 'required|max:1000',*/
 			'considerazioni' => 'required|max:2000',
 			'valenza' => 'required',
 			'finelavori' => 'required',
@@ -542,12 +578,12 @@ class QuoteController extends Controller
 				'oggetto' => $request->oggetto,
 				'dipartimento' => $request->dipartimento,
 				'noteintestazione' => $request->noteintestazione,
-				'metodo' => $request->metodo,
+				/*'metodo' => $request->metodo,*/
 				'considerazioni' => $request->considerazioni,
 				'noteimportanti' => $request->noteimportanti,
 				'valenza' => $request->valenza,
 				'finelavori' => $request->finelavori,
-				'notetecniche' => $request->notetecniche,
+				/*'notetecniche' => $request->notetecniche,*/
 				'lineebianche' => $request->lineebianche,
 				'id_notifica' => 0,
 				'subtotale' => $request->subtotale,
@@ -647,7 +683,12 @@ class QuoteController extends Controller
 				]);
 			}
 		}
-		
+		/* Update Quote Id in Media files Paras */
+			DB::table('citazione_file')
+			->where('code', $request->mediaCode)
+			->update(array('quote_id' => $quote->id));
+		/* Update Quote Id in Media files */
+
 		return Redirect::back()
 				->with('msg', '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Preventivo modificato correttamente!</h4></div>');
 	}

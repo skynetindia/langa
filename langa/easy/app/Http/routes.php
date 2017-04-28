@@ -185,6 +185,10 @@ Route::get('/preventivi/files/{id}', 'QuoteController@filepreventivo');
 Route::post('/preventivi/modify/quote/uploadfiles/{code}', 'QuoteController@fileupload');
 Route::get('/preventivi/modify/quote/getfiles/{code}', 'QuoteController@fileget');
 Route::get('/preventivi/modify/quote/deletefiles/{id}', 'QuoteController@filedelete');
+Route::get('/preventivi/modify/quote/updatefiletype/{typeid}/{id}', 'QuoteController@filetypeupdate');
+Route::get('/preventivi/modify/quote/getdefaultfiles/{quote_id}', 'QuoteController@fileget');
+
+
 
 
 // Progetti

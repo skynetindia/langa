@@ -135,7 +135,7 @@ if(isset($corp->id)){
 	echo Form::open(array('url' => '/enti/update/corporation/' . $corp->id, 'files' => true,'id'=>'frmModificaente')); 
 }
 else {
-	echo Form::open(array('url' => '/enti/store/', 'files' => true));
+	echo Form::open(array('url' => '/enti/store/', 'files' => true,'id'=>'frmModificaente'));
 }
 ?>
 	{{ csrf_field() }}
