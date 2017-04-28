@@ -605,6 +605,76 @@
             </nav>
           </div>
 
+
+          <!-- calendar notification -->
+        <?php
+
+        $userId = Auth::id();
+
+       $event_notification = DB::table('invia_notifica')
+                ->join('events', 'invia_notifica.notification_id', '=', 'events.id')
+                ->where('invia_notifica.user_id', $userId)
+                ->where('conferma', '!=', 'LETTO')
+                ->get();    
+        ?>
+
+        <div id="success_message"></div>
+        <div class="col-md-6">  
+
+        <?php
+ 
+        foreach ($event_notification as $event) {   ?>
+              
+          <div class="alert alert-success">
+        
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <h4>
+              <div id="titolo" class="titolo" ><b> {{ $event->titolo }} </b>
+
+              <div id="dettagli" style="display: none;font-weight: bold;"> 
+                  <br>
+                  {{ $event->dettagli }}  
+                  <br><br>
+                  <textarea id="event_comment" rows="4" cols="5" style="color: black"> </textarea> 
+
+                  <input type="hidden" id="event_id" name="" value="{{ $event->id  }}">
+
+                  <input type="hidden" id="user_id" name="" value="{{ $userId  }}">
+
+                  <br><br>
+
+              </div>
+
+              <div id="event_send" style="display: none;">
+
+                <button id="event_send" value="event_send" style="color: black">
+                  Send
+                </button>
+
+              </div>             
+
+              </div>
+
+            </h4> 
+          </div>
+
+        <?php 
+        }
+        ?>
+
+        </div>
+
+  
+      <!-- end calendar notification -->
+
+
+
+
+
+
+
+
+
           <?php
 
 
@@ -730,7 +800,7 @@
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                   <h4>
 
-                  <div id="role_notifica" class="comment" style="font-weight: bold;"> 
+                  id="<div id="role_notifica" class="comment" style="font-weight: bold;"> 
                   {{ $notifica->notification_type }} 
 
                     <br><br>
@@ -806,6 +876,67 @@
 
       $(document).ready(function(){
 
+            $('#titolo').on('click', function(e) {  
+
+                  $('#dettagli').css({
+                      'display': 'block'
+                  });
+                  $('#event_send').css({
+                      'display': 'block'
+                  });
+
+                  e.preventDefault();
+                  var id = $("#event_id").val();
+                  var user_id = $("#user_id").val();
+
+                  $.ajax({
+                        type:'GET',
+                          data: {
+                                  'id': id,
+                                  'user_id': user_id
+                                },
+                          url: '{{ url('event/notification/user-read') }}',
+
+                          success:function(data) {
+
+                             console.log(data);
+                            //  $('#success_message').html(data);
+                           
+                            }
+
+                  });
+
+            });
+
+             $("#event_send").click(function(e){
+         
+              e.preventDefault();
+
+              var messaggio = $("#event_comment").val(); 
+              var id = $("#event_id").val();
+              var user_id = $("#user_id").val();
+               
+              $.ajax({
+                    type:'GET',
+                      data: {
+                              'messaggio': messaggio,
+                              'id': id,
+                              'user_id': user_id,
+                            },
+                      url: '{{ url('event/notification/make-comment') }}',
+
+                      success:function(data) {
+                         console.log(data);
+                        //  $('#success_message').html(data);
+                          location.reload();
+                        }
+
+                    });
+
+                });
+
+
+
             $('#alert').on('click', function(e) {  
 
                   $('#comment').css({
@@ -839,8 +970,7 @@
 
               var messaggio = $("#messaggio").val(); 
               var alert_id = $("#alert_id").val(); 
-              // var _token = $('input[name="_token"]').val();
-
+              
               $.ajax({
                     type:'GET',
                       data: {
@@ -882,7 +1012,7 @@
                           url: '{{ url('notification/user-read') }}',
 
                           success:function(data) {
-                             // console.log(data);
+                             console.log(data);
                             //  $('#success_message').html(data);
                            
                             }

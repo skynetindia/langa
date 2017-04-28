@@ -683,6 +683,17 @@ tr:hover td {
 			document.getElementById("statoemotivo").style.backgroundColor = yourSelect.options[yourSelect.selectedIndex].style.backgroundColor;
 		});
 		</script>
+
+        <div class="col-md-12" id="prezzo" <?php if((Auth::user()->dipartimento > 2 )){ ?> style="display: none" <?php } ?>
+            >
+
+            <label for="prezzo">Prezzo confermato a:</label>
+            <br>
+            <input type="textarea" name="prezzo" class="form-control" value="">
+            <br>
+
+        </div>
+
             <div class="col-md-12">
 	        <label for="scansione">Allega file amministrativo (Scansione preventivo, contratto, ...)</label><br>
 	        <br>
@@ -713,10 +724,43 @@ tr:hover td {
 							$j(".quoteFile_"+id).remove();
 					    }});
 				}
+				function updateType(typeid,fileid){
+					var urlD = '<?php echo url('/preventivi/modify/quote/updatefiletype/'); ?>/'+typeid+'/'+fileid;
+						$j.ajax({url: urlD, success: function(result){
+							//$j(".quoteFile_"+id).remove();
+					    }});
+				}				
+				<?php /* if(isset($preventivo->id)){?>
+				var url1 = '<?php echo url('/preventivi/modify/quote/getdefaultfiles/'.$preventivo->id); ?>';
+				$j.ajax({url: url1, success: function(result){
+        					$j("#files").html(result);
+							$j(".dz-preview").remove();
+							$j(".dz-message").show();
+					    }});
+						<?php } */?>
                 </script>
 	            <table class="table table-striped table-bordered">	                
-	                <tbody id="files">
+	                <tbody><?php
+					if(isset($preventivo->id) && isset($quotefiles)){
+					foreach($quotefiles as $prev) {
+				$imagPath = url('/storage/app/images/quote/'.$prev->name);
+				$html = '<tr class="quoteFile_'.$prev->id.'"><td><img src="'.$imagPath.'" height="100" width="100"><a class="btn btn-danger pull-right" style="text-decoration: none; color:#fff" onclick="deleteQuoteFile('.$prev->id.')"><i class="fa fa-eraser"></i></a></td></tr>';
+				$html .='<tr class="quoteFile_'.$prev->id.'"><td>';
+				$utente_file = DB::table('ruolo_utente')->select('*')->get();							
+				foreach($utente_file as $key => $val){
+					$check = '';
+					if($val->ruolo_id == $prev->type){
+						$check = 'checked';
+					}
+					$html .=' <input type="radio" name="rdUtente_'.$prev->id.'"  '.$check.' id="rdUtente_'.$val->ruolo_id.'" onchange="updateType('.$val->ruolo_id.','.$prev->id.');"  value="'.$val->ruolo_id.'" /> '.$val->nome_ruolo;
+				}
+				echo $html .='</td></tr>';
+			}
+					}
+                    ?></tbody>
+                    <tbody id="files">
 	                </tbody>
+                    
 	                <script>
 	                var $j = jQuery.noConflict();
 	                    var selezione = [];
@@ -757,7 +801,7 @@ tr:hover td {
 
             </div>
             <!-- fase 3 -->
-            <div class="col-md-12"><label for="notecontrattuali">Note private per il tecnico</label><a onclick="mostraTecnico()" id="mostra"> <i class="fa fa-eye"></i></a>  
+<?php /*?>            <div class="col-md-12"><label for="notecontrattuali">Note private per il tecnico</label><a onclick="mostraTecnico()" id="mostra"> <i class="fa fa-eye"></i></a>  
                 <textarea style="background-color:#f39538;color:#ffffff" rows="2" name="notetecniche" id="notetecniche" placeholder="Inserisci note tecniche accordate verbalmente/scritte a mano sul preventivo" title="Note nascoste, clicca l'occhio per mostrare" class="form-control">{{$preventivo->notetecniche}}</textarea><br>
                 <script>
 					var testoTecnico = "<?php echo $preventivo->notetecniche; ?>";
@@ -839,7 +883,7 @@ tr:hover td {
                     <option selected value="0">No</option>
                 @endif
             </select>
-        </div>
+        </div><?php */?>
 		
 	</div>
 </div>
