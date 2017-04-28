@@ -21,6 +21,68 @@ class ProjectController extends Controller
         $this->progetti = $projects;
     }
 
+    /* File uploader : paras */
+	public function fileupload(Request $request){
+			/*$validator = Validator::make($request->all(), [
+                        'code' => 'required',
+						'file'=>'mimes:jpeg,jpg,png|max:1000',	
+            ]);
+            if ($validator->fails()) {
+                return Redirect::back()
+                                ->withInput()
+                                ->withErrors($validator);
+            }*/	
+
+			Storage::put(
+					'images/quote/' . $request->file('file')->getClientOriginalName(), file_get_contents($request->file('file')->getRealPath())
+			);
+			$nome = $request->file('file')->getClientOriginalName();			
+				DB::table('citazione_file')->insert([
+				'name' => $nome,
+				'code' => $request->code,
+			]);					
+	}
+	
+		public function fileget(Request $request){
+			/*$validator = Validator::make($request->all(), [
+                        'code' => 'required',			
+            ]);
+            if ($validator->fails()) {
+			    return Redirect::back()
+                                ->withInput()
+                                ->withErrors($validator);
+            }*/
+			$updateData = DB::table('citazione_file')->where('code', $request->code)->get();						
+			foreach($updateData as $prev) {
+				$imagPath = url('/storage/app/images/quote/'.$prev->name);
+				$html = '<tr class="quoteFile_'.$prev->id.'"><td><img src="'.$imagPath.'" height="100" width="100"><a class="btn btn-danger pull-right" style="text-decoration: none; color:#fff" onclick="deleteQuoteFile('.$prev->id.')"><i class="fa fa-eraser"></i></a></td></tr>';
+				$html .='<tr class="quoteFile_'.$prev->id.'"><td>';
+				$utente_file = DB::table('ruolo_utente')->select('*')->get();							
+				foreach($utente_file as $key => $val){
+					$html .=' <input type="radio" name="rdUtente" id="rdUtente_'.$val->ruolo_id.'" value="'.$val->ruolo_id.'" /> '.$val->nome_ruolo;
+				}
+				echo $html .='</td></tr>';
+			}
+			exit;			
+		}
+		
+	public function filedelete(Request $request){
+		/*$validator = Validator::make($request->all(), ['code' => 'required']);
+		if ($validator->fails()) {
+			return Redirect::back()
+							->withInput()
+							->withErrors($validator);
+		}*/
+	    $response = DB::table('citazione_file')->where('id', $request->id)->delete();
+		if($response){
+			echo 'success';
+		}
+		else {
+			echo 'fail';
+		}
+		exit;
+	}
+
     public function index(Request $request)
     {
         return $this->show($request);
@@ -48,6 +110,7 @@ class ProjectController extends Controller
 	
 	public function getjson(Request $request)
 	{
+
 		$progetti = $this->progetti->forUser($request->user());
 		$this->completaCodice($progetti);
 		return json_encode($progetti);
