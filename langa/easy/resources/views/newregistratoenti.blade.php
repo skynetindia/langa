@@ -209,7 +209,7 @@ li label {
 
                 <td>{{$corporations->nomeazienda}}</td>
 
-                <td>{{$corporations->nomereferente}}</td>
+                <td>{{$corporations->email}}</td>
 
                 <td>
                 

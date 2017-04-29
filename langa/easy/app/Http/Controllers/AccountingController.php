@@ -239,7 +239,12 @@ class AccountingController extends Controller
 	
 	public function getjsontuttetranche(Request $request)
 	{
-		$tranche = DB::table('tranche')->get();
+		// $tranche = DB::table('tranche')->get();
+		$tranche = DB::table('tranche')
+				->join('users', 'tranche.user_id','=','users.id')
+				->where('users.is_delete', '=', 0)
+				->get();
+
 		foreach($tranche as $tr) {
 			if($tr->is_deleted == 0)
 				$tranche_return[] = $tr;	

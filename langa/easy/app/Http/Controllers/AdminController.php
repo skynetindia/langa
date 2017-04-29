@@ -1217,9 +1217,14 @@ class AdminController extends Controller
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
         } else {
-             DB::table('users')
-                    ->where('id', $request->utente)
-                    ->delete();
+
+            DB::table('users')
+                ->where('id', $request->utente)
+                ->update(['is_delete' => 1]);
+
+             // DB::table('users')
+             //        ->where('id', $request->utente)
+             //        ->delete();
             return Redirect::back()
                             ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Utente eliminato correttamente!</h4></div>');
         }
@@ -1507,6 +1512,7 @@ class AdminController extends Controller
                         ->join('ruolo_utente', 'users.dipartimento', '=', 'ruolo_utente.ruolo_id')
                         ->select('*')
                         ->where('id', '!=', 0)
+                        ->where('users.is_delete', '=', 0)
                         ->where('is_approvato', '=', 1)
                         ->where('ruolo_utente.is_delete', '=', 0)
                         ->paginate(10),

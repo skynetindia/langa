@@ -11,12 +11,20 @@ class ProjectRepository
 	// tutti
     public function forUser(User $user)
     {
+    // 	$data = DB::table('projects')
+				// ->where('is_deleted','0')
+				// ->orderBy('id', 'asc')
+				// ->get();
+
     	$data = DB::table('projects')
+    			->join('users', 'projects.user_id', '=', 'users.id')
 				->where('is_deleted','0')
-				->orderBy('id', 'asc')
+				->where('users.is_delete', '=', 0)
+				->orderBy('projects.id', 'asc')
 				->get();
 
-			foreach($data as $data) {				
+		
+		foreach($data as $data) {				
 
 				if($data->statoemotivo != ""){
 					$statiemotivitipi = DB::table('statiemotivitipi')->where('name',$data->statoemotivo)->orderBy('id', 'asc')->get();
@@ -42,11 +50,19 @@ class ProjectRepository
     {
        if($user->id == 0) {
 
+    	//  $data = DB::table('projects')
+				// ->where('is_deleted','0')
+				// ->orderBy('id', 'asc')
+				// ->get();
+
        	$data = DB::table('projects')
+       			->join('users', 'projects.user_id', '=', 'users.id')
 				->where('is_deleted','0')
-				->orderBy('id', 'asc')
+				->where('users.is_delete', '=', 0)
+				->orderBy('projects.id', 'asc')
 				->get();
 
+		
 			foreach($data as $data) {				
 
 				if($data->statoemotivo != ""){
@@ -69,14 +85,23 @@ class ProjectRepository
 
        } else {
 			
+
 		$partecipanti = DB::table('progetti_partecipanti')
 			->select('id_progetto')
 			->where('id_user', $user->id)
 			->get();
-				
-		$progetti = Project::whereIn('id', json_decode(json_encode($partecipanti), true))
-			->orWhere('user_id', $user->id)
-			->orderBy('id', 'asc')
+
+
+		// $progetti = Project::whereIn('id', json_decode(json_encode($partecipanti), true))
+		// 	->orWhere('user_id', $user->id)
+		// 	->orderBy('id', 'asc')
+		// 	->get();
+
+		$progetti = Project::join('users', 'projects.user_id', '=', 'users.id')
+			->whereIn('projects.id', json_decode(json_encode($partecipanti), true))
+			->orWhere('projects.user_id', $user->id)
+			->where('users.is_delete', '=', 0)
+			->orderBy('projects.id', 'asc')
 			->get();
 		
 		foreach($progetti as $prog) {

@@ -82,17 +82,32 @@ class QuoteController extends Controller
 	public function getJsonMiei(Request $request)
 	{
 		if($request->user()->id == 0) {
+
+			// $preventivi = DB::table('quotes')
+			// 	->where('is_deleted', 0)
+			// 	->get();
+
 			$preventivi = DB::table('quotes')
-			->where('is_deleted', 0)
-			->get();
+				->join('users', 'quotes.user_id', '=', 'users.id')
+				->where('is_deleted', 0)
+				->where('users.is_delete', '=', 0)
+				->get();			
+
 			$this->completaCodice($preventivi);
 			return json_encode($preventivi);
 		}
 		$id = $request->user()->id;
 		
+		// $preventivi = DB::table('quotes')
+		// 	->where('is_deleted', 0)
+		// 	->where('user_id', $id)
+		// 	->get();
+
 		$preventivi = DB::table('quotes')
+			->join('users', 'quotes.user_id', '=', 'users.id')
 			->where('is_deleted', 0)
 			->where('user_id', $id)
+			->where('users.is_delete', '=', 0)
 			->get();
 		
 		foreach($preventivi as $prev) {
@@ -107,9 +122,16 @@ class QuoteController extends Controller
 	
 	public function getjson(Request $request)
 	{
+		// $preventivi = DB::table('quotes')
+		// 	->where('is_deleted', 0)
+		// 	->get();
+
 		$preventivi = DB::table('quotes')
+			->join('users', 'quotes.user_id', '=', 'users.id')
 			->where('is_deleted', 0)
+			->where('users.is_delete', '=', 0)
 			->get();
+
 		$this->completaCodice($preventivi);
 		return json_encode($preventivi);
 	}

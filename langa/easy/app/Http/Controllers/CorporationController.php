@@ -122,7 +122,7 @@ class CorporationController extends Controller
 		$enti = $this->corporations->forUser($request->user());
 		//$this->compilaStatiEmotivi($enti);
 		//$this->compilaTipi($enti);
-
+		dd($enti);
 		return json_encode($enti);
 	}
 	

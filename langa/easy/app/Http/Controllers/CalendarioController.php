@@ -399,6 +399,7 @@ dd("else");
 			$eventi = $this->events->forUser($request->user(), $request->month, $request->year);
 
 		} else {
+            
 			// tutti
 			$eventi = $this->events->forUser2($request->user(), $request->month, $request->year);
 		}
