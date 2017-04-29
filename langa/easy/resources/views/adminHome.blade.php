@@ -72,16 +72,7 @@
 
                             <li><a href="{{url('admin/tassonomie/preventivi')}}">Preventivi</a>
                             </li>
-                            <li><a>Progetti<span class="fa fa-chevron-down"></span></a>
-                              <ul class="nav child_menu">
-                              
-                                <li><a href="{{url('/admin/tassonomie/progetti')}}">Progetti</a>
-                                </li>
-
-                                <li><a href="{{url('admin/tassonomie/lavorazioni')}}">Lavorazioni</a>
-                                </li>
-                                
-                              </ul>
+                            <li><a href="{{url('/admin/tassonomie/progetti')}}">Progetti</a>
                             </li>
                             <li><a href="{{url('/admin/tassonomie/pagamenti')}}">Pagamenti</a>
                             </li>
@@ -118,15 +109,26 @@
 
                   <li><a><i class="fa fa-user-times"></i> Avvisi <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+
                       <li><a href="{{url('/admin/shownotification')}}">Notifiche</a></li>
-                      <li><a href="{{url('/admin/alert')}}">Alert</a></li>
+                     
+                       <li><a>Alert<span class="fa fa-chevron-down"></span></a>
+                              <ul class="nav child_menu">
+                              
+                                <li><a href="{{url('/admin/alert')}}">Alert</a></li>
+
+                                <li><a href="{{url('/admin/alert/tipo')}}">Alert Tipo</a></li>
+
+                              </ul>
+                        </li>
+
+
                     </ul>
                   </li>
 				          
                   <li><a href="{{url('/taxation')}}"><i class="fa fa-percent"></i> Taxation </a></li>
 
                   <li><a href="{{url('/newsletter/add')}}"><i class="fa fa-newspaper-o"></i> Newsletter</a></li>
-				   <li><a href="{{url('/admin/pacchetto')}}"><i class="fa fa-gift"></i> Pacchetto </a></li>
 				  
                 </ul>
               </div>

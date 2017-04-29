@@ -98,14 +98,36 @@ li label {
 
   </div>
 
+<?php 
+  $alert_tipo = DB::table('alert_tipo')
+            ->get();
+
+    // foreach($alert_tipo as $type) {
+
+    //     if(isset($type->color)){
+
+    //     $type->nome_tipo = '<span style="color:'.$type->color.'">'.$type->nome_tipo.'</span>';
+
+    //     }
+    //     // var_dump($type);
+    //     $tipo[] = $type; 
+    // }
+
+    // dd($tipo);
+?>
   <div class="col-md-4">
 
     <label>Tipo Alert</label>
 
       <select class="form-control" id="tipo_alert" name="tipo_alert">
-        <option value="1">Colore Alert</option>
-        <option value="2">Colore Alert1</option>
-        <option value="3">Colore Alert2</option>
+
+        <option value=""></option>
+        @foreach($alert_tipo as $type)
+
+          <option style="background-color:{{ $type->color }}; value="{{ $type->id_tipo }}">{{ $type->nome_tipo }}</option>
+
+        @endforeach
+        
       </select><br>
 
   </div>

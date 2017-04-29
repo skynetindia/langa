@@ -17,6 +17,60 @@ class AdminController extends Controller
 
     }
 
+    // delete alert type
+    public function alerttipodelete(Request $request)
+    {
+        DB::table('alert_tipo')
+            ->where('id_tipo', $request->id_tipo)
+            ->delete();
+        return Redirect::back();
+    }
+
+    // update type color
+    public function alerttipoUpdate(Request $request)
+    {
+        if ($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+
+            DB::table('alert_tipo')
+                    ->where('id_tipo', $request->id_tipo)
+                    ->update(array(
+                        'nome_tipo' => $request->nome_tipo,
+                        'desc_tipo' => $request->desc_tipo,
+                        'color' => $request->color,
+            ));
+
+            return Redirect::back();
+        }
+    }
+
+    // add alert type
+    public function nuovoalertTipo(Request $request)
+    {
+            if ($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+           
+            DB::table('alert_tipo')->insert([
+                'nome_tipo' => $request->nome_tipo,
+                'desc_tipo' => $request->desc_tipo,
+                'color' => $request->color,
+            ]);
+
+            return Redirect::back();
+        }
+    }
+
+    // alert types
+    public function alertTipo()
+    {
+        return view('alerttipo', [
+            'alert_tipo' => DB::table('alert_tipo')
+                ->get()
+        ]);
+    }
+
     public function deletetaxation(Request $request) {
         if($request->user()->id != 0) {
 
