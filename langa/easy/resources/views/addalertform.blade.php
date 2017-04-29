@@ -70,7 +70,7 @@ li label {
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-<style>.select2-container, .select2-choices, .selection, .select2-selection, .select2-selection--multiple { height: 150px;}</style>
+
 <!-- ckeditor -->
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 
@@ -119,9 +119,9 @@ li label {
 
     <label>Tipo Alert</label>
 
-      <select class="form-control" id="tipo_alert" name="tipo_alert">
+      <select class="form-control" id="tipo_alert" name="tipo_alert" style="color:#ffffff" >
 
-        <option value=""></option>
+        <option value="" style="background-color:white"></option>
         @foreach($alert_tipo as $type)
 
           <option style="background-color:{{ $type->color }}; value="{{ $type->id_tipo }}">{{ $type->nome_tipo }}</option>
@@ -129,9 +129,17 @@ li label {
         @endforeach
         
       </select><br>
-
+	  <script>
+	    var yourSelect = document.getElementById( "tipo_alert" );
+     document.getElementById("tipo_alert").style.backgroundColor = yourSelect.options[yourSelect.selectedIndex].style.backgroundColor;
+                $('#tipo_alert').on("change", function() {
+                    var yourSelect = document.getElementById( "tipo_alert" );
+					console.log(yourSelect.options[yourSelect.selectedIndex].style.backgroundColor);
+                    document.getElementById("tipo_alert").style.backgroundColor = yourSelect.options[yourSelect.selectedIndex].style.backgroundColor;
+                });
+				</script>
   </div>
-<?php /* 
+
   <div class="col-md-6">
 
   <textarea id="show_ente" name="show_ente" class="form-control" rows="4"></textarea><br>
@@ -142,15 +150,15 @@ li label {
 
   <textarea id="show_role" name="show_role" class="form-control" rows="4"></textarea><br>
 
-  </div> 
+  </div>
 
-  <br>*/?>
+  <br>
 
 <div class="col-md-6">
 
 <label for="ente">Ente</label>
 
-<select id="ente" name="ente[]" class="js-example-basic-multiple form-control" multiple="multiple">
+<select id="ente" name="ente[]" class="js-example-basic-multiple form-control" onchange="myEnte()" multiple="multiple">
 
     <option></option>
     @foreach($enti as $enti)
@@ -178,14 +186,7 @@ li label {
 
       <script type="text/javascript">
 
-         $(".js-example-basic-multiple").select2();
-		$('#ente').on("select2:selecting", function(e) { 
-			/*var selectad=$(".select2-selection").html();			
-			$("#show_ente").html(selectad);*/
-		   	//var theSelection = $('#ente').select2('data').text;
-			//alert(theSelection);
-   			// what you would like to happen
-		});
+        $(".js-example-basic-multiple").select2();
 
         function myEnte() {
           var ente = document.getElementsByName("ente");

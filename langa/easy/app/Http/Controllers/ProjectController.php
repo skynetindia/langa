@@ -57,7 +57,7 @@ class ProjectController extends Controller
 				$imagPath = url('/storage/app/images/quote/'.$prev->name);
 				$html = '<tr class="quoteFile_'.$prev->id.'"><td><img src="'.$imagPath.'" height="100" width="100"><a class="btn btn-danger pull-right" style="text-decoration: none; color:#fff" onclick="deleteQuoteFile('.$prev->id.')"><i class="fa fa-eraser"></i></a></td></tr>';
 				$html .='<tr class="quoteFile_'.$prev->id.'"><td>';
-				$utente_file = DB::table('ruolo_utente')->select('*')->get();							
+				$utente_file = DB::table('ruolo_utente')->select('*')->where('is_delete', '=', 0)->get();							
 				foreach($utente_file as $key => $val){
 					$html .=' <input type="radio" name="rdUtente" id="rdUtente_'.$val->ruolo_id.'" value="'.$val->ruolo_id.'" /> '.$val->nome_ruolo;
 				}

@@ -70,7 +70,7 @@ li label {
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-<style>.select2-container, .select2-choices, .selection, .select2-selection, .select2-selection--multiple { height: 150px;}</style>
+
 <!-- ckeditor -->
 <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
 
@@ -132,7 +132,7 @@ li label {
 
   </div>
 
-  <?php /*<div class="col-md-6">
+  <div class="col-md-6">
 
   <textarea id="show_ente" name="show_ente" class="form-control" rows="4"></textarea><br>
 
@@ -142,7 +142,7 @@ li label {
 
   <textarea id="show_role" name="show_role" class="form-control" rows="4"></textarea><br>
 
-  </div> */?>
+  </div>
 
   <br>
 
@@ -153,7 +153,7 @@ li label {
 
 <label for="ente">Ente</label>
 
-<select id="ente" name="ente[]" class="js-example-basic-multiple form-control"  multiple="multiple">
+<select id="ente" name="ente[]" class="js-example-basic-multiple form-control" onchange="myEnte()" multiple="multiple">
 
     <option></option>
     @foreach($enti as $enti)
@@ -182,7 +182,7 @@ li label {
 
 <?php $ruolo = explode(",", $notifica->ruolo); ?>
 
-<select id="ruolo" name="ruolo[]" class="js-example-basic-multiple form-control"  multiple="multiple" required> 
+<select id="ruolo" name="ruolo[]" class="js-example-basic-multiple form-control" onchange="myRole()"  multiple="multiple" required> 
 
     <option></option>
 
@@ -206,22 +206,9 @@ li label {
 
 </select>
 
-  <script type="text/javascript">
-        $(".js-example-basic-multiple").select2();
-		$('#ente').on("select2:selecting", function(e) { 
-			/*var selectad=$(".select2-selection").html();			
-			$("#show_ente").html(selectad);*/
-		   	//var theSelection = $('#ente').select2('data').text;
-			//alert(theSelection);
-   			// what you would like to happen
-		});
-		$('#ente').on("change", function(e) { 
-			var selectad=$(".select2").html();			
-			$("#show_ente").html(selectad);
-		});
-      
+      <script type="text/javascript">
 
-       // $(".js-example-basic-multiple").select2();
+        $(".js-example-basic-multiple").select2();
 
         function myEnte() {
           var ente = document.getElementsByName("ente");
@@ -294,7 +281,7 @@ li label {
 
   </div>
 
-<?php /*  <div class="col-md-6">
+  <div class="col-md-6">
 
   <textarea id="show_ente" name="show_ente" class="form-control" rows="4"></textarea><br>
 
@@ -304,7 +291,7 @@ li label {
 
   <textarea id="show_role" name="show_role" class="form-control" rows="4"></textarea><br>
 
-  </div>*/?>
+  </div>
 
   <br>
 
@@ -341,18 +328,6 @@ li label {
       <script type="text/javascript">
 
         $(".js-example-basic-multiple").select2();
-		$('#ente').on("select2:selecting", function(e) { 
-			/*var selectad=$(".select2-selection").html();			
-			$("#show_ente").html(selectad);*/
-		   	//var theSelection = $('#ente').select2('data').text;
-			//alert(theSelection);
-   			// what you would like to happen
-		});
-		$('#ente').on("change", function(e) { 
-			var selectad=$(".select2").html();			
-			$("#show_ente").html(selectad);
-		});
-      
 
         function myEnte() {
           var ente = document.getElementsByName("ente");

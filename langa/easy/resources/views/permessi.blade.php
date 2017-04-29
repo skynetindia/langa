@@ -215,7 +215,7 @@ th, td {
 <h1>Permessi</h1><hr>
 <h5>Profilazione Easy <b> LANGA </b></h5><hr>
 
-<?php $ruolo = DB::table('ruolo_utente')->get(); ?>
+<?php $ruolo = DB::table('ruolo_utente')->where('is_delete', '=', 0)->get(); ?>
 
 <?php echo Form::open(array('url' => '/store-permessi')) ?>
 
