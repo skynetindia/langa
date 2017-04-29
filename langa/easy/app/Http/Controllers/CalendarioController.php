@@ -30,6 +30,208 @@ class CalendarioController extends Controller
 		$this->corporations = $corporations;
     }
 
+    // user read notification
+    public function userreadevent(Request $request)
+    {
+
+        $today = date("Y-m-d h:i:s");
+        $id = $request->input('id');
+        $user_id = $request->input('user_id');
+     
+         DB::table('invia_notifica')
+                ->where('notification_id', $id)
+                ->where('user_id', $user_id)
+                ->update(array(
+                    'data_lettura' => $today,
+                    'conferma' => 'LETTO'
+                    ));
+                
+        return Redirect::back();
+        
+    }
+
+    // make comment in notification
+    public function eventmakecomment(Request $request)
+    {
+        $messaggio = $request->input('messaggio');
+        $id = $request->input('id');
+        $user_id = $request->input('user_id');
+        
+         DB::table('invia_notifica')
+                ->where('notification_id', $id)
+                ->where('user_id', $user_id)
+                ->update(array(
+                    'comment' => $messaggio,
+                    'conferma' => 'LETTO'
+                    ));
+                
+        return Redirect::back();
+        
+    }    
+
+
+    // send event notification 
+    public function sendeventnotification(Request $request)
+    {
+        if($request->user()->id != 0) {
+            
+            return redirect('/unauthorized');
+
+        } else {
+
+            $userID = $request->user()->id;
+            $today = date("Y-m-d");
+
+            $event_notification = DB::table('events')
+                  ->where('giornoDate', '>', $today)
+                  ->get();  
+
+            $nextday = strftime("%Y-%m-%d", strtotime("$today +1 day"));
+
+            if(empty($event_notification)) {
+
+                return "No event set for today.!!";
+            }
+
+            foreach ($event_notification as $event) {                
+
+                if($nextday == $event->giornoDate){ 
+
+                    if($event->id_ente >= 0){
+
+                        $getente = DB::table('enti_partecipanti')
+                            ->select('id_user')
+                            ->where('id_ente', $event->id_ente)
+                            ->get();
+
+                        foreach ($getente as $getente) {
+           
+                            $corporations = DB::table('corporations')
+                                ->where('id', $event->id_ente)
+                                ->first(); 
+                                                             
+                            $true = DB::table('invia_notifica')->insert([
+                                    'id_ente' => $corporations->id,
+                                    'ruolo' => '',
+                                    'user_id' => $getente->id_user,
+                                    'notification_id' => $event->id,
+                                    'nome_azienda' => $corporations->nomeazienda,
+                                    'nome_referente' => $corporations->nomereferente,
+                                    'settore' => $corporations->settore,
+                                    'telefono_azienda' => $corporations->telefonoazienda,
+                                    'email' => $corporations->email,
+                                    'data_lettura' => '',
+                                    'conferma' => 'NON LETTO'
+                                ]);
+                        }
+
+                    } else {
+
+                       return "event not set for any partecipanti.!!";
+                    } 
+                } 
+            }     
+
+            if($true){
+
+                return "Even notification send succesfully.!";
+
+            } else {
+
+                return false;
+            }   
+
+            dd("End..!!");
+// else {
+
+//                     return "No event set for today.!!";
+
+//                 }
+
+                if($event->id_ente >= 0){
+                      
+                    $getente = DB::table('enti_partecipanti')
+                        ->select('id_user')
+                        ->where('id_ente', $event->id_ente)
+                        ->get();
+
+                    foreach ($getente as $getente) {
+
+                            $corporations = DB::table('corporations')
+                                ->where('id', $event->id_ente)
+                                ->first();
+
+                            dd($corporations);
+
+                            $true = DB::table('invia_notifica')->insert([
+                                    'id_ente' => $corporations->id,
+                                    'ruolo' => '',
+                                    'user_id' => $corporations->user_id,
+                                    'notification_id' => '',
+                                    'nome_azienda' => $corporations->nomeazienda,
+                                    'nome_referente' => $corporations->nomereferente,
+                                    'settore' => $corporations->settore,
+                                    'telefono_azienda' => $corporations->telefonoazienda,
+                                    'email' => $corporations->email,
+                                    'data_lettura' => '',
+                                    'conferma' => 'NON LETTO'
+                                ]);
+
+                      
+                                if($true){
+                                    return "notification send succesfully.!";
+
+                                } else {
+
+                                    return false;
+                                }   
+                    }
+
+                } // end if 
+                else {
+dd("else");
+                    foreach ($ruolo as $role) {
+
+                        $getdept = DB::table('users')
+                            ->where('dipartimento', $role)
+                            ->get();
+                      
+                        foreach ($getdept as $getdept) {
+
+                            $corporations = DB::table('corporations')
+                            ->where('id', $getdept->id)
+                            ->first();
+   
+                            $true = DB::table('invia_notifica')->insert([
+                            'ruolo' => $role,
+                            'user_id' => $getdept->id,
+                            'notification_id' => $value->id,
+                            'nome_azienda' => $corporations->nomeazienda,
+                            'nome_referente' => $corporations->nomereferente,
+                            'settore' => $corporations->settore,
+                            'telefono_azienda' => $corporations->telefonoazienda,
+                            'email' => $corporations->email,
+                            'data_lettura' => '',
+                            'conferma' => 'NON LETTO'
+                            ]);
+
+                        }
+                    }
+
+                    if($true){
+
+                        return "notification send succesfully.!";
+
+                    } else {
+
+                        return false;
+                    }
+                             
+                }
+            
+        }
+    }
+
     
 	public function update(Request $request, Event $event)
 	{
@@ -118,14 +320,14 @@ class CalendarioController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'giorno' => 'required',
-            'giornoFine' => 'required',
+            // 'giornoFine' => 'required',
             'ente' => 'required',
-            'giornoFine' => 'required',
+            // 'giornoFine' => 'required',
             'titolo' => 'required|max:255',
             'dettagli' => 'max:500',
-			'dove' => 'required',
-            'sh' => 'required',
-            'eh' => 'required',
+			'dove' => 'required'
+            // 'sh' => 'required',
+            // 'eh' => 'required',
         ]);
         
         if($validator->fails()) {
@@ -151,6 +353,7 @@ class CalendarioController extends Controller
             'dipartimento' => $request->user()->dipartimento,
 			'ente' => $ente->nomeazienda,
             'giorno' => $giorno,
+            'giornoDate' => $giorno,
             'giornoFine' => $giornoFine,
             'mese' => $mese,
             'meseFine' => $meseFine,
@@ -160,8 +363,8 @@ class CalendarioController extends Controller
             'id_ente' => $ente->id,
 			'notifica' => $request->notifica,
 			'privato' => $request->privato,
-            'sh' => $request->sh,
-            'eh' => $request->eh,
+            'sh' => '',
+            'eh' =>'',
             'titolo' => $request->titolo,
             'dettagli' => $request->dettagli,
 			'dove' => $request->dove
