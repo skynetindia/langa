@@ -62,6 +62,7 @@ class AdminController extends Controller
         }
     }
 
+	
     // alert types
     public function alertTipo()
     {
