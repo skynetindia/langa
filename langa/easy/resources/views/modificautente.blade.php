@@ -450,7 +450,8 @@ th, td {
     <!-- colonna a destra -->
 
     <?php $ruolo = DB::table('ruolo_utente')
-        ->get();
+            ->where('is_delete', '=', 0)
+            ->get();
 
     ?>
 
@@ -582,6 +583,7 @@ th, td {
 @else
   
   <?php $role = DB::table('ruolo_utente')
+        ->where('is_delete', '=', 0)
         ->get();
     ?>
   
@@ -627,7 +629,7 @@ th, td {
 
     <label for="name">Nome <p style="color:#f37f0d;display:inline">(*)</p></label>
 
-    <input value="{{ old('name') }}" class="form-control" type="text" name="name" id="name" placeholder="inserisci il nome" ><br>
+    <input value="" class="form-control" type="text" name="name" id="name" placeholder="inserisci il nome"><br>
 
 <!--    <label for="cellulare">Cellulare</label>
 
@@ -635,7 +637,7 @@ th, td {
                 
     <label for="colore">Colore</label>
 
-    <input value="{{ old('colore') }}" class="form-control color no-alpha" type="text" name="colore" id="colore" placeholder="Scegli un colore"><br>
+    <input value="" class="form-control color no-alpha" type="text" name="colore" id="colore" placeholder="Scegli un colore"><br>
 
     <div id="sconto_section" >
 
@@ -643,7 +645,7 @@ th, td {
 
     <label for="sconto">Sconto <p style="color:#f37f0d;display:inline">(*)</p></label>
 
-    <input value="{{ old('sconto') }}" class="form-control" type="text" name="sconto" id="sconto" placeholder="inserisci sconto"><br>
+    <input value="" class="form-control" type="text" name="sconto" id="sconto" placeholder="inserisci sconto"><br>
 
     </div>
 
@@ -651,7 +653,7 @@ th, td {
 
     <label for="sconto_bonus">Sconto bonus<p style="color:#f37f0d;display:inline">(*)</p></label>
 
-    <input value="{{ old('sconto_bonus') }}" class="form-control" type="text" name="sconto_bonus" id="sconto_bonus" placeholder="inserire il bonus di sconto"><br>
+    <input value="" class="form-control" type="text" name="sconto_bonus" id="sconto_bonus" placeholder="inserire il bonus di sconto"><br>
 
     </div></div>  
 
@@ -696,7 +698,7 @@ th, td {
       <?php  
         foreach ($enti as $enti_value) { ?> 
 
-         <option value="<?php echo $enti_value->id ?>" <?php if(old('nomereferente') == $enti_value->id) { echo 'selected';} ?> ><?php echo $enti_value->nomereferente ?> </option> 
+         <option value="<?php echo $enti_value->id ?>"><?php echo $enti_value->nomereferente ?> </option> 
 
       <?php  }  ?>
     
@@ -758,13 +760,13 @@ th, td {
 
       <label for="email">e-mail </label><p style="color:#f37f0d;display:inline"> (*) </p></label>
 
-      <input value="{{ old('email') }}" class="form-control" type="email" name="email" id="email" placeholder="inserisci l'email"><br>
+      <input value="" class="form-control" type="email" name="email" id="email" placeholder="inserisci l'email"><br>
 
       <div id="rendita_reseller">
 
      <label for="rendita_reseller">Rendita su reseller<p style="color:#f37f0d;display:inline"> (*) </p></label>
 
-      <input value="{{ old('rendita_reseller') }}" class="form-control" type="text" name="rendita_reseller" id="rendita_reseller" placeholder="inserire l'annuità del rivenditore"><br>
+      <input value="" class="form-control" type="text" name="rendita_reseller" id="rendita_reseller" placeholder="inserire l'annuità del rivenditore"><br>
 
       </div>
 
@@ -773,13 +775,14 @@ th, td {
 
       <label for="rendita">Rendita <p style="color:#f37f0d;display:inline"> (*) </p></label>
 
-      <input value="{{ old('rendita') }}" class="form-control" type="text" name="rendita" id="rendita" placeholder="inserire l'annuità"><br>
+      <input value="" class="form-control" type="text" name="rendita" id="rendita" placeholder="inserire l'annuità"><br>
     
       </div>
       </div>
 
         <!-- colonna a destra -->
  <?php $role = DB::table('ruolo_utente')
+        ->where('is_delete', '=', 0)
         ->get();
         ?>
     <div class="col-md-4">
