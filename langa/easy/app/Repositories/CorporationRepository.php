@@ -16,6 +16,7 @@ class CorporationRepository
 			// return Corporation::where('is_deleted', 0)->orderBy('id', 'asc')->get();
 
 			return Corporation::join('users', 'corporations.user_id', '=', 'users.id')
+					->select(DB::raw('corporations.*, users.id as uid, users.is_delete'))
 					->where('is_deleted', 0)
 					->where('users.is_delete', '=', 0)
 					->orderBy('corporations.id', 'asc')
@@ -30,6 +31,7 @@ class CorporationRepository
 				->get();
 				
 			$enti = Corporation::join('users', 'corporations.user_id', 		'=', 'users.id')
+					->select(DB::raw('corporations.*, users.id as uid, users.is_delete'))
 					->where('privato', 0)
 					->whereIn('corporations.id', json_decode(json_encode($partecipanti), true))
 					->Where('user_id', $user->id)
@@ -63,6 +65,7 @@ class CorporationRepository
     		// ->get();
     		
         	return Corporation::join('users', 'corporations.user_id', 		'=', 'users.id')
+        		->select(DB::raw('corporations.*, users.id as uid, users.is_delete'))
         		->where('is_deleted', 0)
         		->where('users.is_delete', '=', 0)
         		->where('corporations.is_approvato', 1)
@@ -73,6 +76,7 @@ class CorporationRepository
 		// $enti = Corporation::where('privato', 0)->orderBy('id', 'asc')->get();
 
         $enti = Corporation::join('users', 'corporations.user_id', 		'=', 'users.id')
+        		->select(DB::raw('corporations.*, users.id as uid, users.is_delete'))
         		->where('privato', 0)
         		->where('users.is_delete', '=', 0)
         		->orderBy('corporations.id', 'asc')->get();

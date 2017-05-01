@@ -89,9 +89,10 @@ class QuoteController extends Controller
 
 			$preventivi = DB::table('quotes')
 				->join('users', 'quotes.user_id', '=', 'users.id')
+				->select(DB::raw('quotes.*, users.id as uid, users.is_delete'))
 				->where('is_deleted', 0)
 				->where('users.is_delete', '=', 0)
-				->get();			
+				->get();		
 
 			$this->completaCodice($preventivi);
 			return json_encode($preventivi);
@@ -105,6 +106,7 @@ class QuoteController extends Controller
 
 		$preventivi = DB::table('quotes')
 			->join('users', 'quotes.user_id', '=', 'users.id')
+			->select(DB::raw('quotes.*, users.id as uid, users.is_delete'))
 			->where('is_deleted', 0)
 			->where('user_id', $id)
 			->where('users.is_delete', '=', 0)
@@ -128,6 +130,7 @@ class QuoteController extends Controller
 
 		$preventivi = DB::table('quotes')
 			->join('users', 'quotes.user_id', '=', 'users.id')
+			->select(DB::raw('quotes.*, users.id as uid, users.is_delete'))
 			->where('is_deleted', 0)
 			->where('users.is_delete', '=', 0)
 			->get();

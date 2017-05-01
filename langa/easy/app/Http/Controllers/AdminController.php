@@ -545,6 +545,7 @@ class AdminController extends Controller
 
             $alert = DB::table('alert')
                 ->where('created_at', $today)
+                ->where('is_sent', '=', 0)
                 ->get();
 
             if(empty($alert)) {
@@ -592,6 +593,12 @@ class AdminController extends Controller
 
                             if($true){
 
+                                DB::table('alert')      
+                                ->where('alert_id', $value->alert_id)       
+                                ->update(array(     
+                                    'is_sent' => 1      
+                                ));    
+
                                 return "alert send succesfully.!";
 
                             } else {
@@ -619,6 +626,7 @@ class AdminController extends Controller
 
             $notifica = DB::table('notifica')
                 ->where('created_at', $today)
+                ->where('is_sent', '=', 0)
                 ->get();
 
             if(empty($notifica)) {
@@ -669,8 +677,11 @@ class AdminController extends Controller
                                     'conferma' => 'NON LETTO'
                                 ]);
                       
-                                // if($true){
-                                //     return "notification send succesfully.!";
+                                if($true){
+                                     DB::table('notifica')
+                                        ->where('id', $value->id)
+                                        ->update(array( 'is_sent' => 1 ));
+                                } 
 
                                 // } else {
 
@@ -709,6 +720,12 @@ class AdminController extends Controller
                             'data_lettura' => '',
                             'conferma' => 'NON LETTO'
                             ]);
+
+                            if($true){
+                                     DB::table('notifica')
+                                        ->where('id', $value->id)
+                                        ->update(array( 'is_sent' => 1 ));
+                                } 
 
                         }
                     }      
@@ -963,24 +980,26 @@ class AdminController extends Controller
             return redirect('/unauthorized');
         } else {
                     
-            // $reading = $request->has('lettura') ? $request->input('lettura') : null;
+           $reading = $request->input('lettura');
 
-            // $writing = $request->has('scrittura') ? $request->input('lettura') : null;
-
-            // $nome_ruolo = $request->input('nome_ruolo');
-            
-            // $permessi = json_encode(array_merge($reading, $writing));
-
-            $reading = $request->input('lettura');
-
-            $writing = $request->input('lettura');
+            $writing = $request->input('scrittura');
 
             $nome_ruolo = $request->input('nome_ruolo');
             
-
-            if(isset($reading) || isset($writing)){
+            if(isset($reading) && isset($writing)){
+ 
                 $permessi = json_encode(array_merge($reading, $writing));
+
+            } else if(isset($reading)){
+             
+                $permessi = json_encode($reading);
+
+            } else if(isset($writing)){
+
+                $permessi = json_encode($writing);
+
             } else {
+  
                 $permessi = json_encode(null);
             }
                    

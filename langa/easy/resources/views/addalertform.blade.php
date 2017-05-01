@@ -92,7 +92,7 @@ li label {
 
   <div class="col-md-8">
 
-    <label>Alert</label>
+    <label>Alert <p style="color:#f37f0d;display:inline">(*)</p> </label>
 
     <input class="form-control" id="nome_alert" name="nome_alert" value="" placeholder="Nome Alert">
 
@@ -117,7 +117,7 @@ li label {
 ?>
   <div class="col-md-4">
 
-    <label>Tipo Alert</label>
+    <label>Tipo Alert <p style="color:#f37f0d;display:inline">(*)</p></label>
 
       <select class="form-control" id="tipo_alert" name="tipo_alert" style="color:#ffffff" >
 
@@ -156,7 +156,7 @@ li label {
 
 <div class="col-md-6">
 
-<label for="ente">Ente</label>
+<label for="ente">Ente <p style="color:#f37f0d;display:inline">(*)</p> </label>
 
 <select id="ente" name="ente[]" class="js-example-basic-multiple form-control" onchange="myEnte()" multiple="multiple">
 
@@ -172,7 +172,7 @@ li label {
 
 <div class="col-md-6">
 
-<label for="ruolo">Ruolo</label>
+<label for="ruolo">Ruolo <p style="color:#f37f0d;display:inline">(*)</p></label>
 
 <select id="ruolo" name="ruolo[]" class="js-example-basic-multiple form-control" onchange="myRole()"  multiple="multiple">
 

@@ -3,8 +3,6 @@
 @section('content')
 
 
-
-
 @if(!empty(Session::get('msg')))
 
     <script>

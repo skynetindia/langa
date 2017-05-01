@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\User;
+use DB;
 use App\Accounting;
 
 class AccountingRepository
@@ -22,6 +23,7 @@ class AccountingRepository
 		if($user->id == 0 || $user->dipartimento == 1) {
 			return Accounting::join('users', 'accountings.user_id','=',
 					'users.id')
+					->select(DB::raw('accountings.*, users.id as uid, users.is_delete'))
 					->where('users.is_delete', '=', 0)
 					->get();
 			
@@ -29,6 +31,7 @@ class AccountingRepository
 
 			return Accounting::join('users', 'accountings.user_id','=',
 					'users.id')
+					->select(DB::raw('accountings.*, users.id as uid, users.is_delete'))
 					->where('user_id', $user->id)
 					->where('users.is_delete', '=', 0)
 					->get();

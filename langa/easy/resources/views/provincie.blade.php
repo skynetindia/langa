@@ -187,8 +187,6 @@ $i = 1
 
 @endif
 
-
-
 @php
   $i++
 @endphp
@@ -198,7 +196,8 @@ $i = 1
 
 <div class="col-md-12" style="padding-top:10px;padding-bottom:10px;">
 
-  <button type="submit" class="btn btn-primary">Salva</button>
+  <button <?php if (empty($stato)) { ?> style="display: none;" 
+  <?php } ?> type="submit" class="btn btn-primary">Salva</button>
 
 </div>
   
