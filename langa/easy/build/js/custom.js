@@ -284,18 +284,68 @@ if (typeof NProgress != 'undefined') {
 
 $(document).ready(function() {
 
+
+        // validate signup form on keyup and submit
+        $("#add_preventivo").validate({
+
+            rules: {
+                name_preventivo: {
+                    required: true,
+                    minlength:2
+                },
+                data: {
+                    required: true
+                },
+                considerazioni: {
+                    required: true
+                },
+                valenza: {
+                    required: true
+                },
+                finelavori: {
+                    required: true
+                },
+                dipartimento: {
+                    required: true
+                }
+
+            },
+            messages: {
+                name_preventivo: {
+                    required: "Please enter a name",
+                    minlength: "Your name must consist of at least 2 characters"
+                },
+                data: {
+                    required: "Please select a date"
+                },
+                considerazioni: {
+                    required: "Please enter considerazioni"
+                },
+                valenza: {
+                    required: "Please select a valenza"
+                },
+                finelavori: {
+                    required: "Please select a fine lavori"
+                },
+                dipartimento: {
+                    required: "Please select a dipartimento"
+                }
+            }
+
+        });
+        
+
         // validate signup form on keyup and submit
         $("#user_modification").validate({
 
             rules: {
                 name: {
                     required: true,
-                    maxlength: 50
+                    maxlength: 20
                 },
                 add_password: {
                     required: true,
-					minlength : 8,
-                    maxlength: 16
+                    maxlength: 64
                 },
                 email: {
                     required: true,
@@ -337,18 +387,13 @@ $(document).ready(function() {
             messages: {
                 name: {
                     required: "Please enter a name",
-                    maxlength: "Name must be less than 50 charcters"
+                    maxlength: "Your name must consist of at least 2 characters"
                 },
                 add_password: {
-                    required: "Please enter a password",
-					minlength : "Password must at least 6 characters long",
-                    maxlength: "Password must be less than 16 characters"
+                    required: "Please provide a password",
+                    maxlength: "Your password must be at least 6 characters long"
                 },
-				email: {
-                    required: "Please enter emaail address",
-                    email: "Please enter valid email address",
-                    maxlength: "Email character must be less than 64 characters",
-                },
+                email: "Please enter a valid email address",
                 idente: {
                     required: "Please enter a idente",
                     maxlength: "Your idente maximum length should be 35 characters"
@@ -464,7 +509,6 @@ $(document).ready(function() {
             rules: {
                 tassazione_nome: {
                     required: true,
-					maxlength: 35
                 },
                 tassazione_percentuale: {
                     required: true,
@@ -473,11 +517,10 @@ $(document).ready(function() {
             },
             messages: {
                 tassazione_nome: {
-                    required: "Please enter a Tassazione name",
-					maxlength: "Please enter less than 35 charcters"
+                    required: "Please enter a alert name"
                 },
                 tassazione_percentuale: {
-                    required: "Please enter Tassazione Percentuale",
+                    required: "Please Select a alert type",
                     digits: "only digits allowed"
                 }
             }
