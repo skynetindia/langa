@@ -190,9 +190,9 @@ body{
 
 <!-- <script type="text/javascript" src="http://gc.kis.v2.scr.kaspersky-labs.com/971CFF9C-4385-024E-BA20-CB806B914BAF/main.js" charset="UTF-8"></script> -->
 
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 
-<script src="{{asset('public/scripts/RadarChart.js')}}"></script>
+<!-- <script src="{{asset('public/scripts/RadarChart.js')}}"></script> -->
 
 <!-- end radar chart js -->
 
@@ -586,12 +586,12 @@ body {
         		    </script>
         	<br>
 
-        	<div class="col-md-12" style="display: none;">
+        <!-- 	<div class="col-md-12" style="display: none;">
         	<br> <b> Grafico progetto1 </b>
         		<div id="body">
 				  <div id="chart"></div>
 			    </div>			    
-        	</div>
+        	</div> -->
 
 			<div class="col-md-12">
 				<br><label for="preventivo">Dati Sensibili:</label>
@@ -1022,41 +1022,6 @@ body {
 	                </script>
 	            </table> -->
 
-	            <?php echo Form::close(); ?> 
-
-		<?php $mediaCode = date('dmyhis');?>
-
-	        <div class="pull-right col-md-4">
-	       
-	        <div class="col-md-12">
-	        <label for="scansione">Select file</label><br>
-            	<div class="image_upload_div">
-                <?php echo Form::open(array('url' => 'progetti/add/uploadfiles/'. $mediaCode, 'files' => true,'class'=>'dropzone')) ?>
-					{{ csrf_field() }}
-    			</form>				
-				</div><script>
-				var url = '<?php echo url('progetti/add/getfiles/'.$mediaCode); ?>';
-				Dropzone.autoDiscover = false;
-				$j(".dropzone").each(function() {
-				  $j(this).dropzone({
-					complete: function(file) {
-					  if (file.status == "success") {
-					  	 $j.ajax({url: url, success: function(result){
-        					$j("#files").html(result);
-							$j(".dz-preview").remove();
-							$j(".dz-message").show();
-					    }});
-					  }
-					}
-				  });
-				});
-				function deleteQuoteFile(id){
-					var urlD = '<?php echo url('/progetti/add/deletefiles/'); ?>/'+id;
-						$j.ajax({url: urlD, success: function(result){
-							$j(".quoteFile_"+id).remove();
-					    }});
-				}
-                </script>
 	            <table class="table table-striped table-bordered">	                
 	                <tbody id="files">
 	                </tbody>
@@ -1095,7 +1060,47 @@ body {
 	                       nFile = 0;
 	                    });
 	                </script>
-	            </table><hr>
+	            </table>
+
+  <?php echo Form::close(); ?> 
+
+    <?php $mediaCode = date('dmyhis');?>
+
+        <!-- <div class="pull-right col-md-4">
+         
+          <div class="col-md-12">
+          <label for="scansione">Select file</label><br>
+        <div class="image_upload_div">
+                <?php echo Form::open(array('url' => 'progetti/add/uploadfiles/'. $mediaCode, 'files' => true,'class'=>'dropzone')) ?>
+                  {{ csrf_field() }}
+                  </form>       
+        </div>
+ -->
+        <script>
+        var url = '<?php echo url('progetti/add/getfiles/'.$mediaCode); ?>';
+        Dropzone.autoDiscover = false;
+        $j(".dropzone").each(function() {
+          $j(this).dropzone({
+          complete: function(file) {
+            if (file.status == "success") {
+               $j.ajax({url: url, success: function(result){
+                  $j("#files").html(result);
+              $j(".dz-preview").remove();
+              $j(".dz-message").show();
+              }});
+            }
+          }
+          });
+        });
+        function deleteQuoteFile(id){
+          var urlD = '<?php echo url('/progetti/add/deletefiles/'); ?>/'+id;
+            $j.ajax({url: urlD, success: function(result){
+              $j(".quoteFile_"+id).remove();
+              }});
+        }
+                </script>
+
+
 	            </div>
 
             </div>
@@ -1110,6 +1115,6 @@ body {
 
 </div><!-- /row -->
 
-<script src="{{asset('public/scripts/RadarChartscript.js')}}"></script>
+<!-- <script src="{{asset('public/scripts/RadarChartscript.js')}}"></script> -->
 
 @endsection

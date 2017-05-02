@@ -228,119 +228,136 @@ body{
 
 <div class="row">
 
-<div class="col-md-12">
-		<h1>Aggiungi progetto</h1><hr>
-</div>
-		<div class="col-md-8">
+  <div class="col-md-12">
+  		<h1>Aggiungi progetto</h1><hr>
+  </div>
 
-		<div class="col-md-4">
+  <div class="col-md-8">
+
+    <div class="col-md-4">
 		  <label for="preventivo">n' Progetto</label>
 				<input type="text" disabled value=":cod/anno" class="form-control"><br>
 		</div>
+
 		<div class="col-md-8">
+
 			<label for="prev">Legame a preventivo </label>
-    	    	<select class="js-example-basic-multiple form-control" id="prev">
-    	    		<option></option>
-    	    		@foreach($preventiviconfermati as $prev)
-    	    			<option value="{{$prev->id}}">{{$prev->idente}} - {{$prev->oggetto}}</option>
-    	    		@endforeach
-    	    	</select>
 
-
-    	    	<script>
+	    	<select class="js-example-basic-multiple form-control" id="prev">
+      		<option></option>
+      		@foreach($preventiviconfermati as $prev)
+      			<option value="{{$prev->id}}">{{$prev->idente}} - {{$prev->oggetto}}</option>
+      		@endforeach
+    	  </select>
+      	
+        <script>
 
     	    	$(".js-example-basic-multiple").select2();
 
-				var $j = jQuery.noConflict();
-    	    		var clickEvent = new MouseEvent("click", {
-					    "view": window,
-					    "bubbles": true,
-					    "cancelable": false
-					});
+      				var $j = jQuery.noConflict();
+          	    		var clickEvent = new MouseEvent("click", {
+      					    "view": window,
+      					    "bubbles": true,
+      					    "cancelable": false
+      					});
+
     	    		$j('#prev').on("change", function() {
     	    			var id = $j("#prev").val();
     	    			var link = document.createElement("a");
     	    			link.href = "{{ url('/progetti/add') }}" + '/' + id;
-						link.dispatchEvent(clickEvent);
+    						link.dispatchEvent(clickEvent);
     	    		});
-    	    	</script>
-        
+
+	    	</script>
 		</div>
 
 		<div class="col-md-8">
-			
-				<br><label for="nomeprogetto">Nome progetto<p style="color:#f37f0d;display:inline">(*)</p></label>
+
+			<br>
+      <label for="nomeprogetto">Nome progetto<p style="color:#f37f0d;display:inline">(*)</p>
+      </label>
+
+      <input value="{{ old('nomeprogetto') }}" class="form-control" type="text" name="nomeprogetto" id="nomeprogetto" placeholder="Nome progetto">
 		</div>
-    		<input value="{{ old('nomeprogetto') }}" class="form-control" type="text" name="nomeprogetto" id="nomeprogetto" placeholder="Nome progetto"><br>
-			<label for="lavorazioni">Lavorazioni</label><br>
-	            <a class="btn btn-warning" style="text-decoration: none; color:#fff" id="aggiungiLavorazione"><i class="fa fa-plus"></i></a>
-	            <a class="btn btn-danger" style="text-decoration: none; color:#fff" id="eliminaLavorazione"><i class="fa fa-eraser"></i></a>
-              <div class="table-responsive">
-	            <table class="table table-bordered">
-	                <thead>
-	                    <th>#</th>
-	                    <th>Oggetto e stato</th>
-	                    <th>Descrizione</th>	          
-	                    <th>% di completamento</th>
-	                </thead>
-	                <tbody id="lavorazioni">
-	                </tbody>
-	                <script>
-	                    var selezioneLavorazioni = [];
-	                    var nLav = 0;
-	                    var kLav = 0;
-	                    var today = new Date();
-            			var dd = today.getDate();
-            			var mm = today.getMonth()+1; //January is 0!
-            			var yyyy = today.getFullYear();
-            			var tbody = document.createElement("tbody");
-            			if(dd<10) {
-            				dd='0'+dd;
-            			} 
-            			if(mm<10) {
-            				mm='0'+mm;
-            			}
-	                    var vecchiaData = dd + "/" + mm + "/" + yyyy + " " + new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
-                		var test = vecchiaData.toString();
-                		var impedisciModifica = function(e) {
+
+		<br>
+
+		<label for="lavorazioni">Lavorazioni</label><br>
+      <a class="btn btn-warning" style="text-decoration: none; color:#fff" id="aggiungiLavorazione"><i class="fa fa-plus"></i></a>
+      <a class="btn btn-danger" style="text-decoration: none; color:#fff" id="eliminaLavorazione"><i class="fa fa-eraser"></i></a>
+
+      <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+                <th>#</th>
+                <th>Oggetto e stato</th>
+                <th>Descrizione</th>	          
+                <th>% di completamento</th>
+            </thead>
+            <tbody id="lavorazioni">
+            </tbody>
+
+            <script>
+
+              var selezioneLavorazioni = [];
+              var nLav = 0;
+              var kLav = 0;
+              var today = new Date();
+        			var dd = today.getDate();
+        			var mm = today.getMonth()+1; //January is 0!
+        			var yyyy = today.getFullYear();
+        			var tbody = document.createElement("tbody");
+
+        			if(dd<10) {
+        				dd='0'+dd;
+        			} 
+        			if(mm<10) {
+        				mm='0'+mm;
+        			}
+
+              var vecchiaData = dd + "/" + mm + "/" + yyyy + " " + new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+          		var test = vecchiaData.toString();
+          		var impedisciModifica = function(e) {
                 			this.blur();
                 			this.value = test;
                 		}
-            $j('#aggiungiLavorazione').on("click", function() {
-	                        var tabella = document.getElementById("lavorazioni");
-                			var tr = document.createElement("tr");
-                			var data = document.createElement("td");
-                			var ora = document.createElement("td");
-                			var check = document.createElement("input");
-                			var checkbox = document.createElement("td");
-                			check.type = "checkbox";
-                			check.className = "selezione";
 
-                			var select1 = document.createElement("select");
+              $j('#aggiungiLavorazione').on("click", function() {
 
-                			var compl = document.createElement("td");
-                			select1.name = "completato[]";
-                			select1.className = "form-control";
-                			var array = ["Coding", "Sleeping", "Eating"];
-                			compl.appendChild(select1);
-                			
-                			for(var i = 0; i < array.length; i++) {
-                				var option = document.createElement("option");
-                				option.value = i;
-                				option.text = array[i];
-                				select1.appendChild(option);
-                			}
-                			
-                			var select = document.createElement("select");
-                			
-                			for(var i = 0; i < 24; i++) {
-                				var opz = document.createElement("option");
-                				var opz2 = document.createElement("option");
-                				opz.appendChild(document.createTextNode(i + ":00"));
-                				opz2.appendChild(document.createTextNode(i + ":30"));
-                				select.appendChild(opz);
-                				select.appendChild(opz2);
-                			}
+                var tabella = document.getElementById("lavorazioni");
+          			var tr = document.createElement("tr");
+          			var data = document.createElement("td");
+          			var ora = document.createElement("td");
+          			var check = document.createElement("input");
+          			var checkbox = document.createElement("td");
+          			check.type = "checkbox";
+          			check.className = "selezione";
+
+          			var select1 = document.createElement("select");
+
+          			var compl = document.createElement("td");
+          			select1.name = "completato[]";
+          			select1.className = "form-control";
+          			var array = ["Coding", "Sleeping", "Eating"];
+          			compl.appendChild(select1);
+          			
+          			for(var i = 0; i < array.length; i++) {
+          				var option = document.createElement("option");
+          				option.value = i;
+          				option.text = array[i];
+          				select1.appendChild(option);
+          			}
+          			
+          			var select = document.createElement("select");
+          			
+          			for(var i = 0; i < 24; i++) {
+          				var opz = document.createElement("option");
+          				var opz2 = document.createElement("option");
+          				opz.appendChild(document.createTextNode(i + ":00"));
+          				opz2.appendChild(document.createTextNode(i + ":30"));
+          				select.appendChild(opz);
+          				select.appendChild(opz2);
+          			}
 
             			var input = document.createElement("input");
             			input.name = "datainserimento[]";
@@ -349,287 +366,286 @@ body{
             			input.value = vecchiaData;
             			data.appendChild(input);
 
-					var desc = document.createElement("td");
+  					    var desc = document.createElement("td");
 
-            			var descrizione = document.createElement("textarea");
-                        // descrizione.type = "textarea";
-                        descrizione.className = "form-control";
-                        descrizione.name = "descrizione";
-                        desc.appendChild(descrizione);
+          			var descrizione = document.createElement("textarea");
+                // descrizione.type = "textarea";
+                descrizione.className = "form-control";
+                descrizione.name = "descrizione";
+                desc.appendChild(descrizione);
 
-                    var progress = document.createElement("td");
+                var progress = document.createElement("td");
 
-        			var circles = document.createElement("div");
-                    	circles.className = "progress-radial progress-70 setsize";   
-                    	circles.setAttribute("style", "width:60px;height:60px;");
-                    var setsize = document.createElement("div");
-                    	setsize.className = "overlay setsize"; 
-                   	var p = document.createElement("p");
-                   		p.innerHTML="70%";
+          			var circles = document.createElement("div");
+              	circles.className = "progress-radial progress-70 setsize";   
+              	circles.setAttribute("style", "width:60px;height:60px;");
+                var setsize = document.createElement("div");
+                	setsize.className = "overlay setsize"; 
+               	var p = document.createElement("p");
+               		p.innerHTML="70%";
 
 
-                    progress.appendChild(circles);
-                    circles.appendChild(setsize);
-                    setsize.appendChild(p);
+                progress.appendChild(circles);
+                circles.appendChild(setsize);
+                setsize.appendChild(p);
+                      
                     
-                  
             		var appunti = document.createElement("td");	
 
+          			var input = document.createElement("input");
+            			input.placeholder = "Scrivi qui...";
+            			input.name = "ric[]";
+            			input.className = "form-control";
+            			input.id = "editable" + kLav;
+            			appunti.appendChild(input);
+
+            			var ric = document.createElement("td");
+            			checkbox.appendChild(check);
+            			tr.appendChild(checkbox);
+            			tr.appendChild(input);
+            			// tr.appendChild(desc);
+
+            			select.className = "form-control";
+            			ora.appendChild(select);
+            			tr.appendChild(select1);
+            			// tr.appendChild(compl);
+            			tr.appendChild(desc);
+            			tr.appendChild(progress);
+
             			var input = document.createElement("input");
-                			input.placeholder = "Scrivi qui...";
-                			input.name = "ric[]";
-                			input.className = "form-control";
-                			input.id = "editable" + kLav;
-                			appunti.appendChild(input);
-
-                			var ric = document.createElement("td");
-                			checkbox.appendChild(check);
-                			tr.appendChild(checkbox);
-                			tr.appendChild(input);
-                			// tr.appendChild(desc);
-
-                			select.className = "form-control";
-                			ora.appendChild(select);
-                			tr.appendChild(select1);
-                			// tr.appendChild(compl);
-                			tr.appendChild(desc);
-                			tr.appendChild(progress);
-
-                			var input = document.createElement("input");
-                			input.className = "form-control";
-                			input.id = "datepicker" + kLav;
-                			input.placeholder = "__/__/____";
-                			input.name = "ricontattare[]";
-                			ric.appendChild(input);
-                			/*
-                				Appunti = appunti
-                				Ricontattare il giorno = ric
-                				Alle = select
-                				Data inserimento = data
-                			*/
-                			select.name = "alle[]";
-                			tabella.appendChild(tr);
-                			$j("#datepicker" + kLav).datepicker();
-                			$j('.selezione').on("click", function() {
-                				selezioneLavorazioni[nLav] = $j(this).parent().parent();
-				                nLav++;
+            			input.className = "form-control";
+            			input.id = "datepicker" + kLav;
+            			input.placeholder = "__/__/____";
+            			input.name = "ricontattare[]";
+            			ric.appendChild(input);
+            			/*
+            				Appunti = appunti
+            				Ricontattare il giorno = ric
+            				Alle = select
+            				Data inserimento = data
+            			*/
+            			select.name = "alle[]";
+            			tabella.appendChild(tr);
+            			$j("#datepicker" + kLav).datepicker();
+            			$j('.selezione').on("click", function() {
+            				selezioneLavorazioni[nLav] = $j(this).parent().parent();
+		                nLav++;
 							});
-                			$j('#impedisci' + kLav).bind("click", impedisciModifica);
-                			kLav++;
+
+        			$j('#impedisci' + kLav).bind("click", impedisciModifica);
+                    			kLav++;
 
               	var jq = jQuery.noConflict();
 
-			  	jq(".setsize").each(function() {
-			        jq(this).height(jq(this).width());
-			    });
+      			  	jq(".setsize").each(function() {
+      			        jq(this).height(jq(this).width());
+      			    });
 
-			    jq(".setsize").each(function() {
-			        jq(this).height(jq(this).width());
-			    });
-        });
-	                    $j('#eliminaLavorazione').on("click", function() {
-	                       for(var i = 0; i < nLav; i++) {
-	                           selezioneLavorazioni[i].remove();
-	                       }
-	                       nLav = 0;
-	                    });
+      			    jq(".setsize").each(function() {
+      			        jq(this).height(jq(this).width());
+      			    });
+              });
 
+              $j('#eliminaLavorazione').on("click", function() {
+                 for(var i = 0; i < nLav; i++) {
+                     selezioneLavorazioni[i].remove();
+                 }
+                 nLav = 0;
+              });
 
+            </script>
 
+	        </table>
+		  </div>
 
-
-	                </script>
-	            </table>
-		</div>
-
-		<div class="col-md-2" style="padding-top:10px;padding-bottom:10px;">
-			<br>
-			<button onclick="mostra2()" type="submit" class="btn btn-warning">Salva</button>
-
-		</div>
-
-    </div>
+		  <div class="col-md-2" style="padding-top:10px;padding-bottom:10px;">
+			 <br>
+			  <button onclick="mostra2()" type="submit" class="btn btn-warning">Salva</button>
+		  </div>
+  </div>
 
 
+  <div class="col-md-4">
 
-		<div class="col-md-4">
-        <label for="statoemotivo">Stato emotivo</label>
-	    <select name="statoemotivo" class="form-control" id="statoemotivo" style="color:#ffffff">
-       	 	<!-- statoemotivoselezionato -->
-        	<option style="background-color:white"></option>
+    <label for="statoemotivo">Stato emotivo</label>
+    <select name="statoemotivo" class="form-control" id="statoemotivo" style="color:#ffffff">
+   	 	<!-- statoemotivoselezionato -->
+    	<option style="background-color:white"></option>
     
-            @foreach($statiemotivi as $statoemotivo)
-                <option style="background-color:{{$statoemotivo->color}};color:#ffffff" value="{{$statoemotivo->name}}">{{$statoemotivo->name}}</option>
-            @endforeach
+        @foreach($statiemotivi as $statoemotivo)
+            <option style="background-color:{{$statoemotivo->color}};color:#ffffff" value="{{$statoemotivo->name}}">{{$statoemotivo->name}}</option>
+        @endforeach
                   
-            </select>
-            <br>
-            <div class="col-md-6">
-            	<label for="tempo">Tempo d'inzio</label><br>
+    </select>
+    <br>
+
+    <div class="col-md-6">
+
+      	<label for="tempo">Tempo d'inzio</label><br>
       
-        		    <input value="" class="form-control" type="text" name="datainizio" id="datainizio" placeholder="Data inizio">
-        	</div>
-        	<div class="col-md-6">
-        	<label for="preventivo">Tempo di fine</label><br>
-        		    <input value="" class="form-control" type="text" name="datafine" id="datafine" placeholder="Data fine"><br>
-        	</div>
-        		    <script>
-					  $j( function() {
-					    $j( "#slider-range-max" ).slider({
-					      range: "max",
-					      min: 0,
-					      max: 100,
-					      value: 10,
-					      slide: function( event, ui ) {
-					        $j( "#amount" ).val( ui.value );
-					      }
-					    });
-					    $j( "#amount" ).val( $j( "#slider-range-max" ).slider( "value" ) );
-					  } );
-  					</script>
+		    <input value="" class="form-control" type="text" name="datainizio" id="datainizio" placeholder="Data inizio">
+  	</div>
+
+  	<div class="col-md-6">
+      	<label for="preventivo">Tempo di fine</label><br>
+		    <input value="" class="form-control" type="text" name="datafine" id="datafine" placeholder="Data fine"><br>
+  	</div>
+    
+    <script>
+			  $j( function() {
+			    $j( "#slider-range-max" ).slider({
+			      range: "max",
+			      min: 0,
+			      max: 100,
+			      value: 10,
+			      slide: function( event, ui ) {
+			        $j( "#amount" ).val( ui.value );
+			      }
+			    });
+			    $j( "#amount" ).val( $j( "#slider-range-max" ).slider( "value" ) );
+			  });
+  	</script>
         		    
-        		    <script>
-        		    $j.datepicker.setDefaults(
-                        $j.extend(
-                            {'dateFormat':'dd/mm/yy'},
-                            $j.datepicker.regional['nl']
-                        )
-                    );
-        		    $j('#datainizio').datepicker();
-        		    $j('#datafine').datepicker();
-        		    </script>
+    <script>
+		    $j.datepicker.setDefaults(
+                $j.extend(
+                    {'dateFormat':'dd/mm/yy'},
+                    $j.datepicker.regional['nl']
+                )
+            );
+		    $j('#datainizio').datepicker();
+		    $j('#datafine').datepicker();
+    </script>
         
-        		<!-- Stato emotivo -->
-			<div class="col-md-12">
-					<label for="preventivo">Dati Sensibili:</label><br>
+		  <!-- Stato emotivo -->
+		<div class="col-md-12">
 
-	                <a class="btn btn-warning" style="text-decoration: none; color:#fff" id="aggiungiNote"><i class="fa fa-plus"></i></a>
+				<label for="preventivo">Dati Sensibili:</label><br>
 
-	                <a class="btn btn-danger" style="text-decoration: none; color:#fff" id="eliminaNote"><i class="fa fa-eraser"></i></a>
+          <a class="btn btn-warning" style="text-decoration: none; color:#fff" id="aggiungiNote"><i class="fa fa-plus"></i></a>
+
+          <a class="btn btn-danger" style="text-decoration: none; color:#fff" id="eliminaNote"><i class="fa fa-eraser"></i></a>
 			
-	        	<br>
+        	<br>
 
-		            <table class="table table-striped table-bordered">
+          <table class="table table-striped table-bordered">
 
-		                <thead>
+            <thead>
 
-		                    <th>#</th>
-		                    <th>URL</th>
-		                    <th>User</th>
-                            <th>Passw</th>                       
+                <th>#</th>
+                <th>URL</th>
+                <th>User</th>
+                <th>Passw</th>                       
 
-		                </thead>
+            </thead>
 
-		                <tbody id="noteprivate">
+            <tbody id="noteprivate">
+            </tbody>
 
-		                </tbody>
+            <script>
 
-		                <script>
+              var selezioneServizi = [];
 
-		                
+              var nServ = 0;
 
-		                    var selezioneServizi = [];
+              var kServ = 0;
 
-		                    var nServ = 0;
+              $j('#aggiungiNote').on("click", function() {
 
-		                    var kServ = 0;
+                  var tab = document.getElementById("noteprivate");
 
-		                    $j('#aggiungiNote').on("click", function() {
+                  var tr = document.createElement("tr");
 
-		                        var tab = document.getElementById("noteprivate");
+                  var check = document.createElement("td");
 
-		                        var tr = document.createElement("tr");
+                  var checkbox = document.createElement("input");
 
-		                        var check = document.createElement("td");
+                  checkbox.type = "checkbox";
 
-		                        var checkbox = document.createElement("input");
+                  checkbox.className = "selezione";
 
-		                        checkbox.type = "checkbox";
+                  check.appendChild(checkbox);
 
-		                        checkbox.className = "selezione";
+                  kServ++;
 
-		                        check.appendChild(checkbox);
+                  var td = document.createElement("td");
 
-		                        kServ++;
-
-		                        var td = document.createElement("td");
-
-		                        var td1 = document.createElement("td");
+                  var td1 = document.createElement("td");
 								
-								var td2 = document.createElement("td");
-								var td3 = document.createElement("td");
+  								var td2 = document.createElement("td");
+  								var td3 = document.createElement("td");
 
-		                        var fileInput = document.createElement("input");
+                  var fileInput = document.createElement("input");
 
-		                        fileInput.type = "text";
+                  fileInput.type = "text";
 
-		                        fileInput.className = "form-control";
+                  fileInput.className = "form-control";
 
-		                        fileInput.name = "nome[]";
+                  fileInput.name = "nome[]";
 
-		                        var dettagli = document.createElement("input");
+                  var dettagli = document.createElement("input");
 
-		                        dettagli.type = "text";
+                  dettagli.type = "text";
 
-		                        dettagli.className = "form-control";
+                  dettagli.className = "form-control";
 
-		                        dettagli.name = "dett[]";
+                  dettagli.name = "dett[]";
 								
-								var password = document.createElement("input");
+								  var password = document.createElement("input");
 		                        password.type = "text";
 		                        password.className = "form-control";
 		                        password.name = "pass[]";
 								
 								// var scadenza = document.createElement("input");
-		      //                   scadenza.type = "text";
-		      //                   scadenza.className = "form-control";
-		      //                   scadenza.name = "scad[]";
+      		      // scadenza.type = "text";
+      		      // scadenza.className = "form-control";
+      		      // scadenza.name = "scad[]";
 								// scadenza.id = "datepicker" + kServ;
 
-		                        td.appendChild(fileInput);
-		                        td1.appendChild(dettagli);
+                td.appendChild(fileInput);
+                td1.appendChild(dettagli);
 								// td2.appendChild(scadenza);
 								td3.appendChild(password);
 
-		                        tr.appendChild(check);
+                  tr.appendChild(check);
 
-		                        tr.appendChild(td);
+                  tr.appendChild(td);
 
-		                        tr.appendChild(td1);//username
-								tr.appendChild(td3);//password
-								// tr.appendChild(td2);//scadenza
+                  tr.appendChild(td1);//username
+								  tr.appendChild(td3);//password
+								  // tr.appendChild(td2);//scadenza
 								
 
-		                        tab.appendChild(tr);
+                  tab.appendChild(tr);
 
-		                        $j('.selezione').on("click", function() {
+                  $j('.selezione').on("click", function() {
 
-					                selezioneServizi[nServ] = $j(this).parent().parent();
+		                selezioneServizi[nServ] = $j(this).parent().parent();
 
-					                nServ++;
+		                nServ++;
 
-			                	});
+              	 });
 								
-								$j("#datepicker" + kServ).datepicker();
+								  $j("#datepicker" + kServ).datepicker();
 
-		                    });
+                  });
 
-		                    $j('#eliminaNote').on("click", function() {
+                  $j('#eliminaNote').on("click", function() {
 
-		                       for(var i = 0; i < nServ; i++) {
+                     for(var i = 0; i < nServ; i++) {
 
-		                           selezioneServizi[i].remove();
+                         selezioneServizi[i].remove();
 
-		                       }
+                     }
 
-		                       nServ = 0;
+                     nServ = 0;
 
-		                    });
+                  });
+            </script>
 
-		                </script>
+          </table>
 
-		            </table>
-		        </div>
+    </div>
                    <!--  <p>
 
   						<label for="progresso">Progresso del progetto </label>
@@ -662,35 +678,40 @@ body{
 
         		<textarea id="noteenti" style="background-color:#f39538;color:#ffffff" rows="2" class="form-control" type="text" name="noteprivate" title="Note nascoste, clicca l'occhio per mostrare" placeholder="Inserisci note tecniche relative al progetto"></textarea> -->
 				<script>
-				$j('#notetecniche').on("click", function() {
-					this.blur();
-				});
-				
-				var testo = "<?php echo old('noteprivate'); ?>";
-				var testoPrivato = "<?php echo old('notetecniche'); ?>";
-				function mostra() {
-					if($j('#noteenti').val()) {
-						testo = $j('#noteenti').val();
-						$j('#noteenti').val("");
-					} else {
-						$j('#noteenti').val(testo);
-					}
-				}
-				function mostraPrivate() {
-					if(j$('#notetecniche').val()) {
-						testoPrivato = $('#notetecniche').val();
-						$j('#notetecniche').val("");
-					} else {
-						$j('#notetecniche').val(testoPrivato);
-					}
-				}
-				function mostra2() {
-					if(!$j('#noteenti').val()) {
-						$j('#noteenti').val(testo);
-						$j('#notetecniche').val(testoPrivato);
-					}
-				}
+
+  				$j('#notetecniche').on("click", function() {
+  					this.blur();
+  				});
+  				
+  				var testo = "<?php echo old('noteprivate'); ?>";
+  				var testoPrivato = "<?php echo old('notetecniche'); ?>";
+
+  				function mostra() {
+  					if($j('#noteenti').val()) {
+  						testo = $j('#noteenti').val();
+  						$j('#noteenti').val("");
+  					} else {
+  						$j('#noteenti').val(testo);
+  					}
+  				}
+
+  				function mostraPrivate() {
+  					if(j$('#notetecniche').val()) {
+  						testoPrivato = $('#notetecniche').val();
+  						$j('#notetecniche').val("");
+  					} else {
+  						$j('#notetecniche').val(testoPrivato);
+  					}
+  				}
+
+  				function mostra2() {
+  					if(!$j('#noteenti').val()) {
+  						$j('#noteenti').val(testo);
+  						$j('#notetecniche').val(testoPrivato);
+  					}
+  				}
 				</script>
+
 				<br>
 				<!-- <label for="preventivo">Tempo</label><br>
 
@@ -700,9 +721,7 @@ body{
 
         		    <input value="{{ old('datafine') }}" class="form-control" type="text" name="datafine" id="datafine" placeholder="Data fine"><br> -->
 
-        		    <script>
-
-        		    
+	    <script>
 
 					  $j( function() {
 
@@ -727,33 +746,31 @@ body{
 					    $j( "#amount" ).val( $j( "#slider-range-max" ).slider( "value" ) );
 
 					  } );
+			</script>
+        		   
+      <script>
 
-  					</script>
+		    $j.datepicker.setDefaults(
 
-        		    
+                $j.extend(
 
-        		    <script>
+                    {'dateFormat':'dd/mm/yy'},
 
-        		    $j.datepicker.setDefaults(
+                    $j.datepicker.regional['nl']
 
-                        $j.extend(
+                )
 
-                            {'dateFormat':'dd/mm/yy'},
+            );
 
-                            $j.datepicker.regional['nl']
+  		    $j('#datainizio').datepicker();
 
-                        )
+  		    $j('#datafine').datepicker();
 
-                    );
+	    </script>
 
-        		    $j('#datainizio').datepicker();
+	</div> 
 
-        		    $j('#datafine').datepicker();
-
-        		    </script>
-
-        		</div>
-				<br>
+  <br>
 				<!-- <label for="datisensibili">Dati sensibili</label><br>
 
 
@@ -1063,88 +1080,105 @@ body{
 
 	                </script>
 
-		<?php echo Form::close(); ?> 
+    		<?php echo Form::close(); ?> 
 
-		<?php $mediaCode = date('dmyhis');?>
+    		<?php $mediaCode = date('dmyhis');?>
 
-	        <div class="pull-right col-md-4">
+        <div class="pull-right col-md-4">
 	       
 	        <div class="col-md-12">
-	        <label for="scansione">Select file</label><br>
+
+  	        <label for="scansione">Select file</label>
+            <br>
+
             	<div class="image_upload_div">
                 <?php echo Form::open(array('url' => 'progetti/add/uploadfiles/'. $mediaCode, 'files' => true,'class'=>'dropzone')) ?>
-					{{ csrf_field() }}
-    			</form>				
-				</div><script>
-				var url = '<?php echo url('progetti/add/getfiles/'.$mediaCode); ?>';
-				Dropzone.autoDiscover = false;
-				$j(".dropzone").each(function() {
-				  $j(this).dropzone({
-					complete: function(file) {
-					  if (file.status == "success") {
-					  	 $j.ajax({url: url, success: function(result){
-        					$j("#files").html(result);
-							$j(".dz-preview").remove();
-							$j(".dz-message").show();
-					    }});
-					  }
-					}
-				  });
-				});
-				function deleteQuoteFile(id){
-					var urlD = '<?php echo url('/progetti/add/deletefiles/'); ?>/'+id;
-						$j.ajax({url: urlD, success: function(result){
-							$j(".quoteFile_"+id).remove();
-					    }});
-				}
-                </script>
-	            <table class="table table-striped table-bordered">	                
-	                <tbody id="files">
-	                </tbody>
-	                <script>
+	   				    {{ csrf_field() }}
+    			     </form>				
+				      </div>
+
+            <script>
+
+  				    var url = '<?php echo url('progetti/add/getfiles/'.$mediaCode); ?>';
+
+  				    Dropzone.autoDiscover = false;
+
+      				$j(".dropzone").each(function() {
+
+      				  $j(this).dropzone({
+      					complete: function(file) {
+      					  if (file.status == "success") {
+      					  	 $j.ajax({url: url, success: function(result){
+              					$j("#files").html(result);
+      							$j(".dz-preview").remove();
+      							$j(".dz-message").show();
+      					    }});
+      					  }
+      					}
+      				  });
+
+      				});
+
+      				function deleteQuoteFile(id){
+
+      					var urlD = '<?php echo url('/progetti/add/deletefiles/'); ?>/'+id;
+      						$j.ajax({url: urlD, success: function(result){
+      							$j(".quoteFile_"+id).remove();
+      					    }});
+      				}
+            </script>
+
+            <table class="table table-striped table-bordered">	                
+              <tbody id="files">
+              </tbody>
+
+              <script>
 	                var $j = jQuery.noConflict();
-	                    var selezione = [];
-	                    var nFile = 0;
-	                    var kFile = 0;
-	                    $j('#aggiungiFile').on("click", function() {
-	                        var tab = document.getElementById("files");
-	                        var tr = document.createElement("tr");
-	                        var check = document.createElement("td");
-	                        var checkbox = document.createElement("input");
-	                        checkbox.type = "checkbox";
-	                        checkbox.className = "selezione";
-	                        check.appendChild(checkbox);
-	                        kFile++;
-	                        var td = document.createElement("td");
-	                        var fileInput = document.createElement("input");
-	                        fileInput.type = "file";
-	                        fileInput.className = "form-control";
-	                        fileInput.name = "filee[]";
-	                        td.appendChild(fileInput);
-	                        tr.appendChild(check);
-	                        tr.appendChild(td);
-	                        tab.appendChild(tr);
-	                        $j('.selezione').on("click", function() {
-				                selezione[nFile] = $j(this).parent().parent();
-				                nFile++;
-		                	});
-	                    });
-	                    $j('#eliminaFile').on("click", function() {
-	                       for(var i = 0; i < nFile; i++) {
-	                           selezione[i].remove();
-	                       }
-	                       nFile = 0;
-	                    });
-	                </script>
-	            </table><hr>
-	            </div>
+                  var selezione = [];
+                  var nFile = 0;
+                  var kFile = 0;
 
-            </div>
+                  $j('#aggiungiFile').on("click", function() {
+                        var tab = document.getElementById("files");
+                        var tr = document.createElement("tr");
+                        var check = document.createElement("td");
+                        var checkbox = document.createElement("input");
+                        checkbox.type = "checkbox";
+                        checkbox.className = "selezione";
+                        check.appendChild(checkbox);
+                        kFile++;
+                        var td = document.createElement("td");
+                        var fileInput = document.createElement("input");
+                        fileInput.type = "file";
+                        fileInput.className = "form-control";
+                        fileInput.name = "filee[]";
+                        td.appendChild(fileInput);
+                        tr.appendChild(check);
+                        tr.appendChild(td);
+                        tab.appendChild(tr);
+                        $j('.selezione').on("click", function() {
+			                selezione[nFile] = $j(this).parent().parent();
+			                nFile++;
+	                	});
+                  });
 
-<!-- 
-	            </table> -->
-		</div>
-	</div>
+
+                  $j('#eliminaFile').on("click", function() {
+                     for(var i = 0; i < nFile; i++) {
+                         selezione[i].remove();
+                     }
+                     nFile = 0;
+                  });
+              </script>
+            </table>
+
+            <hr>
+
+          </div>
+        </div>
+
+<!-- 		</div>
+	</div> -->
 
 
 
