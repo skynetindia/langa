@@ -24,6 +24,10 @@ class QuizController extends Controller
 	  return view('quiz.step_1');
 	}
 
+	public function stepthree(Request $request){
+	  return view('quiz.step-three');
+	}
+
 	public function storequizStep_1(Request $request){
 	  
 	  $validator = Validator::make($request->all(), [

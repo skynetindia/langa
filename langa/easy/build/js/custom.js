@@ -284,6 +284,39 @@ if (typeof NProgress != 'undefined') {
 
 $(document).ready(function() {
 
+        // validate add rating form on keyup and submit
+        $("#add_rating").validate({
+
+            rules: {
+                titolo: {
+                    required: true
+                }
+            },
+            messages: {
+                titolo: {
+                    required: "Please enter titolo"
+                }
+            }
+
+        });
+
+
+        // validate edit rating form on keyup and submit
+        $("#edit_rating").validate({
+
+            rules: {
+                titolo: {
+                    required: true
+                }
+            },
+            messages: {
+                titolo: {
+                    required: "Please enter titolo"
+                }
+            }
+
+        });
+
         // validate add fattura form on keyup and submit
         $("#add_fattura").validate({
 

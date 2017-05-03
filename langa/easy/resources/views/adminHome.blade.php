@@ -125,6 +125,14 @@
 
                     </ul>
                   </li>
+
+                  <li><a><i class="fa fa-user-times"></i> Quiz <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+
+                      <li><a href="{{url('admin/quiz/ratings')}}">Ratings</a></li>
+                     
+                   </ul>
+                  </li>
 				          
                   <li><a href="{{url('/taxation')}}"><i class="fa fa-percent"></i> Taxation </a></li>
 

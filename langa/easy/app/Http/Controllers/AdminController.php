@@ -17,6 +17,57 @@ class AdminController extends Controller
 
     }
 
+    public function ratingDelete(Request $request)
+    {
+        DB::table('quiz_rating_type')
+            ->where('rating_id', $request->rating_id)
+            ->delete();
+        return Redirect::back();
+    }
+
+    public function ratingUpdate(Request $request)
+    {
+            if ($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+            DB::table('quiz_rating_type')
+                    ->where('rating_id', $request->rating_id)
+                    ->update(array(
+                        'titolo' => $request->titolo,
+                        'descrizione' => $request->descrizione
+            ));
+
+            return Redirect::back();
+        }
+    }
+
+    public function ratingAdd(Request $request)
+    {
+            if ($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+           
+            DB::table('quiz_rating_type')->insert([
+                'titolo' => $request->titolo,
+                'descrizione' => $request->descrizione
+            ]);
+
+            return Redirect::back();
+        }
+    }
+
+    public function ratings(Request $request)
+    {
+            if ($request->user()->id != 0) {
+            return redirect('/unauthorized');
+        } else {
+            return view('quiz_ratings', [
+                'ratings' => DB::table('quiz_rating_type')
+                            ->get(),
+            ]);
+        }
+    }
+
     // delete alert type
     public function alerttipodelete(Request $request)
     {
@@ -2749,7 +2800,7 @@ class AdminController extends Controller
 		]);
 	}
         
-        public function mostraDipartimenti()
+    public function mostraDipartimenti()
 	{
 		return view('tassonomie_dipartimenti', [
 			'dipartimenti' => DB::table('departments')
@@ -2819,7 +2870,7 @@ class AdminController extends Controller
         }
     }
         
-        public function dipartimenti(Request $request)
+    public function dipartimenti(Request $request)
 	{
             if ($request->user()->id != 0) {
             return redirect('/unauthorized');
