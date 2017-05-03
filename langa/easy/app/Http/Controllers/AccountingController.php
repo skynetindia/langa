@@ -11,6 +11,7 @@ use Redirect;
 use App\Http\Requests;
 use App\Accounting;
 use App\PDF\fpdf;
+use Storage;
 
 class AccountingController extends Controller
 {
@@ -25,6 +26,68 @@ class AccountingController extends Controller
 		
     }
 	
+	
+	public function fileupload(Request $request){
+				
+			Storage::put(
+					'images/quote/' . $request->file('file')->getClientOriginalName(), file_get_contents($request->file('file')->getRealPath())
+			);
+			$nome = $request->file('file')->getClientOriginalName();			
+				DB::table('citazione_file')->insert([
+				'name' => $nome,
+				'code' => $request->code,
+			]);					
+	}
+	
+		public function fileget(Request $request){
+		
+			if(isset($request->quote_id)){
+				$updateData = DB::table('citazione_file')->where('quote_id', $request->quote_id)->get();										
+			}
+			else {
+				$updateData = DB::table('citazione_file')->where('code', $request->code)->get();				
+			}
+						
+			foreach($updateData as $prev) {
+				$imagPath = url('/storage/app/images/quote/'.$prev->name);
+				$html = '<tr class="quoteFile_'.$prev->id.'"><td><img src="'.$imagPath.'" height="100" width="100"><a class="btn btn-danger pull-right" style="text-decoration: none; color:#fff" onclick="deleteQuoteFile('.$prev->id.')"><i class="fa fa-eraser"></i></a></td></tr>';
+				$html .='<tr class="quoteFile_'.$prev->id.'"><td>';
+				$utente_file = DB::table('ruolo_utente')->select('*')->get();							
+				foreach($utente_file as $key => $val){
+					$html .=' <input type="radio" name="rdUtente_'.$prev->id.'" id="rdUtente_'.$val->ruolo_id.'" onchange="updateType('.$val->ruolo_id.','.$prev->id.');"  value="'.$val->ruolo_id.'" /> '.$val->nome_ruolo;
+				}
+				echo $html .='</td></tr>';
+			}
+			exit;			
+		}
+		
+	public function filedelete(Request $request){
+		
+	    $response = DB::table('citazione_file')->where('id', $request->id)->delete();
+		if($response){
+			echo 'success';
+		}
+		else {
+			echo 'fail';
+		}
+		exit;
+	}
+
+	public function filetypeupdate(Request $request){
+
+	 	$response = DB::table('citazione_file')
+			->where('id', $request->id)
+			->update(array('type' => $request->typeid));	    
+		if($response){
+			echo 'success';
+		}
+		else {
+			echo 'fail';
+		}
+		exit;
+	}
+
+
 	public function mostracoordinate(Request $request)
 	{
 		return view('pagamenti.coordinate');	
@@ -240,8 +303,10 @@ class AccountingController extends Controller
 	public function getjsontuttetranche(Request $request)
 	{
 		// $tranche = DB::table('tranche')->get();
+
 		$tranche = DB::table('tranche')
 				->join('users', 'tranche.user_id','=','users.id')
+				->select(DB::raw('tranche.*, users.id as uid, users.is_delete'))
 				->where('users.is_delete', '=', 0)
 				->get();
 
@@ -728,9 +793,9 @@ class AccountingController extends Controller
 	public function salvatranche(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
-			'datainserimento' => 'required',
-			'datascadenza' => 'required',
-			'percentuale' => 'required',
+			// 'datainserimento' => 'required',
+			// 'datascadenza' => 'required',
+			// 'percentuale' => 'required',
 			'dettagli' => 'max:1000',
 			'DA' => 'max:1000',
 			'A' => 'max:1000',
@@ -1037,7 +1102,7 @@ class AccountingController extends Controller
 		if ($request->user()->id === 0 || $request->user()->dipartimento !== "TECNICO") {
 		
             return view('pagamenti.main', [
-				'progetti' => $this->progetti->forUser2($request->user()),
+				'progetti' => $this->progetti->forUser2($request->user()), 
 				'dipartimenti' => DB::table('departments')->get(),
 				'quadri' => DB::table('accountings')->get()
 			]);
@@ -1061,6 +1126,7 @@ class AccountingController extends Controller
 			 $progetto = DB::table('projects')
 			 				->where('id', $disposizione->id_progetto)
 							->first();
+
 			 $preventivo = DB::table('quotes')
 			 				->where('id', $progetto->id_preventivo)
 							->first();
@@ -1083,6 +1149,7 @@ class AccountingController extends Controller
              return view('pagamenti.aggiungitranche', [
 				'utenti' => DB::table('users')
 							->get(),
+				'progetti' => $this->progetti->forUser2($request->user()), 
 				'enti' => DB::table('corporations')
 							->orderBy('id', 'asc')
 							->get(),

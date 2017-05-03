@@ -284,6 +284,87 @@ if (typeof NProgress != 'undefined') {
 
 $(document).ready(function() {
 
+        // validate add fattura form on keyup and submit
+        $("#add_fattura").validate({
+
+            rules: {
+                DA: {
+                    required: true
+                },
+                A: {
+                    required: true
+                },
+                idfattura: {
+                    required: true
+                },                
+                base: {
+                    required: true
+                },
+                modalita: {
+                    required: true
+                }
+
+            },
+            messages: {
+                DA: {
+                    required: "Please select a DA"
+                },
+                A: {
+                    required: "Please select a A"
+                },
+                idfattura: {
+                    required: "Please enter id fattura"
+                },                
+                base: {
+                    required: "Please enter base"
+                },
+                modalita: {
+                    required: "Please enter a modalita"
+                }
+            }
+
+        });
+
+        // validate edit fattura form on keyup and submit
+        $("#edit_fattura").validate({
+
+            rules: {
+                DA: {
+                    required: true
+                },
+                A: {
+                    required: true
+                },
+                idfattura: {
+                    required: true
+                },                
+                base: {
+                    required: true
+                },
+                modalita: {
+                    required: true
+                }
+
+            },
+            messages: {
+                DA: {
+                    required: "Please select a DA"
+                },
+                A: {
+                    required: "Please select a A"
+                },
+                idfattura: {
+                    required: "Please enter id fattura"
+                },                
+                base: {
+                    required: "Please enter base"
+                },
+                modalita: {
+                    required: "Please enter a modalita"
+                }
+            }
+
+        });
 
         // validate signup form on keyup and submit
         $("#add_preventivo").validate({

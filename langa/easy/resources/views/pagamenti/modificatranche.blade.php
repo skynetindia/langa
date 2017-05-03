@@ -8,7 +8,7 @@
     background: #f2ba81;
 }</style>
 <script src="{{asset('public/scripts/select2.full.min.js')}}"></script>
-<h1>Modifica disposizione <?php if(!$tranche->idfattura) echo "#0000/" . date('y'); else echo $tranche->idfattura; ?></h1><hr>
+<h1>Modifica Fattura <?php if(!$tranche->idfattura) echo "#0000/" . date('y'); else echo $tranche->idfattura; ?></h1><hr>
 
 @if(!empty(Session::get('msg')))
     <script>
@@ -20,9 +20,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+ <link href="{{asset('public/css/dropzone.css')}}" rel="stylesheet" />
+<script type="text/javascript" src="{{asset('public/scripts/dropzone.js')}}"></script>
 
 @include('common.errors')
-<form action="{{url('/pagamenti/tranche/update') . '/' . $tranche->id}}" method="post">
+<form action="{{url('/pagamenti/tranche/update') . '/' . $tranche->id}}" method="post" name="edit_fattura" id="edit_fattura">
 	{{ csrf_field() }}
 <div class="row">
 	<div class="col-md-8">
@@ -47,11 +49,11 @@
 								link.dispatchEvent(clickEvent);
     	    				});
     	    			</script></label>
-						<label for="preventivo">Preventivo <input type="text" disabled value=":cod/anno" class="form-control"></label>
+						<label for="preventivo">Progetto <input type="text" disabled value=":cod/anno" class="form-control"></label>
                         <a href="{{ url('/pagamenti/tranche/pdf') . '/' . $tranche->id }}" style="text-decoration:none;background:#DDDDDD" target="new" class="btn" type="button"><i class="fa fa-file-pdf-o"></i></a>
 			<h4>Intestazione fattura</h4>
 			<div class="col-md-12">
-			<div class="col-md-4">
+			<div class="col-md-3">
 	<!-- colonna a sinistra -->
 	    <label for="sedelegaleente">Sede legale ente (DA)</label>
 	    <select name="DA" id="sedelegaleente" class="js-example-basic-single form-control">
@@ -63,8 +65,16 @@
                 	<option value="{{$ente->id}}">{{$ente->id}} | {{$ente->nomeazienda}}</option>
                 @endif
 	        @endforeach
-	    </select><br>
-	    <br><label for="sedelegaleentea">Sede legale ente (A)</label>
+	    </select><br><br>
+
+	    <label for="id">Note </label>
+        <input value="{{$tranche->idfattura}}" type="text" id="id" name="idfattura" placeholder="Codice del pagamento" class="form-control">
+	   
+	    <br><label for="modalita">Modalità di pagamento</label>
+		<input value="{{$tranche->modalita}}" type="text" class="form-control" id="modalita" name="modalita" placeholder="Modalità di pagamento"><br>
+	</div>
+	<div class="col-md-3">
+		<label for="sedelegaleentea">Sede legale ente (A)</label>
 	    <select id="sedelegaleentea" name="A" class="js-example-basic-single form-control">
 	        <option></option>
 	        @foreach($enti as $ente)
@@ -74,24 +84,12 @@
                 	<option value="{{$ente->id}}">{{$ente->id}} | {{$ente->nomeazienda}}</option>
                 @endif
 	        @endforeach
-	    </select><br>
-	    <br><label for="modalita">Modalità di pagamento</label>
-		<input value="{{$tranche->modalita}}" type="text" class="form-control" id="modalita" name="modalita" placeholder="Modalità di pagamento"><br>
-	</div>
-	<div class="col-md-4">
-	    <label for="id">n° fattura</label>
-        <input value="{{$tranche->idfattura}}" type="text" id="id" name="idfattura" placeholder="Codice del pagamento" class="form-control"><br>
-        <label for="indirizzospedizione">Indirizzo di spedizione</label>
-        <select name="indirizzospedizione" id="indirizzospedizione" class="js-example-basic-single form-control">
-	        <option></option>
-	        @foreach($enti as $ente)
-            	@if($ente->id == $tranche->indirizzospedizione)
-	        		<option selected value="{{$ente->indirizzospedizione}}">{{$ente->id}} | {{$ente->nomeazienda}}</option>
-                @else
-                	<option value="{{$ente->indirizzospedizione}}">{{$ente->id}} | {{$ente->nomeazienda}}</option>
-                @endif
-	        @endforeach
-	    </select><br>
+	    </select><br><br>
+	   
+          
+	    <label for="emissione">Emissione del</label>
+	    <input type="text" name="emissione" id="emissione" class="form-control" value="{{$tranche->emissione}}">
+
 	    <br><label for="iban">IBAN Societario</label>
 	     <select name="iban" id="iban" class="js-example-basic-single form-control">
 	        <option></option>
@@ -109,7 +107,11 @@
 </script><br>
 		
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-3">
+	 <label for="id">n° fattura</label>
+        <input value="{{$tranche->idfattura}}" type="text" id="idfattura" name="idfattura" placeholder="Codice del pagamento" class="form-control"><br>
+    </div>
+	<div class="col-md-3">
 	<label for="Tipo">Tipo di fattura</label>
         <select id="Tipo" name="tipofattura" class="form-control">
         	@if($tranche->tipofattura == "NOTA DI CREDITO")
@@ -120,12 +122,21 @@
                 <option value="1">Nota di credito</option>
             @endif
         </select><br>
-        
-	    <label for="emissione">Emissione del</label>
-	    <input type="text" name="emissione" id="emissione" class="form-control" value="{{$tranche->emissione}}"><br>
+     
 	    <label for="base">Su base</label>
 	    <input class="form-control" type="text" name="base" id="base" placeholder="Su base" value="{{$tranche->base}}">
 	    <br>
+	     <label for="indirizzospedizione">Indirizzo di spedizione</label>
+        <select name="indirizzospedizione" id="indirizzospedizione" class="js-example-basic-single form-control">
+	        <option></option>
+	        @foreach($enti as $ente)
+            	@if($ente->id == $tranche->indirizzospedizione)
+	        		<option selected value="{{$ente->indirizzospedizione}}">{{$ente->id}} | {{$ente->nomeazienda}}</option>
+                @else
+                	<option value="{{$ente->indirizzospedizione}}">{{$ente->id}} | {{$ente->nomeazienda}}</option>
+                @endif
+	        @endforeach
+	    </select><br>
 	    <script>
 	    
 	        var today = new Date();
@@ -152,21 +163,18 @@
 			<h4>Corpo fattura</h4>
 			
 	        <div class="col-md-12">
-            		<a target="new" href="{{url('/pagamenti/tranche/corpofattura') . '/' . $tranche->id}}" class="btn btn-info" style="color:#ffffff;text-decoration: none" title="Vedi Corpo fattura esistenti"><i class="fa fa-info"></i></a>
+            		<!-- <a target="new" href="{{url('/pagamenti/tranche/corpofattura') . '/' . $tranche->id}}" class="btn btn-info" style="color:#ffffff;text-decoration: none" title="Vedi Corpo fattura esistenti"><i class="fa fa-info"></i></a> -->
 	                <a class="btn btn-warning" style="text-decoration: none; color:#fff" id="aggiungiCorpo"><i class="fa fa-plus"></i></a>
 	                <a class="btn btn-danger" style="text-decoration: none; color:#fff" id="eliminaCorpo"><i class="fa fa-eraser"></i></a>
 	        </div><br>
 	    	<table class="table table-striped">
 	    		<thead>
 	    			<th>#</th>
-	    			<th>r.to Preventivo</th>
-	    			<th>Descrizione                                                       </th>
+	    			<th>riferimenti</th>
+	    			<th>descrizione</th>
 	    			<th>Q.tà</th>
+	    			<th>Unitario</th>
 	    			<th>Subtotale</th>
-	    			<th>% Sconto</th>
-                                <th>% Sc. bonus</th>
-	    			<th>Netto</th>
-	    			<th>% IVA</th>
 	    		</thead>
 	    		<tbody id="corpofattura">
 	    		</tbody>
@@ -186,20 +194,42 @@
 	                        var ordine = document.createElement("input");
 	                        ordine.type = "text";
 	                        ordine.className = "form-control";
+	                        ordine.placeholder = ":preventivo";
 	                        ordine.name = "ordine[]";
-							ordine.value = ":";
+							// ordine.value = ":";
 	                        ord.appendChild(ordine);
+
+	                        var progetto = document.createElement("input");
+	                        progetto.type = "text";
+	                        progetto.placeholder = ":progetto";
+	                        progetto.className = "form-control";
+	                        progetto.name = "ordine[]";
+							// progetto.value = ":";
+	                        ord.appendChild(progetto);
+
 	                        var td = document.createElement("td");
 	                        var descrizione = document.createElement("textarea");
 	                        descrizione.className = "form-control";
 	                        descrizione.name = "desc[]";
+	                        descrizione.rows = "3";
+	                        descrizione.cols = "80";
 	                        td.appendChild(descrizione);
+
 	                        var qt = document.createElement("td");
 	                        var quantita = document.createElement("input");
 	                        quantita.type = "text";
 	                        quantita.className = "form-control";
 	                        quantita.name = "qt[]";
 	                        qt.appendChild(quantita);
+
+	                        var unitario = document.createElement("td");
+	                        var unitary = document.createElement("input");
+	                        unitary.type = "text";
+	                        unitary.className = "form-control";
+	                        unitary.name = "unitario";
+							unitario.appendChild(unitary);
+
+
 	                        var pr = document.createElement("td");
 	                        var prezzo = document.createElement("input");
 	                        prezzo.type = "text";
@@ -234,11 +264,13 @@
 	                        tr.appendChild(ord);
 	                        tr.appendChild(td);
 	                        tr.appendChild(qt);
+	                        tr.appendChild(unitario);
 	                        tr.appendChild(pr);
-	                        tr.appendChild(perc);
-							tr.appendChild(per);
-	                        tr.appendChild(netto);
-	                        tr.appendChild(perciva);
+	      	//              tr.appendChild(perc);
+			// 				tr.appendChild(per);
+	      	//              tr.appendChild(netto);
+	      	//              tr.appendChild(perciva);
+
 	                        kCorpo++;
 
 	                        tab.appendChild(tr);
@@ -260,16 +292,17 @@
 			<h4>Base fattura</h4><a onclick="calcola()" style="text-decoration:none" class="" title="Compilazione assistita"><br>Clicca <i class="fa fa-info"></i> per compilazione</i></a>
 	   	<table class="table table-striped">
 	   		<thead>
-	   			<th>Peso (Kg)</th>
-	   			<th>Netto</th>
+	   			
+	   			<th>Netto lavorazioni</th>
 	   			<th>Sconto aggiuntivo</th>
-	   			<th>Imponibile</th>
+	   			<th>Netto Totale</th>
+	   			<th>Imponibile Fattura</th>
 	   			<th>Prezzo IVA</th>
 	   			<th>% IVA</th>
-	   			<th>Da pagare</th>
+	   			<th>Totale Da pagare</th>
 	   		</thead>
 	   		<tbody>
-	   			<td><input id="peso" class="form-control" type="text" name="peso" value="{{$tranche->peso}}"></td>
+	   			<td><input id="lavorazioni" class="form-control" type="text" name="lavorazioni" value=""></td>
 	   			<td><input id="netto" class="form-control" type="text" name="netto" value="{{$tranche->netto}}"></td>
 	   			<td><input id="sconto" class="form-control" type="text" name="scontoaggiuntivo" value="{{$tranche->scontoaggiuntivo}}"></td>
 	   			<td><input id="imponibile" class="form-control" type="text" name="imponibile" value="{{$tranche->imponibile}}"></td>
@@ -316,6 +349,10 @@
 				</script>
 	   		</tbody>
 	   	</table>
+	   	<div class="col-md-2" style="padding-top:20px;padding-bottom:10px;">
+		<input onclick="mostra2()" type="submit" class="btn btn-warning" value="Salva">
+	</div>
+</form>
 	</div>
 	<div class="col-md-4">
 		<label for="statoemotivo">Stato emotivo</label>
@@ -339,30 +376,43 @@
 			document.getElementById("statoemotivo").style.backgroundColor = yourSelect.options[yourSelect.selectedIndex].style.backgroundColor;
 		});
 		</script>
-		<br><label for="datainserimento">Data inserimento disposizione <p style="color:#f37f0d;display:inline">(*)</p></label><br>
+		<br>
+		 <label for="privato">Nascondi statistiche <i class="fa fa-eye-slash" title="Se sì, questa disposizione non influenzerà le statistiche economiche"></i>
+            <select class="form-control" name="privato">
+            	@if($tranche->privato == 0)
+                    <option value="0" selected>No</option>
+                    <option value="1">Si</option>
+                @else
+                	<option value="0">No</option>
+                    <option value="1" selected>Si</option>
+                @endif
+            </select>
+
+		<br>
+		<!-- <label for="datainserimento">Data inserimento disposizione <p style="color:#f37f0d;display:inline">(*)</p></label><br>
     		<input id="datains" value="{{$tranche->datainserimento}}" class="form-control" name="datainserimento"></input>
             <br><label for="nomereferente">Note private per l'amministrazione</label><a onclick="mostra()" id="mostra"> <i class="fa fa-eye"></i></a>
 		<textarea class="form-control" placeholder="Note amministrative accordate verbalmente/scritte a mano sul preventivo" title="Note nascoste, clicca l'occhio per mostrare"></textarea>
 		<br><label for="nomereferente">Note private dell'amministrazione</label><a onclick="mostra()" id="mostra"> <i class="fa fa-eye"></i></a>
-		    <textarea class="form-control" name="dettagli" id="dettagli" placeholder="Inserisci note amministrative relative alla disposizione" title="Note nascoste, clicca l'occhio per mostrare" style="background:#f39538;color:#ffffff"></textarea>
+		    <textarea class="form-control" name="dettagli" id="dettagli" placeholder="Inserisci note amministrative relative alla disposizione" title="Note nascoste, clicca l'occhio per mostrare" style="background:#f39538;color:#ffffff"></textarea> -->
            <script>
-		   $j('#datains').datepicker();
-			var testo = "<?php echo $tranche->dettagli; ?>";
-			function mostra() {
-				if($j('#dettagli').val()) {
-					testo = $j('#dettagli').val();
-					$j('#dettagli').val("");
-				} else {
-					$j('#dettagli').val(testo);
-					testo = "";
-				}
-			}
-			function mostra2() {
-				if(!$j('#dettagli').val())
-					$j('#dettagli').val(testo);
-			}
+		 //   $j('#datains').datepicker();
+			// var testo = "<?php echo $tranche->dettagli; ?>";
+			// function mostra() {
+			// 	if($j('#dettagli').val()) {
+			// 		testo = $j('#dettagli').val();
+			// 		$j('#dettagli').val("");
+			// 	} else {
+			// 		$j('#dettagli').val(testo);
+			// 		testo = "";
+			// 	}
+			// }
+			// function mostra2() {
+			// 	if(!$j('#dettagli').val())
+			// 		$j('#dettagli').val(testo);
+			// }
 			</script> 
-			<br><label for="tipo">Tipo</label>
+			<label for="tipo">Tipo</label>
 		    <select name="tipo" id="tipo" class="form-control">
             	@if($tranche->tipo == 1)
                     <option value="0">Pagamento</option>
@@ -372,10 +422,10 @@
                     <option value="1">Rinnovo</option>
                 @endif
 		    </select>
-			<div id="frequenza">
+		<!-- 	<div id="frequenza">
 		    <br><label for="frequ">Frequenza <p style="color:#f37f0d;display:inline">(In giorni)</p></label>
 		    <input value="{{$tranche->frequenza}}" id="frequ" name="frequenza" class="form-control" placeholder="Frequenza">
-		</div>
+		</div> -->
         
 			<br><label for="percentuale">% importo totale (Inserisci 0 per importo non %) <p style="color:#f37f0d;display:inline">(*)</p></label>
 			<input id="percentuale" name="percentuale" class="form-control" value="{{$tranche->percentuale}}" placeholder="% disposizione">
@@ -409,19 +459,12 @@
 				test();
 			});
 			</script>
-			<br><label for="datascadenza">Data scadenza disposizione <p style="color:#f37f0d;display:inline">(*)</p></label><br>
+			<br><label for="datascadenza">Data scadenza fattura <p style="color:#f37f0d;display:inline">(*)</p></label><br>
 		    <input value="{{$tranche->datascadenza}}" class="form-control" name="datascadenza" id="datascadenza"></input><br>
-            <label for="privato">Nascondi statistiche <i class="fa fa-eye-slash" title="Se sì, questa disposizione non influenzerà le statistiche economiche"></i>
-            <select class="form-control" name="privato">
-            	@if($tranche->privato == 0)
-                    <option value="0" selected>No</option>
-                    <option value="1">Si</option>
-                @else
-                	<option value="0">No</option>
-                    <option value="1" selected>Si</option>
-                @endif
-            </select>
-			<script>
+           
+			  <script>
+		    $j('#frequenza').hide();
+			$j('#percentualediv').hide();
 		    $j('#datainserimento').datepicker();
 		    $j('#datascadenza').datepicker();
 		    $j('#emissione').datepicker();
@@ -435,11 +478,113 @@
 			}
 		});
 		</script>
+
+</form>          	
+          	<?php $mediaCode = date('dmyhis');?>
+
+          	<div class="col-md-12">
+	        <label for="scansione">Allega file amministrativo (Scansione preventivo, contratto, ...)</label><br>
+	        <br>
+	        <div class="col-md-12">
+            	<div class="image_upload_div">
+                <?php echo Form::open(array('url' => '/add/fatture/uploadfiles/'. $mediaCode, 'files' => true,'class'=>'dropzone')) ?>
+{{ csrf_field() }}
+    			</form>				
+				</div><script>
+				var url = '<?php echo url('/add/fatture/getfiles/'.$mediaCode); ?>';
+				Dropzone.autoDiscover = false;
+				$j(".dropzone").each(function() {
+				  $j(this).dropzone({
+					complete: function(file) {
+					  if (file.status == "success") {
+					  	 $j.ajax({url: url, success: function(result){
+        					$j("#files").html(result);
+							$j(".dz-preview").remove();
+							$j(".dz-message").show();
+					    }});
+					  }
+					}
+				  });
+				});
+				function deleteQuoteFile(id){
+					var urlD = '<?php echo url('/add/fatture/deletefiles/'); ?>/'+id;
+						$j.ajax({url: urlD, success: function(result){
+							$j(".quoteFile_"+id).remove();
+					    }});
+				}
+				function updateType(typeid,fileid){
+					var urlD = '<?php echo url('/add/fatture/updatefiletype/'); ?>/'+typeid+'/'+fileid;
+						$j.ajax({url: urlD, success: function(result){
+							//$j(".quoteFile_"+id).remove();
+					    }});
+				}				
+			
+                </script>
+	            <table class="table table-striped table-bordered">	                
+	                <tbody><?php
+					if(isset($preventivo->id) && isset($quotefiles)){
+					foreach($quotefiles as $prev) {
+				$imagPath = url('/storage/app/images/quote/'.$prev->name);
+				$html = '<tr class="quoteFile_'.$prev->id.'"><td><img src="'.$imagPath.'" height="100" width="100"><a class="btn btn-danger pull-right" style="text-decoration: none; color:#fff" onclick="deleteQuoteFile('.$prev->id.')"><i class="fa fa-eraser"></i></a></td></tr>';
+				$html .='<tr class="quoteFile_'.$prev->id.'"><td>';
+				$utente_file = DB::table('ruolo_utente')->select('*')->where('is_delete', '=', 0)->get();							
+				foreach($utente_file as $key => $val){
+					$check = '';
+					if($val->ruolo_id == $prev->type){
+						$check = 'checked';
+					}
+					$html .=' <input type="radio" name="rdUtente_'.$prev->id.'"  '.$check.' id="rdUtente_'.$val->ruolo_id.'" onchange="updateType('.$val->ruolo_id.','.$prev->id.');"  value="'.$val->ruolo_id.'" /> '.$val->nome_ruolo;
+				}
+				echo $html .='</td></tr>';
+			}
+					}
+                    ?></tbody>
+                    <tbody id="files">
+	                </tbody>
+                    
+	                <script>
+	                var $j = jQuery.noConflict();
+	                    var selezione = [];
+	                    var nFile = 0;
+	                    var kFile = 0;
+	                    $j('#aggiungiFile').on("click", function() {
+	                        var tab = document.getElementById("files");
+	                        var tr = document.createElement("tr");
+	                        var check = document.createElement("td");
+	                        var checkbox = document.createElement("input");
+	                        checkbox.type = "checkbox";
+	                        checkbox.className = "selezione";
+	                        check.appendChild(checkbox);
+	                        kFile++;
+	                        var td = document.createElement("td");
+	                        var fileInput = document.createElement("input");
+	                        fileInput.type = "file";
+	                        fileInput.className = "form-control";
+	                        fileInput.name = "filee[]";
+	                        td.appendChild(fileInput);
+	                        tr.appendChild(check);
+	                        tr.appendChild(td);
+	                        tab.appendChild(tr);
+	                        $j('.selezione').on("click", function() {
+				                selezione[nFile] = $j(this).parent().parent();
+				                nFile++;
+		                	});
+	                    });
+	                    $j('#eliminaFile').on("click", function() {
+	                       for(var i = 0; i < nFile; i++) {
+	                           selezione[i].remove();
+	                       }
+	                       nFile = 0;
+	                    });
+	                </script>
+	            </table><hr>
+	            </div>
+
+            </div>
+		
 	</div>
 </div>
-<div class="col-md-2" style="padding-top:20px;padding-bottom:10px;">
-		<input onclick="mostra2()" type="submit" class="btn btn-warning" value="Salva">
-	</div>
-</form>
+
+
 
 @endsection
