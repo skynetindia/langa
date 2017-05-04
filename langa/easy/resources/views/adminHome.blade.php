@@ -87,7 +87,7 @@
 
                   <li><a>Optional<span class="fa fa-chevron-down"></span></a>
                        <ul class="nav child_menu">
-                          <li><a href="{{url('/admin/tassonomie/optional/add')}}">Optional</a>
+                          <li><a href="{{url('/admin/tassonomie/optional')}}">Optional</a>
 
                           <li><a href="{{url('/show-provincie')}}">Indici Costo Vita</a>
                       </li>

@@ -178,7 +178,7 @@ span.round-tab:hover {
   <div class="col-md-12">
     <h1>Quiz</h1>
     <div class="wizard">
-      <div class="wizard-inner">
+     <!--  <div class="wizard-inner">
         <div class="connecting-line"></div>
         <ul class="nav nav-tabs">
           <li role="presentation" class="active"> <a href="#" title="Step 1"> <span class="round-tab"> <img src="images/folder.png"> </span> <span class="tab-name">inserisci dati</span> </a> </li>
@@ -187,40 +187,45 @@ span.round-tab:hover {
           <li role="presentation" class="disabled"> <a href="#" title="Complete"> <span class="round-tab"> <img src="images/list.png"> </span> <span class="tab-name">Optional</span> </a> </li>
           <li role="presentation" class="disabled"> <a href="#" title="Complete"> <span class="round-tab"> <img src="images/media.png"> </span> <span class="tab-name">Media</span> </a> </li>
         </ul>
-      </div>
+      </div> -->
       
       <div class="step-content step-three">
         <div class="step-pane">
-          <form role="form">
+          <form role="form" name="step_three" class="text-center register-for-quiz-form" method="post">
             <ol>
               <li><label> Quali pagine desidereresti?</label>
                    <div class="form-group">
             <!-- <textarea class="form-control" rows="5" ></textarea> 
             -->
-             <textarea id="hero-demo" cols="100"></textarea>
+            {{ csrf_field() }}
+
+             <textarea name="pages" id="pages" cols="100"></textarea>
                      </div>
                 </li>
+                <span id="span_pages" style="display: none;">pages field is required </span>
                 
                 
                 <li><label>Quali colori ti piacerebbero?</label>
                 <div class="form-group">
                      <div class="input-group">
-                        <input type="text" class="form-control color no-alpha" value="#fac1ed" name="color">
-                        <span class="input-group-addon">Color picker goes here </span> 
+                      <input type="text" class="form-control color no-alpha" value="" id="colore_primario"
+                      name="colore_primario" placeholder="colore primario">
+                      <span class="input-group-addon">Color picker goes here </span> 
                        </div>
                 </div>
-                
+                 <span id="span_primario" style="display: none;">colore primario field is required </span>
+
                  <div class="form-group">
                      <div class="input-group">
-                        <input type="text" class="form-control color " value="" placeholder="Colore secondario">
-                        <span class="input-group-addon">Color picker goes here</span> 
+                      <input type="text" class="form-control color " value="" name="colore_secondario" placeholder="Colore secondario" id="colore_secondario">
+                      <span class="input-group-addon">Color picker goes here</span> 
                        </div>
                 </div>
                 
                 <div class="form-group">
                      <div class="input-group">
-                        <input type="text" class="form-control color" value="" placeholder="Colore alternativo">
-                        <span class="input-group-addon">Color picker goes here</span> 
+                      <input type="text" class="form-control color" value="" name="colore_alternativo" placeholder="Colore alternativo" id="colore_alternativo">
+                      <span class="input-group-addon">Color picker goes here</span> 
                        </div>
                 </div>
                  </li>
@@ -229,7 +234,7 @@ span.round-tab:hover {
                   <div class="row">
                     <div class="col-md-6">
                            <div class="form-group">
-                              <select class="form-control" id="fontsize">
+                              <select class="form-control" id="fontsize" name="fontsize">
                                 <option>12</option>
                                 <option>18</option>
                                 <option>24</option>
@@ -242,20 +247,19 @@ span.round-tab:hover {
                             </div>
                             
                              <div class="form-group">
-                                  <textarea class="form-control" rows="5" id="font-preview">
+                                  <textarea class="form-control" rows="5" id="font_preview" name="font_preview">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia dictum varius. Aenean fermentum est a nisl luctus, eu consequat dolor auctor. Aliquam dignissim sed felis a cursus. Aliquam ac vulputate metus. Proin sit amet felis auctor, elementum orci nec, hendrerit massa.
                                   </textarea>
                                 </div>
-                        </div>
-                        
+                        </div>                        
                         
                       <div class="col-md-6">
                          <div class="form-group">
-                            <select class="form-control" id="fontfamily">
-                              <option value="Arial">Arial</option>
-                              <option value="Verdana ">Verdana </option>
-                              <option value="Impact ">Impact </option>
-                              <option value="Comic Sans MS">Comic Sans MS</option>
+                            <select class="form-control" id="fontfamily" name="fontfamily">
+                              <option>Arial</option>
+                              <option>Verdana </option>
+                              <option>Impact </option>
+                              <option>Comic Sans MS</option>
                             </select>
                           </div>
                       </div>
@@ -271,7 +275,7 @@ span.round-tab:hover {
               </div>
               <ul class="list-inline">
                 <li><a class="prev-step">Indietro</a></li>
-                <li><a class="next-step">Avanti</a></li>
+                <li><a class="next-step" id="step-three">Avanti</a></li>
               </ul>
             </div>
           </form>
@@ -295,22 +299,66 @@ span.round-tab:hover {
 
 <script type="text/javascript">
 
-    // $("#hero-demo").keydown(function (e) {    
-
-    //     $("#hero-demo").focus();
-    //     e.preventDefault();
-    
-    // });
-
     $('.color').colorPicker();
 
     $("#fontfamily").change(function() {
-      $('#font-preview').css("font-family", $(this).val());
+      $('#font_preview').css("font-family", $(this).val());
     });
 
     $("#fontsize").change(function() {
-        $('#font-preview').css("font-size", $(this).val() + "px");
+        $('#font_preview').css("font-size", $(this).val() + "px");
     });
+
+    $("#step-three").click(function(e){
+        
+        var pages = document.getElementById("pages");
+        var colore_primario = document.getElementById("colore_primario");
+
+        if (pages.value == '') {
+            document.getElementById("span_pages").style.display = "block";
+            return false;
+        } 
+
+        if (colore_primario.value == '') {
+            document.getElementById("span_primario").style.display = "block";
+            return false;
+        } 
+
+
+          e.preventDefault();
+
+          var pages = $("#pages").val(); 
+          var colore_primario = $("#colore_primario").val();
+          var colore_secondario = $("#colore_secondario").val();
+          var colore_alternativo = $("#colore_alternativo").val(); 
+          var fontsize = $("#fontsize").val(); 
+          var fontfamily = $("#fontfamily").val();
+          var font_preview = $("#font_preview").val();
+          var _token = $('input[name="_token"]').val();
+
+          $.ajax({
+            type:'POST',
+            data: {
+                    'pages': pages,
+                    'colore_primario':colore_primario,
+                    'colore_secondario': colore_secondario,
+                    'colore_alternativo': colore_alternativo,
+                    'fontsize':fontsize,
+                    'fontfamily':fontfamily,
+                    'font_preview': font_preview,
+                    '_token' : _token
+                  },
+            url: '{{ url('storeStepthree') }}',
+            success:function(data) {
+               // $('#success_message').html(data);
+               
+                  location.reload();
+                                             
+            }
+
+        });
+
+     });
 
 </script>
 
@@ -349,8 +397,8 @@ span.round-tab:hover {
         }
 
         $(function() {
-            $('#hero-demo').tagEditor({
-                placeholder: 'Enter tags ...',
+            $('#pages').tagEditor({
+                placeholder: 'Enter pages ...',
                 autocomplete: { source: googleSuggest, minLength: 3, delay: 250, html: true, position: { collision: 'flip' } }
             });
 

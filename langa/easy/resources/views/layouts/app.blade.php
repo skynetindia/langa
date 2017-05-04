@@ -162,6 +162,16 @@
 
                   <li><a href="{{url('/valutaci')}}"><i class="fa fa-star-o"></i> Segnalazioni</a>
                   </li>  
+
+                  <li><a href="{{url('/quiz/stepone')}}"><i class="fa fa-star-o"></i> Quiz Step - 1</a>
+                  </li> 
+
+                  <li><a href="{{url('/quiz/stepthree')}}"><i class="fa fa-star-o"></i> Quiz Step - 3</a>
+                  </li> 
+
+                   <li><a href="{{url('/quiz/stepfour')}}"><i class="fa fa-star-o"></i> Quiz Step - 4</a>
+                  </li> 
+
                 </ul>
         </div>
             </div>

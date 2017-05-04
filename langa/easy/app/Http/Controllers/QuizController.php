@@ -28,6 +28,82 @@ class QuizController extends Controller
 	  return view('quiz.step-three');
 	}
 
+	public function stepfour(Request $request){
+	  
+	  return view('quiz.step-four', [
+            'optional' => DB::table('optional')
+                        ->get()
+        ]);
+	}
+
+	public function storeStepthree(Request $request){
+	  
+	  $validator = Validator::make($request->all(), [
+	  	  'pages' => 'required',
+	      'colore_primario' => 'required',
+	  ]);
+	            
+	    if($validator->fails()) {
+	      return Redirect::back()
+	        ->withInput()
+	        ->withErrors($validator);
+	    }	
+
+	    $pages = $request->input('pages');
+	    $total_pages = substr_count($pages, ',') + 1;
+
+  		$true = DB::table('quiz_pages')
+  			->insert([
+  				'user_id' => $request->user()->id,
+	  			'pagine' => $pages,
+	  			'totale_pagine' => $total_pages,	  			
+	  			'colore_primario' => $request->colore_primario,
+	  			'colore_secondario' => $request->colore_secondario,
+	  			'colore_alternativo' => $request->colore_alternativo,
+	  			'font_dimensione' => $request->fontsize,
+	  			'font_famiglia' => $request->fontfamily,
+	  			'paragrafo' => $request->font_preview,
+	  			
+	  	]);
+
+
+	    if($true){
+	    	return "success";
+	    } else {
+	    	return "fail";
+	    }
+	}
+
+	public function storestepfour(Request $request){
+	  
+	  $validator = Validator::make($request->all(), [
+	  	  // 'pages' => 'required',
+	     //  'colore_primario' => 'required',
+	  ]);
+	            
+	    if($validator->fails()) {
+	      return Redirect::back()
+	        ->withInput()
+	        ->withErrors($validator);
+	    }	
+
+
+  		$true = DB::table('store_optioanl')
+  			->insert([
+  				'user_id' => $request->user()->id,
+	  			'optional_id' => $request->optioan_id,
+	  			'label' => $request->icon_label,	  			
+	  			'price' => $request->price	  			
+	  	]);
+
+
+	    if($true){
+	    	return "success";
+	    } else {
+	    	return "fail";
+	    }
+	}
+
 	public function storequizStep_1(Request $request){
 	  
 	  $validator = Validator::make($request->all(), [
