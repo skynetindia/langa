@@ -17,16 +17,20 @@
 <fieldset>
 <legend style="padding-left:10px;color:#fff;background-color: #999">Tipi</legend>
 <h4>Aggiungi tipo</h4>
-<form action="{{url('/alert/add/tipo')}}" method="post">
+<form action="{{url('/alert/add/tipo')}}" method="post" name="alerttipo" id="alerttipo">
     {{ csrf_field() }}
-	<div class="col-md-4">
-		<input type="text" class="form-control" name="nome_tipo" placeholder="Nome"><br> 
+	<div class="col-md-4"> 
+		<p style="color:#f37f0d;display:inline">(*)</p>
+		<input type="text" class="form-control" id="nome_tipo" name="nome_tipo" placeholder="Nome"><br> 
 	</div>
 	<div class="col-md-4">
-		<input type="text" class="form-control" name="desc_tipo" placeholder="Descrizione"><br> 
+	
+	<br>
+		<input type="text" class="form-control" id="desc_tipo" name="desc_tipo" placeholder="Descrizione"><br> 
 	</div>
 	<div class="col-md-4">
-		<input class="form-control color no-alpha" value="#f37f0d" name="color" /><br>
+	<br>
+		<input class="form-control color no-alpha" value="#f37f0d" name="color" id="color" /><br>
 	</div>
 	<div style="text-align:right">
 		<input type="submit" class="btn btn-primary" value="Aggiungi">
@@ -38,12 +42,14 @@
 	@foreach($alert_tipo as $type)
 		
 		<tr>
-		<form action="{{url('/admin/update/tipo')}}" method="post">
+		<form action="{{url('/admin/update/tipo')}}" method="post" id="modifyalerttipo" name="modifyalerttipo">
 		{{ csrf_field() }}
 		<input type="hidden" name="id_tipo" value="{{$type->id_tipo}}">
 		<div class="form-group">
 			<div class="col-xs-6 col-sm-3">
-				<td><input type="text" class="form-control" name="nome_tipo" id="nome_tipo" value="{{$type->nome_tipo}}"> </td>
+			<td>
+				<input type="text" class="form-control" name="nome_tipo" id="nome_tipo" value="{{$type->nome_tipo}}"> 
+				</td>
 			</div>
 			<div class="col-xs-6 col-sm-3">
 				<td><input type="text" class="form-control" name="desc_tipo" value="{{$type->desc_tipo}}"></td>

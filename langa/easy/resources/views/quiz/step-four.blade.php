@@ -367,6 +367,9 @@ span.round-tab:hover {
       label = label.replace(/(^\s*)|(\s*$)/gi,"");
       label = label.replace(/[ ]{2,}/gi," ");
       label = label.replace(/\n /,"\n");
+      price = price.replace(/(^\s*)|(\s*$)/gi,"");
+      price = price.replace(/[ ]{2,}/gi," ");
+      price = price.replace(/\n /,"\n");
 
       $('#icon_logo').attr('src',icon);
       $('#icon_immagine').attr('src',image);
@@ -489,27 +492,11 @@ span.round-tab:hover {
                   },
             url: '{{ url('storeStep_1') }}',
             success:function(data) {
-               // $('#success_message').html(data);
-               
-               if(data == 'false'){
-                // console.log(data);
-                  // $('#exist').html(data);
-                  $("#exist").css("display", "block");
-                  $("#exist").css("color", "red");
-                  $("#confirm").css("display", "block");
-                  // $("#link").css("color", "red");
-
-               } 
-               if(data == 'true') {
-                  location.reload();
-                  // console.log(data);
-               }
-               
-               
+                  // location.reload();
+                  console.log(data);
             }
 
         });
-
 
      });
 

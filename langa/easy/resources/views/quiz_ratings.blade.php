@@ -9,7 +9,7 @@
 <script type="text/javascript" src="{{asset('public/scripts/jqColorPicker.min.js')}}"></script>
 <script type="text/javascript">
 	
-         $('.color').colorPicker(); // that's it
+         $('.color').colorPicker(); 
    
 </script>
 

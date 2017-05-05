@@ -158,7 +158,7 @@ li label {
     <option></option>
     @foreach($enti as $enti)
 
-      @if(in_array($enti->id, $entity))
+      @if( $entity[0] != '' && in_array($enti->id, $entity) )
 
         <option value="{{ $enti->id }}" selected="selected">
           {{$enti->nomeazienda}}

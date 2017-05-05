@@ -512,13 +512,13 @@ class AdminController extends Controller
                         ->withErrors($validator);
                 }
 
-            
+                $ente = $request->input('ente');
                 if(isset($ente)){
                     $ente = implode(",", $request->input('ente'));
                 } else {
                     $ente = null;
                 }
-
+               
                 $ruolo = implode(",", $request->input('ruolo'));  
 
                 $today = date("Y-m-d");
@@ -555,6 +555,7 @@ class AdminController extends Controller
                         ->withErrors($validator);
                 }
 
+                $ente = $request->input('ente');
                 if(isset($ente)){
                     $ente = implode(",", $request->input('ente'));
                 } else {
@@ -1542,6 +1543,7 @@ class AdminController extends Controller
                 'sconto_bonus' => $request->sconto_bonus,
                 'rendita' => $request->rendita,
                 'rendita_reseller' => $request->rendita_reseller,
+                'is_approvato' => 1,
                 'permessi' => $permessi->{'permessi'}
             
             ));
@@ -2252,8 +2254,8 @@ class AdminController extends Controller
 						'sconto_reseller' => 'max:16',
                         'frequenza' => 'required',
                         'dipartimento' => 'required',
-						'logo'=>'mimes:jpeg,jpg,png | max:1000',
-						'immagine'=>'mimes:jpeg,jpg,png | max:1000'
+                        'logo'=>'mimes:jpeg,jpg,png|max:2000',
+                        'immagine'=>'mimes:jpeg,jpg,png|max:2000'
             ]);
 
             if ($validator->fails()) {
@@ -2261,6 +2263,7 @@ class AdminController extends Controller
                                 ->withInput()
                                 ->withErrors($validator);
             }
+
             $logo = DB::table('optional')
                     ->select('icon','immagine')
                     ->where('id', $request->optional)
@@ -2312,9 +2315,11 @@ class AdminController extends Controller
             return redirect('/unauthorized');
 	else {
             return view('modificaoptional', ['optional' => DB::table('optional')->where('id', $request->optional)->first(),
-											'dipartimenti' => DB::table('departments')->get(),
-											'lavorazioni' => DB::table('lavorazioni')->get(),
-											'frequenze' => DB::table('frequenze')->get(),
+
+			'dipartimenti' => DB::table('departments')->get(),
+			'lavorazioni' => DB::table('lavorazioni')->get(),
+			'frequenze' => DB::table('frequenze')->get(),
+
             ]);
         }
     }

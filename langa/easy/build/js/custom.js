@@ -284,6 +284,40 @@ if (typeof NProgress != 'undefined') {
 
 $(document).ready(function() {
 
+        // validate add alert type form on keyup and submit
+        $("#alerttipo").validate({
+
+            rules: {
+                nome_tipo: {
+                    required: true
+                }
+            },
+            messages: {
+                nome_tipo: {
+                    required: "Please enter name tipo"
+                }
+            }
+
+        });
+
+         // validate modify alert form on keyup and submit
+        $("#modifyalerttipo").validate({
+
+            rules: {
+                nome_tipo: {
+                    required: true
+                }
+            },
+            messages: {
+                nome_tipo: {
+                    required: "Please enter name tipo"
+                }
+            }
+
+        });
+
+
+
         // validate add rating form on keyup and submit
         $("#add_rating").validate({
 

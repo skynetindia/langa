@@ -100,7 +100,7 @@ table tr td {
 @include('common.errors')
 <div class="container-fluid col-md-12">
 	<div style="display:inline">
-	<img src="http://easy.langa.tv/storage/app/images/<?php echo $optional->icon; ?>" style="max-width:100px; max-height:100px;display:inline"></img><h1 style="display:inline">  Codice: {{$optional->id}}</h1><hr>
+	<img src="{{ asset('storage/app/images/'.$optional->icon) }}" style="max-width:100px; max-height:100px;display:inline"></img><h1 style="display:inline">  Codice: {{$optional->id}}</h1><hr>
 	</div>
 </div>
 <?php echo Form::open(array('url' => '/admin/tassonomie/update/optional/' . $optional->id, 'files' => true, 'id'=>'editformptional')) ?>

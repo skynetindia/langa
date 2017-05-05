@@ -193,7 +193,7 @@ span.round-tab:hover {
         <div class="step-pane">
           <form role="form" name="step_three" class="text-center register-for-quiz-form" method="post">
             <ol>
-              <li><label> Quali pagine desidereresti?</label>
+              <li><label> Quali pagine desidereresti? <p style="color:#f37f0d;display:inline">(*)</p> </label>
                    <div class="form-group">
             <!-- <textarea class="form-control" rows="5" ></textarea> 
             -->
@@ -205,7 +205,7 @@ span.round-tab:hover {
                 <span id="span_pages" style="display: none;">pages field is required </span>
                 
                 
-                <li><label>Quali colori ti piacerebbero?</label>
+                <li><label>Quali colori ti piacerebbero? <p style="color:#f37f0d;display:inline">(*)</p></label>
                 <div class="form-group">
                      <div class="input-group">
                       <input type="text" class="form-control color no-alpha" value="" id="colore_primario"
@@ -350,10 +350,8 @@ span.round-tab:hover {
                   },
             url: '{{ url('storeStepthree') }}',
             success:function(data) {
-               // $('#success_message').html(data);
-               
                   location.reload();
-                                             
+                  // console.log(data);
             }
 
         });
@@ -365,9 +363,6 @@ span.round-tab:hover {
  <script>
 
   ;(function($){
-        // your code
-    
-
 
         // jQuery UI autocomplete extension - suggest labels may contain HTML tags
         // github.com/scottgonzalez/jquery-ui-extensions/blob/master/src/autocomplete/jquery.ui.autocomplete.html.js
@@ -431,7 +426,9 @@ span.round-tab:hover {
             ');
         }
         })(jQuery);
+
     </script>
+
 
 <!-- JQeury code required for STEP wizard -->
 
@@ -499,29 +496,24 @@ span.round-tab:hover {
                     'email': email,
                     '_token' : _token
                   },
-            url: '{{ url('storeStep_1') }}',
+            url: '{{ url('storeStepthree') }}',
             success:function(data) {
                // $('#success_message').html(data);
-               
-               if(data == 'false'){
-                // console.log(data);
-                  // $('#exist').html(data);
-                  $("#exist").css("display", "block");
-                  $("#exist").css("color", "red");
-                  $("#confirm").css("display", "block");
-                  // $("#link").css("color", "red");
 
-               } 
+               // if(data == 'false'){
+               // //    // console.log(data);
+               // //    $("#exist").css("display", "block");
+               // //    $("#exist").css("color", "red");
+               // //    $("#confirm").css("display", "block");
+               // } 
                if(data == 'true') {
-                  location.reload();
+                  document.location = '{{ url('/quiz/stepfour') }}';
+                  // location.reload();
                   // console.log(data);
-               }
-               
-               
+               }              
             }
 
         });
-
 
      });
 

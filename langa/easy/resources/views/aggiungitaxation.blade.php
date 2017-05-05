@@ -24,20 +24,20 @@
 
       @if(isset($taxation))
           <h1>Update template per Tassazione</h1><hr>
-          <label>Tassazione Nome</label>
+          <label>Tassazione Nome <p style="color:#f37f0d;display:inline">(*)</p></label>
           <input class="form-control" name="tassazione_nome" value="{{ $taxation->tassazione_nome }}">
           <br>
-          <label>Tassazione Percentuale</label>
+          <label>Tassazione Percentuale <p style="color:#f37f0d;display:inline">(*)</p></label>
           <input class="form-control" name="tassazione_percentuale" value="{{ $taxation->tassazione_percentuale }}">
           <br>
           <input type="hidden" name="tassazione_id" value="{{ $taxation->tassazione_id }}">
           <input class="btn btn-warning" type="submit" value="Modify">
       @else
           <h1>Aggiungi template per Tassazione</h1><hr>
-          <label>Tassazione Nome</label>
+          <label>Tassazione Nome <p style="color:#f37f0d;display:inline">(*)</p></label>
           <input class="form-control" name="tassazione_nome" value="">
           <br>
-          <label>Tassazione Percentuale</label>
+          <label>Tassazione Percentuale <p style="color:#f37f0d;display:inline">(*)</p></label>
           <input class="form-control" name="tassazione_percentuale" value="">
           <br>
           <input class="btn btn-warning" type="submit" value="Aggiungi">

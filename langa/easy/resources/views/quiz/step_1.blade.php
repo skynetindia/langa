@@ -339,7 +339,8 @@ span.round-tab:hover {
 
                } 
                if(data == 'true') {
-                  location.reload();
+                  // location.reload();
+                  document.location = '{{ url('/quiz/stepthree') }}';
                   // console.log(data);
                }
                
