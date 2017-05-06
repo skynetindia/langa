@@ -100,14 +100,19 @@ li label {
 
 </div>
 
+<div class="table-responsive table-custom-design">
+
     <table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="taxation/json" data-classes="table table-bordered" id="table">
-        <thead>
-            <th data-field="tassazione_id" data-sortable="true">n° id
-            <th data-field="tassazione_nome" data-sortable="true">Nome
-            <th data-field="tassazione_percentuale" data-sortable="true">Percentuale
-        </thead>
+    <thead>
+      <th data-field="tassazione_id" data-sortable="true">n° id </th>
+      <th data-field="tassazione_nome" data-sortable="true">Nome </th>
+      <th data-field="tassazione_percentuale" data-sortable="true">Percentuale </th>
+    </thead>
     </table>
+</div>
+
 <script>
+
 var selezione = [];
 var indici = [];
 var n = 0;

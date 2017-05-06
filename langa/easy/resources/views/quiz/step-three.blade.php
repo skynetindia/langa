@@ -178,16 +178,16 @@ span.round-tab:hover {
   <div class="col-md-12">
     <h1>Quiz</h1>
     <div class="wizard">
-     <!--  <div class="wizard-inner">
+      <div class="wizard-inner">
         <div class="connecting-line"></div>
         <ul class="nav nav-tabs">
-          <li role="presentation" class="active"> <a href="#" title="Step 1"> <span class="round-tab"> <img src="images/folder.png"> </span> <span class="tab-name">inserisci dati</span> </a> </li>
-          <li role="presentation" class="active"> <a href="#" title="Step 2"> <span class="round-tab"> <img src="images/star.png"> </span> <span class="tab-name">Valuta demo</span> </a> </li>
-          <li role="presentation" class="active"> <a href="#" title="Step 3"> <span class="round-tab"> <img src="images/edit.png"> </span> <span class="tab-name">Colori e layout</span> </a> </li>
-          <li role="presentation" class="disabled"> <a href="#" title="Complete"> <span class="round-tab"> <img src="images/list.png"> </span> <span class="tab-name">Optional</span> </a> </li>
-          <li role="presentation" class="disabled"> <a href="#" title="Complete"> <span class="round-tab"> <img src="images/media.png"> </span> <span class="tab-name">Media</span> </a> </li>
+          <li role="presentation" class="active"> <a href="#" title="Step 1"> <span class="round-tab"> <img src="{{ asset('images/folder.png') }}"> </span> <span class="tab-name">inserisci dati</span> </a> </li>
+          <li role="presentation" class="disabled"> <a href="#" title="Step 2"> <span class="round-tab"> <img src="{{ asset('images/star.png') }}"> </span> <span class="tab-name">Valuta demo</span> </a> </li>
+          <li role="presentation" class="disabled"> <a href="#" title="Step 3"> <span class="round-tab"> <img src="{{ asset('images/edit.png') }}"> </span> <span class="tab-name">Colori e layout</span> </a> </li>
+          <li role="presentation" class="disabled"> <a href="#" title="Complete"> <span class="round-tab"> <img src="{{ asset('images/list.png') }}"> </span> <span class="tab-name">Optional</span> </a> </li>
+          <li role="presentation" class="disabled"> <a href="#" title="Complete"> <span class="round-tab"> <img src="{{ asset('images/media.png') }}"> </span> <span class="tab-name">Media</span> </a> </li>
         </ul>
-      </div> -->
+      </div>
       
       <div class="step-content step-three">
         <div class="step-pane">
@@ -274,8 +274,8 @@ span.round-tab:hover {
                 <div class="page">3/7</div>
               </div>
               <ul class="list-inline">
-                <li><a class="prev-step">Indietro</a></li>
-                <li><a class="next-step" id="step-three">Avanti</a></li>
+              <li><a class="prev-step" id="prev_stepthree">Indietro</a></li>
+              <li><a class="next-step" id="step-three">Avanti</a></li>
               </ul>
             </div>
           </form>
@@ -308,6 +308,11 @@ span.round-tab:hover {
     $("#fontsize").change(function() {
         $('#font_preview').css("font-size", $(this).val() + "px");
     });
+
+    $('#prev_stepthree').click(function() {
+      history.back();
+    });
+
 
     $("#step-three").click(function(e){
         
@@ -350,7 +355,8 @@ span.round-tab:hover {
                   },
             url: '{{ url('storeStepthree') }}',
             success:function(data) {
-                  location.reload();
+                document.location = '{{ url('/quiz/stepfour') }}';
+                  // location.reload();
                   // console.log(data);
             }
 

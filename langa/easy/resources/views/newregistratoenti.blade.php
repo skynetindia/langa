@@ -116,6 +116,15 @@ li label {
 
 <script src="{{ asset('public/scripts/jquery.min.js') }}"></script>
 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
+
 <script>
 
   $(function(){
@@ -161,17 +170,32 @@ li label {
 
 <br><br>
 
-<div class="table-responsive">
+<div class="table-responsive table-custom-design">
+
+<table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="newente/json" data-classes="table table-bordered" id="table">
+    <thead>
+    <th data-field="id" data-sortable="true">n° id </th>
+    <th data-field="nomeazienda" data-sortable="true">Nome </th>
+    <th data-field="email" data-sortable="true">Email </th>
+    <th data-field="azione" data-sortable="true">Azione </th>
+    </thead>
+
+</table>
+
+</div>
+
+
+<!-- <div class="table-responsive">
 
 <table class="selectable table table-hover table-bordered" id="table" cellspacing="0" cellpadding="0">
 
 <thead>
 
-<tr style="background: #999; color:#ffffff">
+<tr style="background: #999; color:#ffffff"> -->
 
 <!-- Intestazione tabella dipartimenti -->
 
-<th>#</th>
+<!-- <th>#</th>
 
 <th>Codice</th>
 
@@ -186,8 +210,8 @@ li label {
 </thead>
 
 <tbody>
-
-<?php $count = 0; ?>
+ -->
+<?php //$count = 0; ?>
 
     <!--
 
@@ -199,9 +223,9 @@ li label {
 
 -->
 
-@foreach ($corporations as $corporations)
+<!-- @foreach ($corporations as $corporations) -->
 
-    <tr>
+    <!-- <tr>
 
         <td><input class="selectable" type="checkbox"></td>
 
@@ -212,38 +236,38 @@ li label {
                 <td>{{$corporations->email}}</td>
 
                 <td>
-                
-    <a class="btn btn-default" id="approvare" href="{{ url('/approvareenti/'.$corporations->id) }}" onclick="return confirm('Are you sure you want to Approvare this item?');"> Approvare </a>
+                 -->
+   <!--  <a class="btn btn-default" id="approvare" href="{{ url('/approvareenti/'.$corporations->id) }}" onclick="return confirm('Are you sure you want to Approvare this item?');"> Approvare </a>
 
     <a class="btn btn-default" id="rifiutare" class="btn btn-default" href="{{ url('/rifiutareenti/'.$corporations->id) }}" onclick="return confirm('Are you sure you want to Rifiutare this item?');"> RifiutareK </a>
 
                 </td>
 
-        </tr>                          
+        </tr>              -->             
 
-        <?php $count++; ?>
+        <?php //$count++; ?>
 
-@endforeach   
+<!-- @endforeach    -->
 
  
 
-</tbody>
+<!-- </tbody>
 
 </table>
+ -->
+<?php //if($count==0) {
 
-<?php if($count==0) {
+    //echo "<h3 style='text-align:center;'>Nessuno sconto trovato</h3>";
 
-    echo "<h3 style='text-align:center;'>Nessuno sconto trovato</h3>";
+//} ?>
 
-} ?>
-
-</div>
+<!-- </div>
 
 <div class="pull-right">
 
 
 
-</div>
+</div> -->
 
 <script>
 

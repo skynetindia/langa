@@ -339,8 +339,8 @@ span.round-tab:hover {
                 <div class="page">3/7</div>
               </div>
               <ul class="list-inline">
-                <li><a class="prev-step">Indietro</a></li>
-                <li><a class="next-step">Avanti</a></li>
+                <li><a class="prev-step" id="prev_stepfour">Indietro</a></li>
+                <li><a class="next-step" >Avanti</a></li>
               </ul>
             </div>
         </div>
@@ -354,6 +354,14 @@ span.round-tab:hover {
 <!-- JQeury code required for STEP wizard -->
 
   <script>
+
+// $("#step_twonext").click(function(e){
+//       document.location = '{{ url('/quiz/stepthree') }}';
+//   });
+
+  $('#prev_stepfour').click(function() {
+    history.back();
+  });
 
    function setdiv(i) {
 

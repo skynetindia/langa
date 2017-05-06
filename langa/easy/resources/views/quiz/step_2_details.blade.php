@@ -1,8 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
-
-
 @if(!empty(Session::get('msg')))
 
     <script>
@@ -18,7 +13,9 @@
 @include('common.errors')
 
 <script src="{{ asset('public/scripts/jquery.min.js') }}"></script>
-
+<script src="{{ asset('public/scripts/jquery.raty.js') }}"></script>
+<script src="{{ asset('public/scripts/labs.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('public/scripts/jquery.raty.css') }}">
  <!-- CSS required for STEP Wizard  -->
  <style>
         .wizard {
@@ -162,113 +159,66 @@ span.round-tab:hover {
     }
 }
 </style>
-
-
   <!-- HTML Structure -->
-
-
-<div class="row quiz-wizard">
-<div class="col-md-12">
-    <h1>Quiz</h1>
-    <div class="wizard">
-      <div class="wizard-inner">
-        <div class="connecting-line"></div>
-        <ul class="nav nav-tabs">
-          <li role="presentation" class="active"> <a href="#" title="Step 1"> <span class="round-tab"> <img src="{{ asset('images/folder.png') }}"> </span> <span class="tab-name">inserisci dati</span> </a> </li>
-          <li role="presentation" class="disabled"> <a href="#" title="Step 2"> <span class="round-tab"> <img src="{{ asset('images/star.png') }}"> </span> <span class="tab-name">Valuta demo</span> </a> </li>
-          <li role="presentation" class="disabled"> <a href="#" title="Step 3"> <span class="round-tab"> <img src="{{ asset('images/edit.png') }}"> </span> <span class="tab-name">Colori e layout</span> </a> </li>
-          <li role="presentation" class="disabled"> <a href="#" title="Complete"> <span class="round-tab"> <img src="{{ asset('images/list.png') }}"> </span> <span class="tab-name">Optional</span> </a> </li>
-          <li role="presentation" class="disabled"> <a href="#" title="Complete"> <span class="round-tab"> <img src="{{ asset('images/media.png') }}"> </span> <span class="tab-name">Media</span> </a> </li>
-        </ul>
-      </div>
-
-      <div id="success_message"></div>
-
-      <div class="step-content">
-        <div class="step-pane">
-          <form role="form" name="step_1" class="text-center register-for-quiz-form" method="post">
-
-          {{ csrf_field() }}
-            <div class="form-group">
-              <label for="usr">Nome azienda <p style="color:#f37f0d;display:inline">(*)</p> </label>
-              <!-- <div class = "input-group"> -->
-                <input type = "text" class = "form-control" name="nome_azienda" id="nome_azienda" placeholder="enter name azienda">
-                <span class = "input-group-addon" id="exist" style="display: none;"><a href="#" id="link" onclick="return confirm('Are you sure you want to ESISTENTE?');"></a> Ente Gia' ESISTENTE? </span>
-                <div id="confirm" style="display: none;"> Do you want <b>Old</b> or <b>New</b></div>
-                 <!-- </div> -->
-                 
-                <span id="span_azienda" style="display: none;">Nome azienda field is required </span>
-            </div>
-            <div class="form-group">
-              <label for="ref-name">Nome Referente: <p style="color:#f37f0d;display:inline">(*)</p> </label>
-              <input type="text" class="form-control" id="ref_name" name="ref_name" placeholder="enter reference name">
-            </div>
-            <span id="span_referente" style="display: none;">Nome Referente field is required </span>
-
-            <div class="form-group" >
-              <datalist id="settori"></datalist>
-              <label for="sel1">Settore Merceologico <p style="color:#f37f0d;display:inline">(*)</p> </label>
-               <input value="" list="settori" class="form-control" type="text" id="settore_merceologico" name="settore_merceologico" placeholder="Cerca un settore...">
-
-             <!--  <select class="form-control" id="settore_merceologico" name="settore_merceologico">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-              </select> -->
-            </div>
-            <span id="span_settore" style="display: none;">Settore Merceologico field is required </span>
-           
-            <div class="form-group">
-              <label for="Indirizzo">Indirizzo: <p style="color:#f37f0d;display:inline">(*)</p> </label>
-              <input type="text" class="form-control" name="indirizzo" id="indirizzo" placeholder="enter indirizzo">
-            </div>
-            <span id="span_indirizzo" style="display: none;">Indirizzo field is required </span>
-
-            <div class="form-group">
-              <label for="Telefono">Telefono: <p style="color:#f37f0d;display:inline">(*)</p> </label>
-              <input type="text" name="telefono" class="form-control" id="telefono" placeholder="enter telefono">
-            </div>
-            <span id="span_telefono" style="display: none;">Telefono field is required </span>
-
-            <div class="form-group">
-              <label for="email">Email: <p style="color:#f37f0d;display:inline">(*)</p> </label>
-              <input type="email" name="email" class="form-control" id="email" placeholder="enter email">
-            </div>
-            <span id="span_email" style="display: none;">Email field is required </span>
-
-            <div class="step-footer">
-              <div class="dots"> <span class="dot active"> </span> 
-              <span class="dot"> </span> <span class="dot"> </span> 
-              <span class="dot"> </span> <span class="dot"> </span> 
-              <span class="dot"> </span>
-                <div class="page">1/7</div>
+<div class="right-side">
+              <?php /*<div class="right-header">
+                <div class="responsive-icons"> <img src="images/desktop.jpg"> <img src="images/tablet.jpg"> <img src="images/mobile.jpg"> </div>
+              </div>*/?>
+              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              <div class="right-content">
+                <div class="img-wrap"><iframe src="{{$quizdemodettagli->url}}"></iframe>  </div>
+                <div class="right-footer">
+                  <div class="row">
+                  <?php $averageScore = 3; ?>
+                  @foreach($ratType as $ratType)
+                    <div class="col-md-4">
+                      <div class="stars" id="ratingdetail_{{$ratType->rating_id}}"></div>
+                       <script>		
+					   var _token = $('input[name="_token"]').val();		
+					$('#ratingdetail_<?php echo $ratType->rating_id;?>').raty({
+						path : '<?php echo url('/public/images/raty');?>',
+						'score': '<?php //echo $quizdemodettagli->tassomedio;?>', 
+						click: function(score, evt) {
+							$("#score_<?php echo $ratType->rating_id;?>").text(score+'/5');
+							var path = '/quiz/saveDetails/';
+							   $.ajax({
+									type:'POST',
+									data: {'quiz_id': '<?php echo $quizid;?>','quiz_rating_type_id':'<?php echo $ratType->rating_id;?>','rating':score, '_token' : _token},
+									url: '{{ url("/quiz/saveDetails/") }}',
+									success:function(data) {
+										setAverageRat();
+									}
+								});
+						  }
+						});
+					setAverageRat();	
+					function setAverageRat(score){
+						$('#overall_rating_<?php echo $quizdemodettagli->id;?>').raty({
+								path : '<?php echo url('/public/images/raty');?>',
+								'score': score,
+								readOnly    : true
+								});							
+						
+					}
+	                </script>
+                      <div class="stars"> <span class="score" id="score_<?php echo $ratType->rating_id;?>">4/5</span> </div>
+                      <div class="starline"> {{ $ratType->titolo }} </div>
+                    </div>
+                    @endforeach
+                    <div class="col-md-4">
+                      <div class="stars overall" id="overall_rating_<?php echo $quizdemodettagli->id;?>"> <span class="score" id="total_score_<?php echo $quizdemodettagli->id;?>"></span> </div>
+                      <div class="starline overall"> Punteggio Totale </div>
+                    </div>
+                  </div>                  
+                </div>
               </div>
-              <ul class="list-inline">
-                <li><a class="prev-step" id="prev_stepone">Indietro</a></li>
-                <li><a href="#" class="next-step" id="step_1A">Avanti</a> </li>
-              </ul>
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
- 
-  </div>
-</div>
-
-
 
 <!-- JQeury code required for STEP wizard -->
-
   <script>
     $(document).ready(function () {
 
-    $('#prev_stepone').click(function() {
-      history.back();
-    });
-
-    $("#step_1A").click(function(e){
+     $("#step_1A").click(function(e){
         
         var nome_azienda = document.getElementById("nome_azienda");
         var ref_name = document.getElementById("ref_name");
@@ -329,7 +279,7 @@ span.round-tab:hover {
                     'email': email,
                     '_token' : _token
                   },
-            url: '{{ url('storeStepone') }}',
+            url: '{{ url('storeStep_1') }}',
             success:function(data) {
                // $('#success_message').html(data);
                
@@ -342,13 +292,10 @@ span.round-tab:hover {
                   // $("#link").css("color", "red");
 
                } 
-              
-              document.location = "valuta/"+data;
-               // if(data == 'true') {
-               //    // location.reload();
-               //    document.location = '{{ url('/quiz/valuta') }}';
-               //    // console.log(data);
-               // }
+               if(data == 'true') {
+                  location.reload();
+                  // console.log(data);
+               }
                
                
             }
@@ -371,8 +318,8 @@ span.round-tab:hover {
             });
         }
     }
-    xhr.open('GET', "{{ asset('public/json/settori.json') }}", true);
-    xhr.send();
+   /* xhr.open('GET', "{{ asset('public/json/settori.json') }}", true);
+    xhr.send();*/
 
     //Initialize tooltips
     $('.nav-tabs > li a[title]').tooltip();
@@ -410,8 +357,3 @@ function prevTab(elem) {
 }
   
   </script>
-
-
-
-
-@endsection

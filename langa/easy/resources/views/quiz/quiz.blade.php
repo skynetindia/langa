@@ -100,7 +100,7 @@ li label {
                 
                 <div class="quiz-category-actions">
                 	<a href="#" id="myBtn" class="button btn-danger" data-toggle="modal><i class="fa fa-plus" aria-hidden="true"></i> info </a>
-                    <a href="#" class="button btn-default">Inizia Quiz</a>
+                    <a href="{{ url('/quiz/stepone') }}" class="button btn-default">Inizia Quiz</a>
                 </div>
             
             </div>

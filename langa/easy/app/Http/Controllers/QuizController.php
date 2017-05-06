@@ -20,7 +20,7 @@ class QuizController extends Controller
 	  return view('quiz.quiz');
 	}
 
-	public function quizStep_1(Request $request){
+	public function stepone(Request $request){
 	  return view('quiz.step_1');
 	}
 
@@ -151,6 +151,7 @@ class QuizController extends Controller
   		$true = DB::table('store_optioanl')
   			->insert([
   				'user_id' => $request->user()->id,
+  				'quiz_id' => $quiz->quiz_id,
 	  			'optional_id' => $request->optioan_id,
 	  			'label' => $request->icon_label,	  			
 	  			'price' => $request->price	  			
@@ -185,7 +186,7 @@ class QuizController extends Controller
 	    }
 	}
 
-	public function storequizStep_1(Request $request){
+	public function storestepone(Request $request){
 	  
 	  $validator = Validator::make($request->all(), [
 	  	  'nome_azienda' => 'required',
@@ -260,7 +261,55 @@ class QuizController extends Controller
 	  			'user_id' => $request->user()->id
 	  	]);
 	    
-	    return "true";
+	    return $quiz_id;
 
+	}
+
+	public function quizStep_2(Request $request){		
+		return view('quiz.step_2', [
+			'quizdemodettagli' => DB::table('quizdemodettagli')->get(),
+			'quizid' =>$request->id,			
+		]);
+	}
+	
+	public function getQuizDetails(Request $request){
+		return view('quiz.step_2_details', [
+			'quizdemodettagli' => DB::table('quizdemodettagli')        			
+        			->where('id', $request->id)
+	                ->first(),
+			'ratType' => DB::table('quiz_rating_type')->get(),
+			'quizid'=>$request->quizid,        			
+		]);
+	}
+	public function saveRatDetails(Request $request){
+		$alreadyRat = DB::table('quiztype_user_rat')
+		->where('quiz_id', $request->quiz_id)
+		->where('user_id', $request->user()->id)
+		->where('quiz_rating_type_id', $request->quiz_rating_type_id)->count();		
+		if($alreadyRat>0){
+			   DB::table('quiztype_user_rat')
+                   ->where('quiz_id', $request->quiz_id)
+					->where('user_id', $request->user()->id)
+					->where('quiz_rating_type_id', $request->quiz_rating_type_id)
+                    ->update(array('rating' => $request->rating));
+		}
+		else {
+			DB::table('quiztype_user_rat')
+				->insert([
+					'quiz_id' => $request->quiz_id,
+					'user_id' => $request->user()->id,
+					'quiz_rating_type_id' => $request->quiz_rating_type_id,
+					'rating' => $request->rating,
+			]);
+		}
+		$totalRater = DB::table('quiztype_user_rat')->where('quiz_rating_type_id', $request->quiz_rating_type_id)->count();		
+		$toatRating = DB::table('quiztype_user_rat')->where('quiz_rating_type_id', $request->quiz_rating_type_id)->sum('rating');
+		$averageRat = ($toatRating / $totalRater);		
+		DB::table('quiztype_average_rat')
+	  		->insert([
+	  			'quiz_id' => $request->quiz_id,
+	  			'quiz_rating_type_id' => $request->quiz_rating_type_id,
+	  			'average_rat' => $averageRat
+	  	]);
 	}
 }

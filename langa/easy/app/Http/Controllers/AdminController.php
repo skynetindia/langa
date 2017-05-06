@@ -17,6 +17,89 @@ class AdminController extends Controller
 
     }
 
+   // detail notification json
+    public function detailnotificationjson(Request $request)
+    {
+
+        if($request->id) {
+
+            $notifica = DB::table('invia_notifica')
+                    ->where('notification_id', "=", $request->id)
+                    ->get();   
+               
+        } else {
+
+            $notifica = DB::table('invia_notifica')
+                    ->get();      
+                
+        }
+
+        return json_encode($notifica);
+
+    }
+
+    public function getjsonusers(Request $request)
+    {   
+        $users = DB::table('users')
+            ->join('ruolo_utente', 'users.dipartimento', '=', 'ruolo_utente.ruolo_id')
+            ->select('*')
+            ->where('id', '!=', 0)
+            ->where('users.is_delete', '=', 0)
+            ->where('is_approvato', '=', 1)
+            ->where('ruolo_utente.is_delete', '=', 0)
+            ->get();
+                    
+        return json_encode($users);
+    }
+
+    public function userpermessijson(Request $request)
+    {   
+        $ruolo_utente = DB::table('ruolo_utente')
+            ->where('is_delete', '=', 0)
+            ->get();
+                    
+            return json_encode($ruolo_utente);
+    }
+
+    public function newentejson(Request $request)
+    {   
+        $corporations = DB::table('corporations')
+                                ->select('*')
+                                ->where('is_approvato', '=', 0)
+                                ->get();
+
+        foreach ($corporations as $corporation) {
+
+         $corporation->azione = "<a class='btn btn-default' id='approvare' href='".url('/approvareenti/'.$corporation->id)."' onclick=\"return confirm('Are you sure you want to Approvare this item?');\"> Approvare </a> 
+             <a class='btn btn-default' id='rifiutare' class='btn btn-default' href='".url('/rifiutareenti/'.$corporation->id)."' onclick=\"return confirm('Are you sure you want to Rifiutare this item?');\"> RifiutareK </a>";
+
+          $enti[] = $corporation;
+
+        }
+
+        return json_encode($enti);
+    }
+
+
+    public function newutentejson(Request $request)
+    {   
+        $users = DB::table('users')
+                    ->select('*')
+                    ->where('is_approvato', '=', 0)
+                    ->get();
+
+        foreach ($users as $user) {
+
+         $user->azione="<a class='btn btn-default' id='approvare' href='".url('/approvare/'.$user->id)."' onclick=\"return confirm('Are you sure you want to Approvare this item?');\"> Approvare </a> 
+             <a class='btn btn-default' id='rifiutare' class='btn btn-default' href='".url('/rifiutare/'.$user->id)."' onclick=\"return confirm('Are you sure you want to Rifiutare this item?');\"> RifiutareK </a>";
+
+          $utenti[] = $user;
+
+        }
+
+        return json_encode($utenti);
+    }
+
     public function ratingDelete(Request $request)
     {
         DB::table('quiz_rating_type')
@@ -195,6 +278,19 @@ class AdminController extends Controller
         $tassazione = DB::table('tassazione')
           ->get();
         return json_encode($tassazione);
+    }
+
+    public function getjsonoptional(Request $request) {
+
+        $optional = DB::table('optional')->get();
+
+
+        foreach ($optional as $value) {
+            
+            $icon = 'storage/app/images'+$value->icon;
+        }
+
+        return json_encode($optional);
     }
 
     // show taxation form
@@ -387,14 +483,16 @@ class AdminController extends Controller
 
             if($request->id) {
                 return view('notifichedetails', [
-                    'detail_notifica' => DB::table('invia_notifica')
-                    ->where('notification_id', "=", $request->id)
-                    ->get()      
+                   'notification_id' => $request->id
+                    // 'detail_notifica' => DB::table('invia_notifica')
+                    // ->where('notification_id', "=", $request->id)
+                    // ->get()      
                 ]);
             } else {
                  return view('notifichedetails', [
-                    'detail_notifica' => DB::table('invia_notifica')
-                    ->get()      
+                    'notification_id' => $request->id
+                    // 'detail_notifica' => DB::table('invia_notifica')
+                    // ->get()      
                 ]);
             }
            
@@ -1592,6 +1690,9 @@ class AdminController extends Controller
                                 ->select('*')
 								->where('nome_citta','!=',"")
                                 ->get(),
+                    'ruolo' => DB::table('ruolo_utente')
+                                ->where('is_delete',0)
+                                ->get(),
                 
                 ])->with(array('module'=>$module, 'utente' => $utente, 'permessi' => $permessi));
 
@@ -1606,7 +1707,10 @@ class AdminController extends Controller
                                 ->get(),
                     'citta' => DB::table('citta')
                                 ->select('*')
-								->where('nome_citta','!=',"")								
+								->where('nome_citta','!=',"")
+                                ->get(),
+                    'ruolo' => DB::table('ruolo_utente')
+                                ->where('is_delete',0)
                                 ->get(),
                 
                 ])->with(array('module'=>$module));
@@ -1654,6 +1758,7 @@ class AdminController extends Controller
             ]);
         }
     }
+
     /* ============================ Package section ========================  */
     /* Package sesction listing : Paras */
      public function pacchetto(Request $request) {
@@ -2214,15 +2319,57 @@ class AdminController extends Controller
         // dall' optional pack
         // 'pack'
             return view('pacchetti', [
-                'pack' => DB::table('pack')
-                    ->paginate(10),
-                'optionalpack' => DB::table('optional_pack')
-                        ->get(),
-                'optional' => DB::table('optional')
-                                ->get(),
+                // 'pack' => DB::table('pack')
+                //     ->paginate(10),
+                // 'optionalpack' => DB::table('optional_pack')
+                //         ->get(),
+                // 'optional' => DB::table('optional')
+                //                 ->get(),
             ]);    
         }
     }
+
+    public function mostrapacchettijson(Request $request)
+    {
+      
+        $pack = DB::table('pack')->get();
+        $optionalpack = DB::table('optional_pack')->get();
+        $optional = DB::table('optional')->get();
+
+        
+
+        foreach ($pack as $pacchetto) {
+
+            $pacchetto->icon="<img src='http://easy.langa.tv/storage/app/images/".$pacchetto->icon."' width='80' height='80'>";
+
+            $option_label = [];
+            
+            foreach($optionalpack as $opt) {
+
+                if($pacchetto->id == $opt->pack_id){
+
+
+                    foreach($optional as $opzionale) {
+
+                        if($opzionale->id == $opt->optional_id) { 
+
+                            $option_label[] = $opzionale->label;
+
+                            break;
+                        }  
+                    }
+                }
+            }
+
+        $pacchetto->optional = implode(", ", $option_label);
+        $package[] = $pacchetto;
+
+        }
+        
+        return json_encode($package);
+        
+    }
+
     
     // Optional
     public function destroyoptional(Request $request)
@@ -2254,8 +2401,8 @@ class AdminController extends Controller
 						'sconto_reseller' => 'max:16',
                         'frequenza' => 'required',
                         'dipartimento' => 'required',
-                        'logo'=>'mimes:jpeg,jpg,png|max:2000',
-                        'immagine'=>'mimes:jpeg,jpg,png|max:2000'
+                        'logo'=>'image | max:10000',
+                        'immagine'=>'image| max:10000'
             ]);
 
             if ($validator->fails()) {
@@ -2597,8 +2744,9 @@ class AdminController extends Controller
 	{
 		return view('admin', [
 			'logo' =>  base64_encode(Storage::get('images/logo.png')),
-                        'profilazioni' => DB::table('profilazione')
+                        'profilazioni' => DB::table('ruolo_utente')
                                             ->select('*')
+                                            ->where('is_delete',0)
                                             ->get(),
 		]);
 	}
@@ -2937,7 +3085,7 @@ class AdminController extends Controller
 	
 	public function lavorazionidelete(Request $request)
 	{
-		DB::table('masterdatatypes')
+		DB::table('lavorazioni')
 			->where('id', $request->id)
 			->delete();
 		  return Redirect::back()

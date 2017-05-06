@@ -19,9 +19,8 @@ tr:hover td {
 }
 
 .selected {
-
-	background: #f37f0d;
-	color: #ffffff;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 th {
@@ -125,14 +124,7 @@ li label {
     });
 
     
-
-    
-
 @if(!empty(Session::get('msg')))
-
-
-
-
 
     var msg = '<?php echo html_entity_decode(htmlentities(Session::get('msg'))); ?>';
 
@@ -144,6 +136,15 @@ li label {
 
 </script>
 
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
 
 
 
@@ -180,17 +181,31 @@ li label {
 
 <br><br>
 
+<table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="{{ url('optional/json') }}" data-classes="table table-bordered" id="table">
+        <thead>
+
+            <th data-field="id" data-sortable="true">Codice
+            <th data-field="code" data-sortable="true">Code
+            <th data-field="label" data-sortable="true">Nome
+            <th data-field="description" data-sortable="true">Descrizione
+            <th data-field="icon" data-sortable="true">Icona
+            <th data-field="price" data-sortable="true">Prezzo
+
+        </thead>
+</table>
+
+<!--     
 <div class="table-responsive">
 
 <table class="selectable table table-hover table-bordered" id="table" cellspacing="0" cellpadding="0">
 
 <thead>
 
-<tr style="background: #999; color:#ffffff">
+<tr style="background: #999; color:#ffffff"> -->
 
 <!-- Intestazione tabella dipartimenti -->
 
-<th>#</th>
+<!-- <th>#</th>
 
 <th>Codice</th>
 
@@ -208,13 +223,13 @@ li label {
 
 </thead>
 
-<tbody>
+<tbody> -->
 
-<?php $count = 0; ?>
+<?php //$count = 0; ?>
 
-@foreach ($optional as $opt)
+<!-- @foreach ($optional as $opt) -->
 
-	<tr>
+	<!-- <tr>
 
 		<td><input class="selectable" type="checkbox"></td>
 
@@ -232,138 +247,174 @@ li label {
 
 	</tr>
 
-        <?php $count++; ?>
+        <?php //$count++; ?> -->
 
-@endforeach		
+<!-- @endforeach		 -->
 
-</tbody>
+<!-- </tbody>
 
-</table>
+</table> -->
 
-<?php if($count==0) {
+<?php //if($count==0) {
 
-	echo "<h3 style='text-align:center;'>Nessun optional trovato</h3>";
+	//echo "<h3 style='text-align:center;'>Nessun optional trovato</h3>";
 
-} ?>
+//} ?>
 
 </div>
 
 <div class="pull-right">
 
-{{ $optional->links() }}
+<!-- {{ $optional->links() }} -->
 
 </div>
 
 <script>
 
 var selezione = [];
-
+var indici = [];
 var n = 0;
 
-$(".selectable tbody tr input[type=checkbox]").change(function(e){
-	var stato = e.target.checked;
-  if (stato) {
-	 
-	  $(this).closest("tr").addClass("selected");
-	  selezione[n] = $(this).closest("tr").children()[1].innerHTML;
-	   n++;
+$('#table').on('click-row.bs.table', function (row, tr, el) {
+  var cod = /\d+/.exec($(el[0]).children()[0].innerHTML);
+  if (!selezione[cod]) {
+    $(el[0]).addClass("selected");
+    selezione[cod] = cod;
+    indici[n] = cod;
+    n++;
   } else {
-	  selezione[n] = undefined;
-	  n--;
-	  $(this).closest("tr").removeClass("selected");
+    $(el[0]).removeClass("selected");
+    selezione[cod] = undefined;
+    for(var i = 0; i < n; i++) {
+      if(indici[i] == cod) {
+        for(var x = i; x < indici.length - 1; x++)
+          indici[x] = indici[x + 1];
+        break;  
+      }
+    }
+    n--;
   }
 });
 
-$(".selectable tbody tr").click(function(e){
-    var cb = $(this).find("input[type=checkbox]");
-    cb.trigger('click');
-});
-
-
-
-
-
-function check() {
-
-	return confirm("Sei sicuro di voler eliminare: " + n + " optional?");
-
-}
-
+function check() { return confirm("Sei sicuro di voler eliminare: " + n + " tassazione?"); }
 
 
 function multipleAction(act) {
+  var error = false;
+  var link = document.createElement("a");
+  var clickEvent = new MouseEvent("click", {
+      "view": window,
+      "bubbles": true,
+      "cancelable": false
+  });
+  switch(act) {
+    case 'delete':
+      link.href = "{{ url('/admin/tassonomie/delete/optional') }}" + '/';
+      if(check() && n!=0) {
+        for(var i = 0; i < n; i++) {
+          $.ajax({
+            type: "GET",
+            url : link.href + indici[i],
+            error: function(url) {
+              if(url.status==403) {
+                link.href = "{{ url('/admin/tassonomie/delete/optional') }}" + '/' + indici[n];
+                link.dispatchEvent(clickEvent);
+                          } 
+            }
+                    });
+        }
+                selezione = undefined;
+        setTimeout(function(){location.reload();},100*n);
+        n = 0;
+          }
+      break;
+    case 'modify':
+                if(n!=0) {
+          n--;
+          link.href = "{{ url('/admin/tassonomie/modify/optional') }}" + '/' + indici[n];
+          n = 0;
+          selezione = undefined;
+          link.dispatchEvent(clickEvent);
+        }
+      break;
+   
+    }
+}
 
-	var link = document.createElement("a");
 
-	var clickEvent = new MouseEvent("click", {
+// function multipleAction(act) {
 
-	    "view": window,
+// 	var link = document.createElement("a");
 
-	    "bubbles": true,
+// 	var clickEvent = new MouseEvent("click", {
 
-	    "cancelable": false
+// 	    "view": window,
 
-	});
+// 	    "bubbles": true,
 
-	if(selezione!==undefined) {
+// 	    "cancelable": false
 
-		switch(act) {
+// 	});
 
-			case 'delete':
+// 	if(selezione!==undefined) {
 
-				link.href = "{{ url('/admin/tassonomie/delete/optional') }}" + '/';
+// 		switch(act) {
 
-				if(check() && selezione != undefined) {
+// 			case 'delete':
 
-                                    for(var i = 0; i < n; i++) {
+// 				link.href = "{{ url('/admin/tassonomie/delete/optional') }}" + '/';
 
-                                        $.ajax({
+// 				if(check() && selezione != undefined) {
 
-                                            type: "GET",
+//                                     for(var i = 0; i < n; i++) {
 
-                                            url : link.href + selezione[i],
+//                                         $.ajax({
 
-                                            error: function(url) {
+//                                             type: "GET",
 
-                                                if(url.status==403) {
+//                                             url : link.href + selezione[i],
 
-                                                    link.href = "{{ url('/admin/tassonomie/delete/optional') }}" + '/' + selezione[n];
+//                                             error: function(url) {
 
-                                                    link.dispatchEvent(clickEvent);
+//                                                 if(url.status==403) {
 
-                                                } 
+//                                                     link.href = "{{ url('/admin/tassonomie/delete/optional') }}" + '/' + selezione[n];
 
-                                            }
+//                                                     link.dispatchEvent(clickEvent);
 
-                                        });
+//                                                 } 
 
-                                    }
+//                                             }
 
-                                    setTimeout(function(){location.reload();},100*n);
+//                                         });
 
-                                }
+//                                     }
+
+//                                     setTimeout(function(){location.reload();},100*n);
+
+//                                 }
 
 					
 
-			break;
+// 			break;
 
-			case 'modify':
+// 			case 'modify':
 				
-				n--;
-                if(selezione[n]!=undefined) {
-					link.href = "{{ url('/admin/tassonomie/modify/optional') }}" + '/' + selezione[n];
-					n = 0;
-					selezione = undefined;
-					link.dispatchEvent(clickEvent);
-				}
-				n = 0;
-			break;
+// 				n--;
+//                 if(selezione[n]!=undefined) {
+// 					link.href = "{{ url('/admin/tassonomie/modify/optional') }}" + '/' + selezione[n];
+// 					n = 0;
+// 					selezione = undefined;
+// 					link.dispatchEvent(clickEvent);
+// 				}
+// 				n = 0;
+// 			break;
 
-		}
+// 		}
 
-	}
+// 	}
 
-}
+// }
 
 
 

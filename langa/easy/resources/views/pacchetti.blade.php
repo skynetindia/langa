@@ -19,9 +19,8 @@ tr:hover td {
 }
 
 .selected {
-
-	background: #f37f0d;
-color: #ffffff;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 th {
@@ -41,6 +40,15 @@ li label {
 
 
 <script src="{{ asset('public/scripts/jquery.min.js') }}"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
 
 <script>
 
@@ -104,246 +112,88 @@ li label {
 
 <br><br>
 
-<div class="table-responsive">
-
-<table class="selectable table table-hover table-bordered" id="table" cellspacing="0" cellpadding="0">
-
-<thead>
-
-<tr style="background: #999; color:#ffffff">
-
-<!-- Intestazione tabella dipartimenti -->
-
-<th>#</th>
-
-<th>Codice</th>
-
-<th>Titolo</th>
-
-<th>Icona</th>
-
-<th>Optional</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-    <!--
-
-Elenco in cui ogni optional è legato ad un id di un pacchetto
-
-optional_id => id dell'optional
-
-pack_id => id del pacchetto
-
-'optionalpack'
-
-    
-
-Elenco di tutti i pacchetti, che saranno popolati tramite id
-
-dall' optional pack
-
-'pack'
-
-    
-
-'optional'
-
-Elenco di tutti gli optional, contiene l'id che devo trovare nel optionalpack
-
-per formare i pacchetti
-
--->
-
-<?php $count = 0; ?>
-
-@foreach ($pack as $pacchetto)
-
-	<tr>
-
-		<td><input class="selectable" type="checkbox"></td>
-
-		<td>{{$pacchetto->id}}</td>
-
-                <td>{{$pacchetto->label}}</td>
-
-                <td><img src="http://easy.langa.tv/storage/app/images/<?php echo $pacchetto->icon; ?>" style="max-width:75px; max-height:75px"></img></td>
-
-                <td>
-
-
-
-                    @foreach($optionalpack as $opt)
-
-
-
-                        @if($pacchetto->id == $opt->pack_id)
-
-
-
-                            @foreach($optional as $opzionale)
-
-
-
-                                @if($opzionale->id == $opt->optional_id)
-
-                                    {{$opzionale->label}}
-
-                                    @break
-
-                                @endif
-
-                            @endforeach
-
-                        @endif
-
-                    @endforeach     
-
-                </td>
-
-	</tr>
-
-        <?php $count++; ?>
-
-@endforeach		
-
-</tbody>
-
-</table>
-
-<?php if($count==0) {
-
-	echo "<h3 style='text-align:center;'>Nessun pacchetto trovato</h3>";
-
-} ?>
-
-</div>
-
-<div class="pull-right">
-
-{{ $pack->links() }}
-
+<div class="table-responsive table-custom-design">
+
+    <table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="{{ url('/admin/tassonomie/pacchetti/json') }}" data-classes="table table-bordered" id="table">
+    <thead>
+      <th data-field="id" data-sortable="true">Codice </th>
+      <th data-field="label" data-sortable="true">Titolo </th>
+      <th data-field="icon" data-sortable="true">Icona </th>
+      <th data-field="optional" data-sortable="true">Optional </th>
+    </thead>
+    </table>
 </div>
 
 <script>
 
 var selezione = [];
-
+var indici = [];
 var n = 0;
 
-$(".selectable tbody tr input[type=checkbox]").change(function(e){
-	var stato = e.target.checked;
-  if (stato) {
-	 
-	  $(this).closest("tr").addClass("selected");
-	  selezione[n] = $(this).closest("tr").children()[1].innerHTML;
-	   n++;
+$('#table').on('click-row.bs.table', function (row, tr, el) {
+  var cod = /\d+/.exec($(el[0]).children()[0].innerHTML);
+  if (!selezione[cod]) {
+    $(el[0]).addClass("selected");
+    selezione[cod] = cod;
+    indici[n] = cod;
+    n++;
   } else {
-	  selezione[n] = undefined;
-	  n--;
-	  $(this).closest("tr").removeClass("selected");
+    $(el[0]).removeClass("selected");
+    selezione[cod] = undefined;
+    for(var i = 0; i < n; i++) {
+      if(indici[i] == cod) {
+        for(var x = i; x < indici.length - 1; x++)
+          indici[x] = indici[x + 1];
+        break;  
+      }
+    }
+    n--;
   }
 });
 
-$(".selectable tbody tr").click(function(e){
-    var cb = $(this).find("input[type=checkbox]");
-    cb.trigger('click');
-});
-
-
-
-
-
-function check() {
-
-	return confirm("Sei sicuro di voler eliminare: " + n + " pacchetti?");
-
-}
-
-
-
+function check() { return confirm("Sei sicuro di voler eliminare: " + n + " tassazione?"); }
 function multipleAction(act) {
-
-	var link = document.createElement("a");
-
-	var clickEvent = new MouseEvent("click", {
-
-	    "view": window,
-
-	    "bubbles": true,
-
-	    "cancelable": false
-
-	});
-
-	if(selezione!==undefined) {
-
-		switch(act) {
-
-			case 'delete':
-
-				link.href = "{{ url('/admin/tassonomie/delete/pacchetto') }}" + '/';
-
-				if(check()) {
-
-                                    for(var i = 0; i < n; i++) {
-
-                                        $.ajax({
-
-                                            type: "GET",
-
-                                            url : link.href + selezione[i],
-
-                                            error: function(url) {
-
-                                                if(url.status==403) {
-
-                                                    link.href = "{{ url('/admin/tassonomie/delete/pacchetto') }}" + '/' + selezione[n];
-
-                                                    link.dispatchEvent(clickEvent);
-
-                                                } 
-
-                                            }
-
-                                        });
-
-                                    }
-
-                                    setTimeout(function(){location.reload();},100*n);
-
-                                }
-
-					
-
-			break;
-
-			case 'modify':
-				
-				
-				n--;
-                if(selezione[n]!=undefined) {
-					link.href = "{{ url('/admin/tassonomie/modify/pacchetto') }}" + '/' + selezione[n];
-					n = 0;
-					selezione = undefined;
-					link.dispatchEvent(clickEvent);
-				}
-				n = 0;
-			break;
-
-		}
-
-	}
-
+  var error = false;
+  var link = document.createElement("a");
+  var clickEvent = new MouseEvent("click", {
+      "view": window,
+      "bubbles": true,
+      "cancelable": false
+  });
+  switch(act) {
+    case 'delete':
+      link.href = "{{ url('/admin/tassonomie/delete/pacchetto') }}" + '/';
+      if(check() && n!=0) {
+        for(var i = 0; i < n; i++) {
+          $.ajax({
+            type: "GET",
+            url : link.href + indici[i],
+            error: function(url) {
+              if(url.status==403) {
+                link.href = "{{ url('/admin/tassonomie/delete/pacchetto') }}" + '/' + indici[n];
+                link.dispatchEvent(clickEvent);
+                          } 
+            }
+                    });
+        }
+                selezione = undefined;
+        setTimeout(function(){location.reload();},100*n);
+        n = 0;
+          }
+      break;
+    case 'modify':
+                if(n!=0) {
+          n--;
+          link.href = "{{ url('/admin/tassonomie/modify/pacchetto') }}" + '/' + indici[n];
+          n = 0;
+          selezione = undefined;
+          link.dispatchEvent(clickEvent);
+        }
+      break;
+   
+    }
 }
-
-
-
 </script>
-
 
 
 @endsection

@@ -163,6 +163,9 @@
                   <li><a href="{{url('/valutaci')}}"><i class="fa fa-star-o"></i> Segnalazioni</a>
                   </li>  
 
+                  <li><a href="{{url('/quiz')}}"><i class="fa fa-star-o"></i> Start Quiz </a>
+                  </li> 
+
                   <li><a href="{{url('/quiz/stepone')}}"><i class="fa fa-star-o"></i> Quiz Step - 1</a>
                   </li> 
 
@@ -543,6 +546,16 @@
 									->get();
 					}
 
+          // foreach($notifiche as $notifica){
+          //   // DB::table('corporations')
+          //   //           ->where('id', $notifica->id_ente)
+          //   //         ->first()->nomeazienda;
+
+          //   var_dump($notifica->id); echo " ";
+          //     var_dump($notifica->id_ente); echo "<br>";
+          // }
+          // dd();
+
           // Ordine per data
           function inSecondi($a) {
             // Aggiungo uno 0 se il giorno o il mese non ce lha
@@ -573,6 +586,7 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu" >
                   <?php $count = 0; ?>
+
                     <!-- notifiche layout -->
                     @foreach($notifiche as $notifica)
                     <li>
@@ -581,11 +595,18 @@
                           <span>Hey, {{$notifica->nome}}</span>
                           <span class="time">{{$notifica->datascadenza}}</span>
                         </span>
+
                         <span class="message">
                           <?php if($notifica->target != null) echo $notifica->target; ?><br>
-                          <?php if($notifica->id_ente != null) echo DB::table('corporations')
-						  				->where('id', $notifica->id_ente)
-										->first()->nomeazienda; ?><br>
+                          <?php if($notifica->id_ente != null) echo 
+                          // temporary query
+                           DB::table('corporations')
+										->first()->nomeazienda; 
+                    // old query
+                    //  DB::table('corporations')
+                    //   ->where('id', $notifica->id_ente)
+                    // ->first()->nomeazienda; 
+                    ?><br>
                           {{$notifica->oggetto}}
                         </span>
                       </a>
