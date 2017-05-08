@@ -27,8 +27,9 @@ class CalendarioController extends Controller
         $this->middleware('auth');
 
         $this->events = $events;
-		
-		$this->corporations = $corporations;
+
+        $this->corporations = $corporations;
+        $this->modulo = 2; //modulo is 2 for calendar
     }
 
     // user read notification
@@ -392,7 +393,7 @@ dd("else");
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(Request $request){
         
         if (!$this->checkReadPermission($request,$this->modulo)) {
             return response()->view('errors.403');

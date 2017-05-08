@@ -286,7 +286,7 @@ class AccountingController extends Controller
 			$disposizione = DB::table('accountings')
 							->where('id', $tra->id_disposizione)
 							->first();
-			$tra->nomequadro = $disposizione->nomeprogetto;
+			//$tra->nomequadro = $disposizione->nomeprogetto;
 			$stato = DB::table('statipagamenti')
 						->where('id_pagamento', $tra->id)
 						->first();
@@ -324,17 +324,16 @@ class AccountingController extends Controller
 		return json_encode($tranche_return);
 	}
 	
-	public function elencotranche(Request $request)
-	{
+    public function elencotranche(Request $request) {
         if ($request->user()->id === 0 || $request->user()->dipartimento === "AMMINISTRAZIONE") {
             if (!$this->checkReadPermission($request, $this->modulo)) {
                 return response()->view('errors.403');
             }
             return view('pagamenti.elencotranche');
-		else
-			return redirect('/unauthorized');
-	}
-	
+        } else {
+            return redirect('/unauthorized');
+        }
+    }
 	public function modificadisposizione(Request $request, Accounting $accounting)
 	{
 		$this->authorize('modify', $accounting);
@@ -738,7 +737,7 @@ class AccountingController extends Controller
 	/**
 	 * Duplico una tranche (pagina mostra)
 	 */
-	public function duplicatranche(Request $request)
+	public function duplicatranche(Request $request){
         if (!$this->checkPermission($request, $this->modulo)) {
             echo "error.403";
             exit;
@@ -800,7 +799,7 @@ class AccountingController extends Controller
 	/**
 	 * Elimino una tranche (pagina mostra)
 	 */
-	public function eliminatranche(Request $request)
+	public function eliminatranche(Request $request){
         if (!$this->checkPermission($request, $this->modulo)) {
             echo "error.403";
             exit;
@@ -1263,7 +1262,7 @@ class AccountingController extends Controller
     	return $accounting->user_id === $user->id;
 	}
 
-    public function generapdftranche(Request $request)
+    public function generapdftranche(Request $request){
         if (!$this->checkPermission($request, $this->modulo)) {
             return response()->view('errors.403');
         }

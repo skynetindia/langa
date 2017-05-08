@@ -17,8 +17,9 @@ tr:hover td {
 }
 
 .selected {
-  font-weight: bold;
-  font-size: 16px;
+
+	background: #f37f0d;
+color: #ffffff;
 }
 
 th {
@@ -113,15 +114,6 @@ li label {
 
 <script src="{{ asset('public/scripts/jquery.min.js') }}"></script>
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
-
-<!-- Latest compiled and minified Locales -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
-
 <script>
 
   $(function(){
@@ -177,258 +169,172 @@ li label {
 
 <br><br>
 
-<div class="table-responsive table-custom-design">
+<div class="table-responsive">
 
-    <table data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-show-refresh="true" data-show-columns="true" data-url="utente-permessi/json" data-classes="table table-bordered" id="table">
-    <thead>
-        <th data-field="ruolo_id" data-sortable="true">ID</th>
-        <th data-field="nome_ruolo" data-sortable="true">Ruolo</th>
-    </thead>
+<table class="selectable table table-hover table-bordered" id="table" cellspacing="0" cellpadding="0">
 
-    </table>
+<thead>
 
-</div>
-
-<!-- <div class="table-responsive"> -->
-
-<!-- <table class="selectable table table-hover table-bordered" id="table" cellspacing="0" cellpadding="0">
-
-<thead> -->
-
-<!-- <tr style="background: #999; color:#ffffff"> -->
+<tr style="background: #999; color:#ffffff">
 
 <!-- Intestazione tabella dipartimenti -->
 
-<!-- <th>#</th>
+<th>#</th>
 
 <th>ID</th>
 
-<th>Ruolo</th> -->
+<th>Ruolo</th>
 
 <!-- <th>Permessi</th> -->
 
-<!-- </tr>
+</tr>
 
 </thead>
 
-<tbody> -->
+<tbody>
 
-<?php //$count = 0; ?>
+<?php $count = 0; ?>
 
-<!-- @foreach ($ruolo_utente as $ruolo_utente) -->
+@foreach ($ruolo_utente as $ruolo_utente)
 
-	<!-- <tr> -->
+	<tr>
 
-		<!-- <td><input class="selectable" type="checkbox"></td> -->
+		<td><input class="selectable" type="checkbox"></td>
 
-	<!-- 	<td>{{$ruolo_utente->ruolo_id}}</td>
+		<td>{{$ruolo_utente->ruolo_id}}</td>
 
-        <td>{{$ruolo_utente->nome_ruolo}}</td> -->
+        <td>{{$ruolo_utente->nome_ruolo}}</td>
 
         <!-- <td>{{$ruolo_utente->permessi}}</td>  -->
 
-   <!-- </tr> -->
+   </tr>
 
-<!-- @endforeach		 -->
+@endforeach		
 
-<!-- </tbody>
+</tbody>
 
-</table> -->
+</table>
 
-<!-- </div> -->
+</div>
 
 <script>
 
-
 var selezione = [];
-var indici = [];
+
 var n = 0;
 
-$('#table').on('click-row.bs.table', function (row, tr, el) {
-  var cod = /\d+/.exec($(el[0]).children()[0].innerHTML);
-  if (!selezione[cod]) {
-    $(el[0]).addClass("selected");
-    selezione[cod] = cod;
-    indici[n] = cod;
-    n++;
+$(".selectable tbody tr input[type=checkbox]").change(function(e){
+	var stato = e.target.checked;
+  if (stato) {
+	
+	  $(this).closest("tr").addClass("selected");
+	  selezione[n] = $(this).closest("tr").children()[1].innerHTML;
+	   n++;
   } else {
-    $(el[0]).removeClass("selected");
-    selezione[cod] = undefined;
-    for(var i = 0; i < n; i++) {
-      if(indici[i] == cod) {
-        for(var x = i; x < indici.length - 1; x++)
-          indici[x] = indici[x + 1];
-        break;  
-      }
-    }
-    n--;
+	  selezione[n] = undefined;
+	  n--;
+	  $(this).closest("tr").removeClass("selected");
   }
 });
 
-function check() { return confirm("Sei sicuro di voler eliminare: " + n + " tassazione?"); }
-function multipleAction(act) {
-  var error = false;
-  var link = document.createElement("a");
-  var clickEvent = new MouseEvent("click", {
-      "view": window,
-      "bubbles": true,
-      "cancelable": false
-  });
-  switch(act) {
-    case 'delete':
-      link.href = "{{ url('/admin/destroy/ruolo') }}" + '/';
-      if(check() && n!=0) {
-        for(var i = 0; i < n; i++) {
-          $.ajax({
-            type: "GET",
-            url : link.href + indici[i],
-            error: function(url) {
-              if(url.status==403) {
-                link.href = "{{ url('/admin/destroy/ruolo') }}" + '/' + indici[n];
-                link.dispatchEvent(clickEvent);
-                          } 
-            }
-                    });
-        }
-                selezione = undefined;
-        setTimeout(function(){location.reload();},100*n);
-        n = 0;
-          }
-      break;
-    case 'modify':
-                if(n!=0) {
-          n--;
-          link.href = "{{ url('/role-permessi') }}" + '/' + indici[n];
-          n = 0;
-          selezione = undefined;
-          link.dispatchEvent(clickEvent);
-        }
-      break;
-    case 'add':
-             
-          link.href = "{{ url('/role-permessi') }}";
-          link.dispatchEvent(clickEvent);
-        
-      break;
-    }
+$(".selectable tbody tr").click(function(e){
+    var cb = $(this).find("input[type=checkbox]");
+    cb.trigger('click');
+});
+
+
+
+
+
+function check() {
+
+	return confirm("Sei sicuro di voler eliminare: " + n + " utenti?");
+
 }
 
 
 
-// var selezione = [];
+function multipleAction(act) {
 
-// var n = 0;
+	var link = document.createElement("a");
 
-// $(".selectable tbody tr input[type=checkbox]").change(function(e){
-// 	var stato = e.target.checked;
-//   if (stato) {
-	
-// 	  $(this).closest("tr").addClass("selected");
-// 	  selezione[n] = $(this).closest("tr").children()[1].innerHTML;
-// 	   n++;
-//   } else {
-// 	  selezione[n] = undefined;
-// 	  n--;
-// 	  $(this).closest("tr").removeClass("selected");
-//   }
-// });
+	var clickEvent = new MouseEvent("click", {
 
-// $(".selectable tbody tr").click(function(e){
-//     var cb = $(this).find("input[type=checkbox]");
-//     cb.trigger('click');
-// });
+	    "view": window,
 
+	    "bubbles": true,
 
+	    "cancelable": false
 
+	});
 
+	if(selezione!==undefined) {
 
-// function check() {
+		switch(act) {
 
-// 	return confirm("Sei sicuro di voler eliminare: " + n + " utenti?");
+			case 'delete':
 
-// }
+				link.href = "{{ url('/admin/destroy/ruolo') }}" + '/';
 
+				if(check()) {
 
+                                    for(var i = 0; i < n; i++) {
 
-// function multipleAction(act) {
+                                        $.ajax({
 
-// 	var link = document.createElement("a");
+                                            type: "GET",
 
-// 	var clickEvent = new MouseEvent("click", {
+                                            url : link.href + selezione[i],
 
-// 	    "view": window,
+                                            error: function(url) {
 
-// 	    "bubbles": true,
+                                                if(url.status==403) {
 
-// 	    "cancelable": false
+                                                    link.href = "{{ url('/admin/destroy/utente') }}" + '/' + selezione[--n];
 
-// 	});
+                                                    link.dispatchEvent(clickEvent);
 
-// 	if(selezione!==undefined) {
+                                                } 
 
-// 		switch(act) {
+                                            }
 
-// 			case 'delete':
+                                        });
 
-// 				link.href = "{{ url('/admin/destroy/ruolo') }}" + '/';
+                                    }
 
-// 				if(check()) {
+                                    setTimeout(function(){location.reload();},100*n);
 
-//                 for(var i = 0; i < n; i++) {
+                                }
 
-//                     $.ajax({
-
-//                         type: "GET",
-
-//                         url : link.href + selezione[i],
-
-//                         error: function(url) {
-
-//                             if(url.status==403) {
-
-//                                 link.href = "{{ url('/admin/destroy/utente') }}" + '/' + selezione[--n];
-
-//                                 link.dispatchEvent(clickEvent);
-
-//                             } 
-
-//                         }
-
-//                     });
-
-//                 }
-
-//             setTimeout(function(){location.reload();},100*n);
-
-//         }
-
-//         break;
-
-// 			case 'modify':
-// 				n--;
-//                 if(selezione[n]!=undefined) {
 					
-// 					link.href = "{{ url('/role-permessi') }}" + '/' + selezione[n];
-// 					n = 0;
-// 					selezione = undefined;
-// 					link.dispatchEvent(clickEvent);
-// 				}
-// 				n = 0;
-// 			break;
 
-//             case 'add':
+			break;
+
+			case 'modify':
+				n--;
+                if(selezione[n]!=undefined) {
+					
+					link.href = "{{ url('/role-permessi') }}" + '/' + selezione[n];
+					n = 0;
+					selezione = undefined;
+					link.dispatchEvent(clickEvent);
+				}
+				n = 0;
+			break;
+
+            case 'add':
         
-//                 link.href = "{{ url('/role-permessi') }}"; 
-//                 link.dispatchEvent(clickEvent);
+                link.href = "{{ url('/role-permessi') }}"; 
+                link.dispatchEvent(clickEvent);
           
-//             break;
+            break;
 
 
-// 		}
+		}
 
-// 	}
+	}
 
-// }
+}
 
 </script>
 

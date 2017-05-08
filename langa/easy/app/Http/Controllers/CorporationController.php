@@ -139,7 +139,8 @@ class CorporationController extends Controller {
 	}
 	
 	// Mostra tutti gli enti
-	public function show(Request $request)
+	public function show(Request $request){
+            
         if (!$this->checkReadPermission($request,$this->modulo)) {
             return response()->view('errors.403');
         }
@@ -152,7 +153,7 @@ class CorporationController extends Controller {
 	}
 	
 	// Mostra i miei enti
-    public function miei(Request $request)
+    public function miei(Request $request){
         
         if (!$this->checkReadPermission($request,$this->modulo)) {
             return response()->view('errors.403');
@@ -406,7 +407,7 @@ class CorporationController extends Controller {
                 
                 }       
 	
-	public function destroy(Request $request, Corporation $corporation)
+	public function destroy(Request $request, Corporation $corporation){
         
         //due to ajax call need to echo error
         if (!$this->checkPermission($request,$this->modulo)) {

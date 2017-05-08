@@ -248,7 +248,7 @@ class QuoteController extends Controller {
         return view('preventivi.main');
     }
 	
-	public function nuovo(Request $request)
+	public function nuovo(Request $request){
         //due to ajax call need to echo error
         if (!$this->checkPermission($request,$this->modulo)) {
             return response()->view('errors.403');

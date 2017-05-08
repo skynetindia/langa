@@ -349,7 +349,7 @@ Route::get('/pagamenti/tranche/json', 'AccountingController@getjsontuttetranche'
 Route::get('/pagamenti/coordinate', 'AccountingController@mostracoordinate');
 
 //pagamenti
-Route::post('/pagamenti/tranche/modifica/uploadfiles/{code}', 'AccountingController@fileupload1');
+Route::post('/pagamenti/tranche/modifica/uploadfiles/{code}', 'AccountingController@fileupload');
 Route::get('/pagamenti/tranche/modifica/getfiles/{code}', 'AccountingController@fileget');
 Route::get('/pagamenti/tranche/modifica/deletefiles/{id}', 'AccountingController@filedelete');
 Route::get('/pagamenti/tranche/modifica/updatefiletype/{typeid}/{id}', 'AccountingController@filetypeupdate');
