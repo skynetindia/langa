@@ -14,19 +14,19 @@ use Storage;
 use App\PDF\QuotationPDF;
 use App\PDF\QuotationPDFNoPrezzi;
 
+class QuoteController extends Controller {
 
-class QuoteController extends Controller
-{
-	protected $quotes;
-	protected $corporations;
-	
-	public function __construct(QuoteRepository $quotes, CorporationRepository $corporations)
-	{
-		$this->middleware('auth');
+    protected $quotes;
+    protected $corporations;
+     protected $modulo;
+
+    public function __construct(QuoteRepository $quotes, CorporationRepository $corporations) {
+        $this->middleware('auth');
 
 		$this->quotes = $quotes;
 		
 		$this->corporations = $corporations;
+        $this->modulo = 3; //modulo is 2 for preventivi
 	}
 	
 	public function filepreventivo(Request $request) {
@@ -231,22 +231,29 @@ class QuoteController extends Controller
 		return $this->show($request);
 	}
 	
-	public function miei(Request $request)
-	{
-		return view('preventivi.main', [
-			'miei' => 1
-		]);
-	}
+    public function miei(Request $request) {
+        if (!$this->checkReadPermission($request,$this->modulo)) {
+           return response()->view('errors.403');
+        }
+        return view('preventivi.main', [
+            'miei' => 1
+        ]);
+    }
 	
 	// Render the preventivi views
-	public function show(Request $request)
-	{
-		return view('preventivi.main');
-	}
+    public function show(Request $request) {
+         if (!$this->checkReadPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }
+        return view('preventivi.main');
+    }
 	
 	public function nuovo(Request $request)
-	{
-		return $this->aggiungi($request);
+        //due to ajax call need to echo error
+        if (!$this->checkPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }        
+        return $this->aggiungi($request);
 	}
 	
 	// Mostra la pagina per aggiungere un nuovo preventivo
@@ -470,8 +477,10 @@ class QuoteController extends Controller
 	
 	// Mostro la pagina di modifica di un preventivo
 	public function modify(Request $request, Quote $quote)
-	{
-		$this->authorize('modify', $quote);
+        if (!$this->checkPermission($request, $this->modulo)) {
+            return response()->view('errors.403');
+        }
+        //$this->authorize('modify', $quote);
 		return view('preventivi.modifica', [
 			'preventivo' => DB::table('quotes')
 								->select('*')
@@ -507,10 +516,12 @@ class QuoteController extends Controller
 		]);
 	}
 	
-	// Salvo le modifiche di un preventivo
-	public function modifica(Request $request, Quote $quote)
-	{
-		$this->authorize('modify', $quote);
+    // Salvo le modifiche di un preventivo
+    public function modifica(Request $request, Quote $quote) {
+        if (!$this->checkPermission($request, $this->modulo)) {
+            return response()->view('errors.403');
+        }
+        //$this->authorize('modify', $quote);
 		$validator = Validator::make($request->all(), [
 			'data' => 'required',
 			'oggetto' => 'required|max:150',
@@ -720,8 +731,13 @@ class QuoteController extends Controller
 	
 	// Elimina un preventivo
 	public function elimina(Request $request, Quote $quote)
-	{
-		$this->authorize('destroy', $quote);
+       //due to ajax call need to echo error
+        if (!$this->checkPermission($request,$this->modulo)) {
+             echo "error.403";
+             exit;
+        }
+        // Prendo i dati del preventivo
+        //$this->authorize('destroy', $quote);
 		DB::table('quotes')
 			->where('id', $quote->id)
 			->update(array(
@@ -787,8 +803,12 @@ class QuoteController extends Controller
 	}
 	
 	public function duplica(Request $request, Quote $quote)
-	{
-		$this->authorize('duplicate', $quote);
+        //due to ajax call need to echo error
+        if (!$this->checkPermission($request,$this->modulo)) {
+             echo "error.403";
+             exit;
+        }
+        //$this->authorize('duplicate', $quote);
 		$id = $request->user()->quotes()->create([
 			'anno' => date('y'),
 			'user_id' => $request->user()->id,
@@ -859,9 +879,11 @@ class QuoteController extends Controller
 	
 	public function pdf(Request $request, Quote $quote)
 	{
-	
-		// Prendo i dati del preventivo
-		$this->authorize('visualizzapdf', $quote);
+        if (!$this->checkPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }  
+        // Prendo i dati del preventivo
+        //$this->authorize('visualizzapdf', $quote);
 		$preventivo = DB::table('quotes')
 						->where('id', $quote->id)
 						->first();

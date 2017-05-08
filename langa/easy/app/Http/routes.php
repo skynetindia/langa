@@ -162,7 +162,7 @@ Route::post('/calendario/add', 'CalendarioController@store');
 Route::get('/calendario/delete/event/{event}', 'CalendarioController@destroy');
 Route::get('/calendario/edit/event/{event}', 'CalendarioController@edit');
 Route::post('/calendario/update/event/{event}', 'CalendarioController@update');
-
+Route::get('/permissoin', 'CalendarioController@permissoin');
 
 // Preventivi
 Route::get('/preventivi', 'QuoteController@index');
@@ -347,6 +347,16 @@ Route::get('/pagamenti/tranche/pdf/{id}', 'AccountingController@generapdftranche
 Route::get('/pagamenti/tranche/elenco', 'AccountingController@elencotranche');
 Route::get('/pagamenti/tranche/json', 'AccountingController@getjsontuttetranche');
 Route::get('/pagamenti/coordinate', 'AccountingController@mostracoordinate');
+
+//pagamenti
+Route::post('/pagamenti/tranche/modifica/uploadfiles/{code}', 'AccountingController@fileupload1');
+Route::get('/pagamenti/tranche/modifica/getfiles/{code}', 'AccountingController@fileget');
+Route::get('/pagamenti/tranche/modifica/deletefiles/{id}', 'AccountingController@filedelete');
+Route::get('/pagamenti/tranche/modifica/updatefiletype/{typeid}/{id}', 'AccountingController@filetypeupdate');
+Route::get('/pagamenti/tranche/modifica/getdefaultfiles/{quote_id}', 'AccountingController@fileget');
+Route::post('/pagamenti/add', 'AccountingController@nuovo');
+Route::get('/pagamenti/add', 'AccountingController@aggiungi1');
+Route::post('/pagamenti/nuovotranche', 'AccountingController@nuovotranche');
 
 // Statistiche
 Route::get('/statistiche/economiche', 'AccountingController@mostrastatistiche');

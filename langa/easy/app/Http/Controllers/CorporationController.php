@@ -12,17 +12,18 @@ use Illuminate\Http\Request;
 use Mail;
 use App\Http\Controllers\Controller;
 
-class CorporationController extends Controller
-{
-	protected $corporations;
-	protected $chiave;
-	protected $stato;
-	
-    public function __construct(CorporationRepository $corporations)
-    {
+class CorporationController extends Controller {
+
+    protected $corporations;
+    protected $chiave;
+    protected $stato;
+    protected $modulo;
+
+    public function __construct(CorporationRepository $corporations) {
         $this->middleware('auth');
 
         $this->corporations = $corporations;
+        $this->modulo =1 ;
     }
 	
 	public function aggiornastatocliente(Request $request) {
@@ -48,6 +49,9 @@ class CorporationController extends Controller
 	 * Le credenziali sono inviate via email all'ente
 	 */
   public function nuovocliente(Request $request, Corporation $corporation) {
+        if (!$this->checkPermission($request, $this->modulo)) {
+            return response()->view('errors.403');
+        }
   	if($request->user()->id == 0 ||
   		 $request->user()->dipartimento == "AMMINISTRAZIONE") {
 
@@ -136,7 +140,9 @@ class CorporationController extends Controller
 	
 	// Mostra tutti gli enti
 	public function show(Request $request)
-	{
+        if (!$this->checkReadPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }
 		return view('corporation', [
                 'tabellatipi' => DB::table('masterdatatypes')
                     ->get(),
@@ -147,7 +153,10 @@ class CorporationController extends Controller
 	
 	// Mostra i miei enti
     public function miei(Request $request)
-    {
+        
+        if (!$this->checkReadPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }
     	return view('corporation', [
             'tabellatipi' => DB::table('masterdatatypes')
                 ->get(),
@@ -158,9 +167,14 @@ class CorporationController extends Controller
     }
 
 	public function duplicate(Request $request, Corporation $corporation) {
-		$this->authorize('duplicate', $corporation);
-		// Duplica ente
-		$request->user()->corporations()->create([
+        //due to ajax call need to echo error
+        if (!$this->checkPermission($request,$this->modulo)) {
+             echo "error.403";
+             exit;
+        }
+        //$this->authorize('duplicate', $corporation);
+        // Duplica ente
+        $request->user()->corporations()->create([
             'nomeazienda' => $corporation->nomeazienda,
             'statoemotivo' => $corporation->statoemotivo,
             'nomereferente' => $corporation->nomereferente,
@@ -393,8 +407,13 @@ class CorporationController extends Controller
                 }       
 	
 	public function destroy(Request $request, Corporation $corporation)
-	{
-		$this->authorize('destroy', $corporation);
+        
+        //due to ajax call need to echo error
+        if (!$this->checkPermission($request,$this->modulo)) {
+             echo "error.403";
+             exit;
+        }
+        //$this->authorize('destroy', $corporation);
 		
     DB::table('corporations')
       ->where('id', $corporation->id)
@@ -588,9 +607,11 @@ class CorporationController extends Controller
                         ->with('error_code', 5)
                         ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Ente aggiunto correttamente!</h4></div>');
     }
-	
-	public function nuovo()
-	{
+
+    public function nuovo(Request $request) {
+        if (!$this->checkPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }
 		/*return view('modificaente', [
 			'action'=>'add',
 			'utenti' => DB::table('users')
@@ -625,10 +646,12 @@ class CorporationController extends Controller
 		]);*/
 	}
 	
-	public function modify(Request $request, Corporation $corporation)
-	{
-		$this->authorize('modify', $corporation);
-		return view('modificaente', [
+    public function modify(Request $request, Corporation $corporation) {
+        if (!$this->checkPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }
+        //$this->authorize('modify', $corporation);
+        return view('modificaente', [
 			'corp' => $corporation,
 			'utenti' => DB::table('users')
 				->get(),

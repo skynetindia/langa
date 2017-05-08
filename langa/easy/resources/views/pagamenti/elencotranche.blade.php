@@ -37,7 +37,10 @@ li label {
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-it-IT.min.js"></script>
 
 <h1>Elenco fatture</h1><hr>
-
+<form action="{{ url('/pagamenti/add') }}" method="post" style="display:inline;">
+    {{ csrf_field() }}
+    <button class="btn btn-warning" type="submit" name="create" title="Crea nuovo - Aggiungi un nuovo preventivo"><i class="fa fa-plus"></i></button>
+</form>
 <div class="btn-group">
 <a onclick="multipleAction('modify');" id="modifica" style="display:inline;">
 <button class="btn btn-primary" type="button" name="update" title="Modifica - Modifica l'ultima disposizione selezionata"><i class="fa fa-pencil"></i></button>
@@ -113,7 +116,14 @@ function multipleAction(act) {
                                     for(var i = 0; i < n; i++) {
                                         $.ajax({
                                             type: "GET",
+                                            async: false,
                                             url : link.href + indici[i],
+                                            success: function (data, textStatus, jqXHR) {
+                                            if (data == "error.403") {
+                                            alert("Non ti è permesso l'accesso");
+                                            return false;
+                                            }
+                                            },
                                             error: function(url) {
                                                 if(url.status==403) {
                                                     link.href = "{{ url('/pagamenti/tranche/delete/') }}" + '/' + indici[n];
@@ -145,14 +155,23 @@ function multipleAction(act) {
                 }
                 n = 0;
                 selezione = undefined;
-                setTimeout(function(){location.reload();},100*n);
+                setTimeout(function(){
+                 location.reload();                     
+                },100*n);
 			break;
             case 'duplicate':
 				link.href = "{{ url('/pagamenti/tranche/duplicate') }}" + '/';
                 for(var i = 0; i < n; i++) {
                     $.ajax({
                         type: "GET",
+                        async: false,
                         url : link.href + indici[i],
+                        success: function (data, textStatus, jqXHR) {
+                                 if (data == "error.403") {
+                                    alert("Non ti è permesso l'accesso");
+                                    return false;
+                                }
+                            },
                         error: function(url) {
                             if(url.status==403) {
                                 link.href = "{{ url('/pagamenti/tranche/duplicate') }}" + '/' + indici[n];

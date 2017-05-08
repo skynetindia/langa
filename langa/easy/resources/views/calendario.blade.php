@@ -732,8 +732,26 @@ td
 
 function aggiungiEvento() {
 
-  $( "#newEvent" ).modal();
+        url ="{{ url('permissoin')}}";
+        var showmap = true;
+        $.ajax({
+        type: "GET",
+        async: false,
+        url :url,
+        success: function (data, textStatus, jqXHR) {
+            if (data == "error.403") {
+                    alert("Non ti è permesso l'accesso");
+                    showmap = false;
+                }
+            },
+        });
+        if(showmap){
+        $( "#newEvent" ).modal();
+        $('#newEvent').on('shown.bs.modal', function(){
+          initMap2();
+        });
 
+        }
 }
 
 function aggiungiEnte() {

@@ -11,18 +11,20 @@ use Redirect;
 use App\Http\Requests;
 use App\Accounting;
 use App\PDF\fpdf;
+use App\Quote;
 use Storage;
 
 class AccountingController extends Controller
 {
     protected $pagamenti;
-	protected $progetti;
-    
-    public function __construct(AccountingRepository $accountings, ProjectRepository $projects)
-    {
+    protected $progetti;
+    protected $modulo;
+
+    public function __construct(AccountingRepository $accountings, ProjectRepository $projects) {
         $this->middleware('auth');
         $this->pagamenti = $accountings;
 		$this->progetti = $projects;
+		$this->modulo = 5;
 		
     }
 	
@@ -238,8 +240,10 @@ class AccountingController extends Controller
 		}	
 	}
 	
-	public function statisticheeconomiche(Request $request)
-	{
+    public function statisticheeconomiche(Request $request) {
+        if (!$this->checkReadPermission($request, '7')) {
+            return response()->view('errors.403');
+        }
 		if ($request->user()->id === 0 || $request->user()->dipartimento === "AMMINISTRAZIONE") {
 			$guadagno = [];
 			$ricavi = [];
@@ -258,9 +262,11 @@ class AccountingController extends Controller
 			return redirect('/unauthorized');
 	}
 	
-	public function mostrastatistiche(Request $request)
-	{
-		$request->anno = date('Y');
+    public function mostrastatistiche(Request $request) {
+        if (!$this->checkReadPermission($request, '7')) {
+            return response()->view('errors.403');
+        }
+        $request->anno = date('Y');
 		$request->tipo = 0;
 		return $this->statisticheeconomiche($request);
 	}
@@ -320,8 +326,11 @@ class AccountingController extends Controller
 	
 	public function elencotranche(Request $request)
 	{
-		if ($request->user()->id === 0 || $request->user()->dipartimento === "AMMINISTRAZIONE")
-			return view('pagamenti.elencotranche');
+        if ($request->user()->id === 0 || $request->user()->dipartimento === "AMMINISTRAZIONE") {
+            if (!$this->checkReadPermission($request, $this->modulo)) {
+                return response()->view('errors.403');
+            }
+            return view('pagamenti.elencotranche');
 		else
 			return redirect('/unauthorized');
 	}
@@ -495,8 +504,8 @@ class AccountingController extends Controller
 	public function aggiornatranche(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
-			'datainserimento' => 'required',
-			'datascadenza' => 'required',
+                    //'datainserimento' => 'required',
+                    'datascadenza' => 'required',
 			'percentuale' => 'required',
 			'dettagli' => 'max:1000',
 			'DA' => 'max:1000',
@@ -623,12 +632,18 @@ class AccountingController extends Controller
 				'peso' => $request->peso,
 				'netto' => $request->netto,
 				'scontoaggiuntivo' => $request->scontoaggiuntivo,
+                    'nettototal' => $request->nettototal,
 				'imponibile' => $request->imponibile,
 				'prezzoiva' => $request->prezzoiva,
 				'percentualeiva' => $request->percentualeiva,
 				'dapagare' => $request->dapagare,
         ));
 		
+        DB::table('citazione_file')
+                ->where('code', $request->mediaCode)
+                ->update([
+                    'tranche_id' => $tranche->id
+        ]);
 		if($request->statoemotivo!=null) {
 			// Aggiorno lo stato emotivo
 			$tipo = DB::table('statiemotivipagamenti')
@@ -647,35 +662,51 @@ class AccountingController extends Controller
 		// Aggiorno il corpo fattura
 		if(isset($request->ordine)) {
 			$ordine = $request->ordine;
+            $ordine1 = $request->ordine1;
 			$descrizione = $request->desc;
 			$qt = $request->qt;
 			$subtotale = $request->subtotale;
 			$scontoagente = $request->scontoagente;
 			$prezzonetto = $request->prezzonetto;
 			$iva = $request->iva;
+            DB::table('corpofattura')
+                    ->where('id_tranche', $tranche->id)
+                    ->delete();
 			for($i = 0; $i < count($ordine); $i++) {
+                $qty = $qt[$i];
+                $sbt = $subtotale[$i];
+                $ttl = ($qt[$i] * $subtotale[$i]);
 				DB::table('corpofattura')->insert([
 					'id_tranche' => $request->id,
 					'ordine' => $ordine[$i],
+                    'ordino_quote' => $ordine1[$i],
 					'descrizione' => $descrizione[$i],
-					'qta' => $qt[$i],
-					'subtotale' => $subtotale[$i],
+                    'qta' => $qty,
+                    'subtotale' => $sbt,
+                    'totale' => $ttl,
 					'scontoagente' => $scontoagente[$i],
 					'netto' => $prezzonetto[$i],
 					'percentualeiva' => $iva[$i],
 				]);
+                unset($qty);
+                unset($sbt);
+                unset($ttl);
 			}
 		}
 					  
-		return redirect('/pagamenti/mostra/accounting/' . $iddisposizione->id_disposizione)
+//		return redirect('/pagamenti/mostra/accounting/' . $iddisposizione->id_disposizione)
+//                        ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Disposizione modificata correttamente!</h4></div>');
+        return redirect('pagamenti/tranche/elenco')
                         ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Disposizione modificata correttamente!</h4></div>');
 	}
 	
 	/**
 	 * Mostro Modifica una tranche (pagina modificatranche)
 	 */
-	public function modificatranche(Request $request)
-	{
+    public function modificatranche(Request $request, Quote $quote) {
+        if (!$this->checkPermission($request, $this->modulo)) {
+            return response()->view('errors.403');
+        }
 		$tranche = DB::table('tranche')
 					->where('id', $request->id)
 					->first();
@@ -691,6 +722,16 @@ class AccountingController extends Controller
 			'statoemotivoselezionato' => DB::table('statipagamenti')
 				->where('id_pagamento', $tranche->id)
 				->first(),
+            'tranchefiles' => DB::table('citazione_file')
+                    ->select('*')
+                    ->where('tranche_id', $tranche->id)->get(),
+            'corpofattura' => DB::table('corpofattura')
+                    ->where('id_tranche', $tranche->id)
+                    ->get(),
+            'progetti' => DB::table('projects')
+                    ->where('is_deleted', 0)
+                    ->where('id', $tranche->project_id)
+                    ->get()
 		]);
 	}
 	
@@ -698,7 +739,10 @@ class AccountingController extends Controller
 	 * Duplico una tranche (pagina mostra)
 	 */
 	public function duplicatranche(Request $request)
-	{
+        if (!$this->checkPermission($request, $this->modulo)) {
+            echo "error.403";
+            exit;
+        }
 		$tranche = DB::table('tranche')
 					->where('id', $request->id)
 					->first();
@@ -757,7 +801,10 @@ class AccountingController extends Controller
 	 * Elimino una tranche (pagina mostra)
 	 */
 	public function eliminatranche(Request $request)
-	{
+        if (!$this->checkPermission($request, $this->modulo)) {
+            echo "error.403";
+            exit;
+        }
         DB::table('tranche')
 			->where('id', $request->id)
 			->update(array(
@@ -941,6 +988,7 @@ class AccountingController extends Controller
 					'qta' => $qt[$i],
 					'subtotale' => $subtotale[$i],
 					'scontoagente' => $scontoagente[$i],
+                    'totale' => $qt[$i] * $subtotale[$i],
 					'scontobonus' => $scontobonus[$i],
 					'netto' => $prezzonetto[$i],
 					'percentualeiva' => $iva[$i],
@@ -1216,7 +1264,9 @@ class AccountingController extends Controller
 	}
 
     public function generapdftranche(Request $request)
-	{
+        if (!$this->checkPermission($request, $this->modulo)) {
+            return response()->view('errors.403');
+        }
 		$idtranche = $request->id;
 		$tranche = DB::table('tranche')
 							->where('id', $idtranche)
@@ -1390,4 +1440,244 @@ class AccountingController extends Controller
 		$id_perfile = substr($tranche->idfattura, 0, 5) . '-' . substr($tranche->idfattura, 6);
 		$pdf->Output($id_perfile . '_' . $disposizione->nomeprogetto . '_LANGA Group' . '.pdf', 'I');
 	}
+    public function nuovo(Request $request) {
+
+        //due to ajax call need to echo error
+        if (!$this->checkPermission($request, $this->modulo)) {
+            return response()->view('errors.403');
+        }
+        return $this->aggiungi1($request);
+    }
+
+    // Bhavika 
+    // Mostra la pagina per aggiungere un nuovo preventivo
+    public function aggiungi1(Request $request) {
+
+        return view('pagamenti.aggiungifuttura', [
+            'utenti' => DB::table('users')
+                    ->select('*')
+                    ->where('id', $request->user()->id)
+                    ->get(),
+            'enti' => DB::table('corporations')
+                    ->orderBy('id', 'asc')
+                    ->get(),
+            'dipartimenti' => DB::table('departments')
+                    ->select('*')
+                    ->get(),
+            'optional' => DB::table('optional')
+                    ->select('*')
+                    ->get(),
+            'pacchetti' => DB::table('pack')
+                    ->select('*')
+                    ->get(),
+            'optional_pack' => DB::table('optional_pack')
+                    ->select('*')
+                    ->get(),
+            'statiemotivi' => DB::table('statiemotivipreventivi')->get(),
+            'progetti' => DB::table('projects')
+                    ->where('is_deleted', 0)
+                    ->get()
+        ]);
+    }
+
+    //bhavika add
+    public function nuovotranche(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    //'datainserimento' => 'required',
+                    'datascadenza' => 'required',
+                    'percentuale' => 'required',
+                    'dettagli' => 'max:1000',
+                    'DA' => 'max:1000',
+                    'A' => 'max:1000',
+                    'idfattura' => 'max:30',
+                    'indirizzospedizione' => 'max:1000',
+                    'base' => 'max:100',
+                    'modalita' => 'max:100',
+                    'iban' => 'max:100',
+        ]);
+
+        if ($validator->fails()) {
+
+            return Redirect::back()
+                            ->withInput()
+                            ->with('error_code', 6)
+                            ->withErrors($validator);
+        }
+
+        // Controllo lo sconto e lo sconto bonus
+        if (isset($request->ordine)) {
+            $scontoagente = $request->scontoagente;
+            $scontobonus = $request->scontobonus;
+            $scontibonus = [];
+            // Seleziono l'ente relativo alla utenza in uso
+            $ente = DB::table('corporations')
+                    ->where('id', $request->user()->id_ente)
+                    ->first();
+
+            $elenco = DB::table('corporationtypes')
+                    ->where('id_ente', $ente->id)
+                    ->get();
+            // Variabile per contenere gli sconto assegnati a quell'ente
+            $sconti = [];
+            // Per tutti i tipi assegnati a quell'ente
+            for ($i = 0; $i < count($elenco); $i++) {
+                $sc = DB::table('entisconti')
+                        ->where('id_sconto', $elenco[$i]->id_tipo)
+                        ->first();
+                if ($sc)
+                    $sconto = DB::table('sconti')
+                            ->where('id', $sc->id_sconto)
+                            ->first();
+                if (isset($sconto))
+                    $sconti[] = $sconto->sconto;
+            }
+            $max = 0;
+            for ($i = 0; $i < count($sconti); $i++) {
+                if ($max < $sconti[$i])
+                    $max = $sconti[$i];
+            }
+            $scontoagente_max = $max;
+            // Sconto bonus
+            $elenco = DB::table('entiscontibonus')
+                    ->where('id_tipo', $request->user()->id)
+                    ->get();
+            $sconti = [];
+            for ($i = 0; $i < count($elenco); $i++) {
+                $sconto = DB::table('scontibonus')
+                        ->where('id', $elenco[$i]->id_sconto)
+                        ->first();
+                if ($sconto)
+                    $scontibonus[] = $sconto->sconto;
+            }
+            $max = 0;
+            for ($i = 0; $i < count($scontibonus); $i++) {
+                if ($max < $scontibonus[$i])
+                    $max = $scontibonus[$i];
+            }
+            $scontobonus_max = $max;
+            for ($i = 0; $i < count($scontoagente); $i++) {
+                if ($scontoagente[$i] > $scontoagente_max) {
+                    return Redirect::back()
+                                    ->withInput()
+                                    ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Non ti è permesso imporre uno sconto agente maggiore a ' . $scontoagente_max . '</h4></div>');
+                } else if ($scontobonus[$i] > $scontobonus_max) {
+                    return Redirect::back()
+                                    ->withInput()
+                                    ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Non ti è permesso imporre uno sconto bonus maggiore a ' . $scontobonus_max . '</h4></div>');
+                }
+            }
+        }
+
+        if ($request->tipofattura == 0) {
+            $tipofattura = "FATTURA DI VENDITA";
+        } else {
+            $tipofattura = "NOTA DI CREDITO";
+        }
+        $progetto = DB::table('projects')
+                ->where('id', $request->project_id)
+                ->first();
+
+        $account_id = DB::table('accountings')->insertGetId([
+            'user_id' => $request->user()->id,
+            'nomeprogetto' => $progetto->nomeprogetto,
+            'id_progetto' => $progetto->id,
+        ]);
+
+        DB::table('tranche')
+                ->insert(array(
+                    'user_id' => $request->user()->id,
+                    'tipo' => $request->tipo,
+                    'datainserimento' => $request->datainserimento,
+                    'datascadenza' => $request->datascadenza,
+                    'id_disposizione' => $account_id,
+                    'percentuale' => $request->percentuale,
+                    //'dettagli' => $request->dettagli,
+                    'frequenza' => $request->frequenza,
+                    'DA' => $request->DA,
+                    'A' => $request->A,
+                    'idfattura' => $request->idfattura,
+                    'emissione' => $request->emissione,
+                    'indirizzospedizione' => $request->indirizzospedizione,
+                    'testoimporto' => $request->importo_nopercentuale,
+                    'id_notifica' => 0,
+                    'privato' => $request->privato,
+                    'project_id' => $request->project_id,
+                    'base' => $request->base,
+                    'modalita' => $request->modalita,
+                    'tipofattura' => $tipofattura,
+                    'iban' => $request->iban,
+                    //'peso' => $request->peso,
+                    'netto' => $request->netto,
+                    'scontoaggiuntivo' => $request->scontoaggiuntivo,
+                    'nettototal' => $request->nettototal,
+                    'imponibile' => $request->imponibile,
+                    'prezzoiva' => $request->prezzoiva,
+                    'percentualeiva' => $request->percentualeiva,
+                    'dapagare' => $request->dapagare,
+        ));
+        $tranche_id = DB::getPdo()->lastInsertId();
+
+        DB::table('citazione_file')
+                ->where('code', $request->mediaCode)
+                ->update([
+                    'tranche_id' => $tranche_id
+        ]);
+
+        if ($request->statoemotivo != null) {
+            // inserzione lo stato emotivo
+//			$tipo = DB::table('statiemotivipreventivi')
+//				->where('name', $request->statoemotivo)
+//				->first();
+//                        print_r($tipo);die; 
+//			DB::table('statipagamenti')
+//				->where('id_pagamento', $request->id)
+//				->delete();
+//			DB::table('statipagamenti')
+//				->insert([
+//					'id_tipo' => $tipo->id,
+//					'id_pagamento' => $request->id
+//				]);
+        }
+
+
+        // Aggiorno il corpo fattura
+        if (isset($request->ordine)) {
+            $ordine = $request->ordine;
+            $ordine1 = $request->ordine1;
+            $descrizione = $request->desc;
+            $qt = $request->qt;
+            $subtotale = $request->subtotale;
+            $scontoagente = $request->scontoagente;
+            $prezzonetto = $request->prezzonetto;
+            $iva = $request->iva;
+
+            for ($i = 0; $i < count($ordine); $i++) {
+
+                $qty = $qt[$i];
+                $sbt = $subtotale[$i];
+                $ttl = ($qt[$i] * $subtotale[$i]);
+
+                DB::table('corpofattura')->insert([
+                    'id_tranche' => $tranche_id,
+                    'ordine' => $ordine[$i],
+                    'ordino_quote' => $ordine1[$i],
+                    'descrizione' => $descrizione[$i],
+                    'qta' => $qty,
+                    'subtotale' => $sbt,
+                    'totale' => $ttl,
+                    'scontoagente' => $scontoagente[$i],
+                    'netto' => $prezzonetto[$i],
+                    'percentualeiva' => $iva[$i],
+                ]);
+
+                unset($qty);
+                unset($sbt);
+                unset($ttl);
+            }
+        }
+
+        //return redirect('/pagamenti/mostra/accounting/' .$iddisposizione->id_disposizione)
+        return redirect('/pagamenti/tranche/elenco/')
+                        ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Nuovo layout aggiunto correttamente!</h4></div>');
+    }
 }

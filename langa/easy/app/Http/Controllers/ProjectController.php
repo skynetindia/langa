@@ -10,15 +10,18 @@ use Redirect;
 use Storage;
 use App\Http\Requests;
 use App\Project;
-
+use Route;
 class ProjectController extends Controller
 {
     protected $progetti;
-
+    protected $modulo;
+     
     public function __construct(ProjectRepository $projects) {
         $this->middleware('auth');
 
         $this->progetti = $projects;
+        $this->modulo = 4;
+        
     }
 
     /* File uploader : paras */
@@ -118,6 +121,9 @@ class ProjectController extends Controller
 	
 	public function miei(Request $request)
     {
+                if (!$this->checkReadPermission($request,$this->modulo)) {
+                    return response()->view('errors.403');
+                }
 		$buffer = DB::table('buffer')
 					->where([
 						'id_user' => $request->user()->id,
@@ -138,11 +144,18 @@ class ProjectController extends Controller
 	
     public function show(Request $request)
     {
+     
+        if (!$this->checkReadPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }
         return view('progetti.main');
     }
     
     public function aggiungi(Request $request)
     {
+        if (!$this->checkPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }
         return view('progetti.aggiungi', [
             'utenti' => DB::table('users')
                         ->get(),
@@ -280,8 +293,13 @@ class ProjectController extends Controller
     }
     
     public function destroy(Request $request, Project $project)
-    {
-        $this->authorize('destroy', $project);
+    { 
+                //due to ajax call need to echo error
+                if (!$this->checkPermission($request,$this->modulo)) {
+                     echo "error.403";
+                     exit;
+                }
+                //$this->authorize('destroy', $project);
 			
 		DB::table('projects')
 			->where('id', $project->id)
@@ -296,8 +314,12 @@ class ProjectController extends Controller
     
     public function duplicate(Request $request, Project $project)
     {
-        $this->authorize('duplicate', $project);
-        
+         //due to ajax call need to echo error
+        if (!$this->checkPermission($request,$this->modulo)) {
+             echo "error.403";
+             exit;
+        }
+        //$this->authorize('duplicate', $project);        
         DB::table('projects')->insert([
             'user_id' => $request->user()->id,
             'nomeprogetto' => $project->nomeprogetto,
@@ -314,8 +336,11 @@ class ProjectController extends Controller
     }
     
     public function modify(Request $request, Project $project)
-    {
-		$this->authorize('modify', $project);
+    { 
+        if (!$this->checkPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }
+		//$this->authorize('modify', $project);
         return view('progetti.modifica', [
             'progetto' => DB::table('projects')
                             ->where('id', $project->id)
@@ -376,7 +401,11 @@ class ProjectController extends Controller
     
     public function update(Request $request, Project $project)
     {
-		$this->authorize('modify', $project);
+        if (!$this->checkPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }
+        
+        //$this->authorize('modify', $project);
         $validator = Validator::make($request->all(), [
             'nomeprogetto' => 'required|max:50',
             'notetecniche' => 'max:1000',

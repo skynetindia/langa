@@ -187,7 +187,15 @@ function multipleAction(act) {
                                     for(var i = 0; i < n; i++) {
                                         $.ajax({
                                             type: "GET",
+                                           async: false,
                                             url : link.href + indici[i],
+                                            success: function (data, textStatus, jqXHR) {
+                                            if (data == "error.403") {
+                                                alert("Non ti è permesso l'accesso");
+                                                return false;
+
+                                            }
+                                        },
                                             error: function(url) {
                                                 if(url.status==403) {
                                                     link.href = "{{ url('/progetti/delete/project') }}" + '/' + indici[n];
@@ -215,7 +223,15 @@ function multipleAction(act) {
                 for(var i = 0; i < n; i++) {
                     $.ajax({
                         type: "GET",
+                        async: false,
                         url : link.href + indici[i],
+                        success: function (data, textStatus, jqXHR) {
+                            if (data == "error.403") {
+                                alert("Non ti è permesso l'accesso");
+                                return false;
+
+                            }
+                        },
                         error: function(url) {
                             if(url.status==403) {
                                 link.href = "{{ url('/progetti/duplicate/project') }}" + '/' + indici[n];

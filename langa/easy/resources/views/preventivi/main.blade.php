@@ -184,13 +184,13 @@ $('#table').on('click-row.bs.table', function (row, tr, el) {
 
 function check() { return confirm("Sei sicuro di voler eliminare: " + n + " preventivi?"); }
 function multipleAction(act) {
-	var error = false;
 	var link = document.createElement("a");
 	var clickEvent = new MouseEvent("click", {
 	    "view": window,
 	    "bubbles": true,
 	    "cancelable": false
 	});
+var error = false;
 	switch(act) {
 		case 'delete':
 			link.href = "{{ url('/preventivi/delete/quote') }}" + '/';
@@ -198,18 +198,28 @@ function multipleAction(act) {
 				for(var i = 0; i < n; i++) {
 					$.ajax({
 						type: "GET",
+                                                async: false,
 						url : link.href + indici[i],
-						error: function(url) {
+                                            success: function (data, textStatus, jqXHR) {
+                                            if (data == "error.403") {
+                                            alert("Non ti è permesso l'accesso");
+                                            return false;
+                                            }
+                                            },
+                                            error: function(url) {
 							if(url.status==403) {
 								link.href = "{{ url('/preventivi/delete/quote') }}" + '/' + indici[n];
 								link.dispatchEvent(clickEvent);
+							 error = true;
                         	} 
 						}
                     });
 				}
                 selezione = undefined;
+			if(error === false){
 				setTimeout(function(){location.reload();},100*n);
-				n = 0;
+                            }
+				//n = 0;
          	}
 			break;
 		case 'modify':
@@ -226,10 +236,21 @@ function multipleAction(act) {
 				for(var i = 0; i < n; i++) {
 					$.ajax({
 						type: "GET",
+                                                async: false,
 						url : link.href + indici[i],
-						error: function(url) {
+                                        success: function (data, textStatus, jqXHR) {
+                                        if (data == "error.403") {
+                                        alert("Non ti è permesso l'accesso");
+                                        return false;
+
+                                        }
+                                        },
+						error: function(data,url) {
+                                                    
+                                                    return false;
 							if(url.status==403) {
-                                link.href = "{{ url('/preventivi/duplicate/quote') }}" + '/' + indici[n];
+                                                            
+                                link.href = "{{ url('/preventivi/duplicate/quote') }}" + '/' + indici[i];
                                 link.dispatchEvent(clickEvent);
                                 error = true;
                             } 
@@ -237,9 +258,10 @@ function multipleAction(act) {
                     });
                 }
                 selezione = undefined;
-                if(error === false)
+                 if (error === false) {
                     setTimeout(function(){location.reload();},100*n);
 				n = 0;
+                 }
 			break;
 			case 'pdf':
 

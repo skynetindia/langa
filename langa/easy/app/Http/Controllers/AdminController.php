@@ -1144,11 +1144,15 @@ class AdminController extends Controller
 
             } else if(isset($writing)){
 
-                $permessi = json_encode($writing);
-
+                //bhavika:error because only write permissoin not applicable
+                //$permessi = json_encode($writing);
+                return Redirect::back()
+                                ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> You can not give only write permission </h4></div>');
             } else {
-  
-                $permessi = json_encode(null);
+                //bhavika:commented code bcs adding null when submit without select
+                //$permessi = json_encode(null);
+                   return Redirect::back()
+                                ->with('msg', '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> Please select read or write permission </h4></div>');
             }
                    
             if($nome_ruolo) {
@@ -1520,16 +1524,36 @@ class AdminController extends Controller
             $writing = $request->input('scrittura');
             
 
-            // $permessi = json_encode(array_merge($reading, $writing));
+               // $permessi = json_encode(array_merge($reading, $writing));
+                //bhavika
+                if (isset($reading) && isset($writing)) {
 
-            if(isset($reading) || isset($writing)){
-                
-                $permessi = json_encode(array_merge($reading, $writing));
-            } else {
+                    $permessi = json_encode(array_merge($reading, $writing));
+                } else if (isset($reading)) {
 
-                $permessi = json_encode(null);
-            }
- 
+                    $permessi = json_encode($reading);
+                } else if (isset($writing)) {
+
+                    //$permessi = json_encode($writing);
+                    //bhavika:error because only write permissoin not applicable
+                    //$permessi = json_encode($writing);
+                    return Redirect::back()
+                                    ->with('msg', '<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> You can not give only write permission </h4></div>');
+                } else {
+
+                //bhavika:commented code bcs adding null when submit without select
+                //$permessi = json_encode(null);
+                 return Redirect::back()
+                                ->with('msg', '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4> Please select read or write permission </h4></div>');
+  
+                }
+                /* if(isset($reading) || isset($writing)){
+
+                  $permessi = json_encode(array_merge($reading, $writing));
+                  } else {
+
+                  $permessi = json_encode(null);
+                  } */
             if($dipartimento == 1 || $dipartimento == 3) {
 
                 DB::table('users')
@@ -2310,7 +2334,7 @@ class AdminController extends Controller
         if($request->user()->id != 0) {
             return redirect('/unauthorized');
         } else {
-        // Elenco in cui ogni optional Ã¨ legato ad un id di un pacchetto
+        // Elenco in cui ogni optional è legato ad un id di un pacchetto
         // optional_id => id dell'optional
         // pack_id => id del pacchetto
         // 'optionalpack'

@@ -16,6 +16,7 @@ class Cestino {
 	public $id;
 	public $tipo;
 	public $nome;	
+        protected $modulo;
 }
 
 class HomeController extends Controller
@@ -29,7 +30,7 @@ class HomeController extends Controller
   {
     $this->middleware('auth');
     $this->corporations = $corporations;
-
+    $this->modulo =6;
   }
 	
 	public function getjsoncestino(Request $request) {
@@ -208,6 +209,10 @@ class HomeController extends Controller
 	}	
 	
   public function invianewsletter(Request $request) {
+    
+       if (!$this->checkPermission($request,$this->modulo)) {
+                    return response()->view('errors.403');
+                }
     // email e contenuto
     $user = $request->user();
     $email = $request->email;
@@ -221,6 +226,10 @@ class HomeController extends Controller
   }
 
   public function newsletter(Request $request) {
+      
+    if (!$this->checkReadPermission($request,$this->modulo)) {
+        return response()->view('errors.403');
+    }
     return view('newsletter', [
         'newsletter' => DB::table('newsletter')
           ->where('dipartimento', $request->user()->dipartimento)

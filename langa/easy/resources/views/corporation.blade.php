@@ -182,10 +182,16 @@ function multipleAction(act) {
                         for(var i = 0; i < n; i++) {
                             
                             $.ajax({
-
-                                type: "GET",
-                                url : link.href + indici[i],
-                                error: function(url) {
+                            type: "GET",
+                            async: false,
+                            url: link.href + indici[i],
+                            success: function (data, textStatus, jqXHR) {
+                                 if (data == "error.403") {
+                                    alert("Non ti è permesso l'accesso");
+                                    return false;
+                                }
+                            },
+                            error: function (url) {
                                     
                                     if(url.status==403) {
                                         link.href = "{{ url('/enti/delete/corporation') }}" + '/' + indici[n];
@@ -197,10 +203,12 @@ function multipleAction(act) {
                                 
                             });
                         }
-                        
-                        selezione = undefined;
-                        if(error === false)
-                            setTimeout(function(){location.reload();},100*n);
+
+                    selezione = undefined;
+                    if (error === false)
+                    setTimeout(function () {
+                        location.reload();
+                    }, 100 * n);
 							
 						n = 0;
                     }
@@ -229,7 +237,15 @@ function multipleAction(act) {
                                 for(var i = 0; i < n; i++) {
                                         $.ajax({
                                             type: "GET",
-                                            url : link.href + indici[i],
+                        async: false,
+                        url: link.href + indici[i],
+                        success: function (data, textStatus, jqXHR) {
+                            if (data == "error.403") {
+                                alert("Non ti è permesso l'accesso");
+                                return false;
+
+                            }
+                        },
                                             error: function(url) {
                                                 if(url.status==403) {
 													window.location.href = "{{ url('/enti/duplicate/corporation') }}" + '/' + indici[n];
@@ -240,10 +256,12 @@ function multipleAction(act) {
                                     }
                                     selezione = undefined;
                                     
-                                if(error === false)
-                                    setTimeout(function(){location.reload();},100*n);
-									
-								n = 0;
+                if (error === false) {
+                    setTimeout(function () {
+                        location.reload();
+                    }, 100 * n);
+                }
+                //n = 0;
 			break;
 		}
 }

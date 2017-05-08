@@ -1068,17 +1068,59 @@ th, td {
 
 <script type="text/javascript">
   
-  $('.reading').click(function () {    
-       // $('#sublettura').prop('checked', this.checked); 
+  //bhavika uncheck write permissoin when user uncheck read permissoin
+    //code start
+    $("input[type='checkbox']").on("click", function () {
+        if (!$(this).prop('checked') && $(this).attr("id") == "lettura") {
+            var str = $(this).attr("value");
+            arr = str.split('|'),
+                    output = arr.pop();
+            str = arr.join('|') + '|scrittura';
+            if ($(":checkbox[value='" + str + "']").prop("checked")) {
+                $(":checkbox[value='" + str + "']").prop("checked", false)
+            }
+        }
+    });
+    //bhavika check read permissoin when user check write permissoin
+    //code start
+    $("input[type='checkbox']").on("click", function () {
+        if ($(this).prop('checked') && $(this).attr("id") == "scrittura") {
+            var str = $(this).attr("value");
+            arr = str.split('|'),
+                    output = arr.pop();
+            str = arr.join('|') + '|lettura';
+            if (!$(":checkbox[value='" + str + "']").prop("checked")) {
+                $(":checkbox[value='" + str + "']").prop("checked", true)
+            }
+        }
+    });
+    //code ends   
+    $('.reading').click(function () {
+        // $('#sublettura').prop('checked', this.checked); 
+        //bhavika uncheck write permissoin when user uncheck ready permissoin
+        //code start
         var $id = $(this).attr('id');
-        $('.'+$id).prop('checked', this.checked);
-   });
+        var write = "scrittura" + $id.replace(/[^\d.]/g, '');
+        if (!$(this).prop('checked')) {
+            $('#' + write).prop('checked', false);
+            $('.' + write).prop('checked', false);
+        }
+        //code ends
+        $('.' + $id).prop('checked', this.checked);
 
-  $('.writing').click(function () {    
-       var $id = $(this).attr('id');
-        $('.'+$id).prop('checked', this.checked);
-   });
-
+    });
+    $('.writing').click(function () {
+        var $id = $(this).attr('id');
+        $('.' + $id).prop('checked', this.checked);
+        
+        var $id = $(this).attr('id');
+        var read = "lettura" + $id.replace(/[^\d.]/g, '');
+        if ($(this).prop('checked')) {
+            $('#' + read).prop('checked', true);
+            $('.' + read).prop('checked', true);
+        }
+        
+    });
 </script>
 
 	<div class="col-md-12" style="padding-top:10px;padding-bottom:10px;">

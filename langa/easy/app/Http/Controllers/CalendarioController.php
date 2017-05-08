@@ -16,6 +16,7 @@ class CalendarioController extends Controller
 {
     private $nomiMesi = array(null, "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre");
     protected $events;
+    protected $modulo;
     /**
      * Create a new controller instance.
      *
@@ -291,9 +292,11 @@ dd("else");
 		return redirect('/calendario/0');
 	}
 	
-	public function edit(Request $request, Event $event)
-	{
-		$this->authorize('modify', $event);
+    public function edit(Request $request, Event $event) {
+        if (!$this->checkPermission($request, $this->modulo)) {
+            return response()->view('errors.403');
+        }
+        //$this->authorize('modify', $event);
         
 		return view('calendarioEdit', [
 			'id' => $request->event,
@@ -390,7 +393,11 @@ dd("else");
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
-    {
+        
+        if (!$this->checkReadPermission($request,$this->modulo)) {
+            return response()->view('errors.403');
+        }
+        
         if($request->month == date('n') && $request->day == 0 && $request->year == date('Y'))
             $request->day = date('j');
 
@@ -430,4 +437,11 @@ dd("else");
         return $this->show($request);
     }
 
+    public function permissoin(Request $request){
+        
+        if (!$this->checkPermission($request, $this->modulo)) {
+           echo "error.403";
+           exit;
+        }
+    }
 }
