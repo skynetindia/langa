@@ -1115,30 +1115,48 @@ class AccountingController extends Controller
 	 * Salvo una nuova disposizione nel
 	 * DB accountings
 	 */
-	public function creadisposizione(Request $request)
-	{
-		$validator = Validator::make($request->all(), [
-            'nomeprogetto' => 'required|max:50',
+    public function creadisposizione(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'nomegruppo' => 'required|max:50',
         ]);
-        
-        
-        if($validator->fails()) {
+
+
+        if ($validator->fails()) {
             return Redirect::back()
-                ->withInput()
-                ->with('error_code', 6)
-                ->withErrors($validator);
+                            ->withInput()
+                            ->with('error_code', 6)
+                            ->withErrors($validator);
         }
-		
-		$progetto = DB::table('accountings')->insertGetId([
-                        'user_id' => $request->user()->id,
-                        'nomeprogetto' => $request->nomeprogetto,
-						'id_progetto' => $request->idprogetto,
-                      ]);
-					  
-		return Redirect::back()
-                        ->with('error_code', 5)
-                        ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Quadro disposizioni aggiunto correttamente!</h4></div>');
-	}
+
+//        $progetto = DB::table('accountings')->insertGetId([
+//            'user_id' => $request->user()->id,
+//            'nomeprogetto' => strtolower($request->nomeprogetto),
+//            'id_progetto' => $request->idprogetto,
+//        ]);
+        $progetto = DB::table('projects')
+                ->where('id', $request->idprogetto)
+                ->first();
+
+         $groupexists = DB::table('group')
+                ->where('nomegruppo', $request->nomegruppo)
+                ->first();
+         
+        DB::table('group')->insertGetId([
+            'user_id' => $request->user()->id,
+            'nomegruppo' => strtolower($request->nomegruppo),
+            'id_progetto' => $request->idprogetto,
+            'nomeprogetto' => $progetto->nomeprogetto
+        ]);
+        if(!empty($groupexists)){
+            echo "false";
+        }else{
+            echo strtolower($request->nomegruppo);
+        }
+
+//        return 
+//        Redirect::back() ->with('error_code', 5)
+//                ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Quadro disposizioni aggiunto correttamente!</h4></div>');
+    }
 	
 	/**
 	 * Richiesta per l'elenco di tutti i pagamenti
@@ -1151,7 +1169,7 @@ class AccountingController extends Controller
             return view('pagamenti.main', [
 				'progetti' => $this->progetti->forUser2($request->user()), 
 				'dipartimenti' => DB::table('departments')->get(),
-				'quadri' => DB::table('accountings')->get()
+                'quadri' => DB::table('group')->orderBy('id')->get()
 			]);
         } else {
         	
@@ -1679,4 +1697,20 @@ class AccountingController extends Controller
         return redirect('/pagamenti/tranche/elenco/')
                         ->with('msg', '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Nuovo layout aggiunto correttamente!</h4></div>');
     }
+
+    //list group invoice
+    public function listgroupinvoice(Request $request) {
+         $tranche  = DB::table('group')
+                    ->select('tranche.*', 'projects.*', 'tranche.id as tranche_id', 'projects.id as project_id')
+                    ->join('tranche', 'tranche.project_id', '=', 'group.id_progetto')
+                    ->join('projects', 'projects.id', '=', 'group.id_progetto')
+                    ->where('nomegruppo', $request->group)
+                    ->get();
+                 
+        return view('pagamenti.elencafatturagruppo', [
+            'quadri' => DB::table('group')->where('nomegruppo', $request->group)->get(),
+            'tranche' => $tranche
+        ]);
+    }
+
 }

@@ -476,7 +476,7 @@ class QuoteController extends Controller {
 	}
 	
 	// Mostro la pagina di modifica di un preventivo
-	public function modify(Request $request, Quote $quote)
+	public function modify(Request $request, Quote $quote){
         if (!$this->checkPermission($request, $this->modulo)) {
             return response()->view('errors.403');
         }
@@ -730,7 +730,7 @@ class QuoteController extends Controller {
 	}
 	
 	// Elimina un preventivo
-	public function elimina(Request $request, Quote $quote)
+	public function elimina(Request $request, Quote $quote){
        //due to ajax call need to echo error
         if (!$this->checkPermission($request,$this->modulo)) {
              echo "error.403";
@@ -802,7 +802,7 @@ class QuoteController extends Controller {
 				->with('msg', '<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><h4>Optional modificato correttamente!</h4></div>');
 	}
 	
-	public function duplica(Request $request, Quote $quote)
+	public function duplica(Request $request, Quote $quote){
         //due to ajax call need to echo error
         if (!$this->checkPermission($request,$this->modulo)) {
              echo "error.403";

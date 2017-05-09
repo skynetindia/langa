@@ -327,7 +327,7 @@ Route::post('/admin/tassonomie/update/scontobonus/{sc}', 'AdminController@aggior
 
 /// Pagamenti
 Route::get('/pagamenti', 'AccountingController@index');
-Route::post('/pagamenti/store', 'AccountingController@creadisposizione');
+Route::get('/pagamenti/store', 'AccountingController@creadisposizione');
 Route::get('/pagamenti/delete/accounting/{accounting}', 'AccountingController@destroydisposizione');
 Route::get('/pagamenti/duplicate/accounting/{accounting}', 'AccountingController@duplicadisposizione');
 Route::post('/pagamenti/modifica/accounting/{accounting}', 'AccountingController@modificadisposizione');
@@ -357,6 +357,8 @@ Route::get('/pagamenti/tranche/modifica/getdefaultfiles/{quote_id}', 'Accounting
 Route::post('/pagamenti/add', 'AccountingController@nuovo');
 Route::get('/pagamenti/add', 'AccountingController@aggiungi1');
 Route::post('/pagamenti/nuovotranche', 'AccountingController@nuovotranche');
+Route::get('/pagamenti/listgroupinvoice/{group}', 'AccountingController@listgroupinvoice');
+
 
 // Statistiche
 Route::get('/statistiche/economiche', 'AccountingController@mostrastatistiche');

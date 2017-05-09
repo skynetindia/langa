@@ -139,8 +139,7 @@ class CorporationController extends Controller {
 	}
 	
 	// Mostra tutti gli enti
-	public function show(Request $request){
-            
+	public function show(Request $request){            
         if (!$this->checkReadPermission($request,$this->modulo)) {
             return response()->view('errors.403');
         }
