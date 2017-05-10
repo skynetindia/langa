@@ -48,3 +48,9 @@ Route::get('/progetti/files/{project}', 'ProjectController@vedifiles');
 Route::get('/fatture', 'HomeController@mostrafatture');
 Route::get('/fatture/json', 'HomeController@getfatturejson');
 Route::get('/pagamenti/tranche/pdf/{id}', 'HomeController@generapdftranche');
+
+
+// Enti
+Route::get('/enti', 'CorporationController@index');
+Route::get('/enti/json', 'CorporationController@getjson');
+Route::get('/enti/modify/corporation/{corporation}', 'CorporationController@modify');
