@@ -159,10 +159,7 @@ class ProjectController extends Controller
         return view('progetti.aggiungi', [
             'utenti' => DB::table('users')
                         ->get(),
-            'preventiviconfermati' => DB::table('quotes')
-            							->where('legameprogetto', 1)
-										->having('usato', '=', 0)
-            							->get(),
+            'preventiviconfermati' => DB::table('quotes')->where('legameprogetto', 0)->having('usato', '=', 0)->get(),
 			'statiemotivi' => DB::table('statiemotiviprogetti')
 				->get(),
         ]);

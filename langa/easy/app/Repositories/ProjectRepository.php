@@ -88,30 +88,41 @@ class ProjectRepository
        } else {
 			
 
-		$partecipanti = DB::table('progetti_partecipanti')
-			->select('id_progetto')
-			->where('id_user', $user->id)
-			->get();
+//		$partecipanti = DB::table('progetti_partecipanti')
+//			->select('id_progetto')
+//			->where('id_user', $user->id)
+//			->get();
 
 		// $progetti = Project::whereIn('id', json_decode(json_encode($partecipanti), true))
 		// 	->orWhere('user_id', $user->id)
 		// 	->orderBy('id', 'asc')
 		// 	->get();
 
-		$progetti = Project::join('users', 'projects.user_id', '=', 'users.id')
-			->select(DB::raw('projects.*, users.id as uid, users.is_delete'))
-			->whereIn('projects.id', json_decode(json_encode($partecipanti), true))
-			->orWhere('projects.user_id', $user->id)
-			->where('users.is_delete', '=', 0)
-			->orderBy('projects.id', 'asc')
-			->get();
-		
-		foreach($progetti as $prog) {
-			if($prog->is_deleted == 0)
-				$prog_return[] = $prog;	
-		}
+               $projects =  DB::table('users')
+                        ->select(DB::raw('projects.*, users.id as uid, users.is_delete'))
+                        ->join('enti_partecipanti', 'enti_partecipanti.id_user', '=', 'users.id')
+                        ->join('projects', 'projects.id_ente', '=', 'enti_partecipanti.id_ente')
+                        ->where('users.id', $user->id)
+                        ->where('users.is_delete', '=', 0)
+                       ->orderBy('projects.id', 'asc')
+                        ->get();
+               
+               //print_r($projects);die;
+                
+//		$progetti = Project::join('users', 'projects.user_id', '=', 'users.id')
+//			->select(DB::raw('projects.*, users.id as uid, users.is_delete'))
+//			->whereIn('projects.id', json_decode(json_encode($partecipanti), true))
+//			->orWhere('projects.user_id', $user->id)
+//			->where('users.is_delete', '=', 0)
+//			->orderBy('projects.id', 'asc')
+//			->get();
+//		
+//		foreach($progetti as $prog) {
+//			if($prog->is_deleted == 0)
+//				$prog_return[] = $prog;	
+//		}
 				
-		return $prog_return;
+		return $projects;
 
 		}
     }

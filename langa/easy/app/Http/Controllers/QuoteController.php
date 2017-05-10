@@ -183,26 +183,25 @@ class QuoteController extends Controller {
 			$this->completaCodice($preventivi);
 			return json_encode($preventivi);
 		}
-		$id = $request->user()->id;
 		
-		// $preventivi = DB::table('quotes')
-		// 	->where('is_deleted', 0)
-		// 	->where('user_id', $id)
-		// 	->get();
-
-		$preventivi = DB::table('quotes')
-			->join('users', 'quotes.user_id', '=', 'users.id')
-			->select(DB::raw('quotes.*, users.id as uid, users.is_delete'))
-			->where('is_deleted', 0)
-			->where('user_id', $id)
-			->where('users.is_delete', '=', 0)
-			->get();
-		
-		foreach($preventivi as $prev) {
-			if($prev->user_id == $id ||
-			   $prev->idutente == $id)
-			   $to_return[] = $prev;
-		}
+//        $preventivi = DB::table('quotes')
+//                ->where('is_deleted', 0)
+//                ->get();
+         $id = $request->user()->id;
+        $to_return = DB::table('users')
+        ->select(DB::raw('quotes.*'))                                
+        ->join('enti_partecipanti', 'enti_partecipanti.id_user', '=', 'users.id')
+        ->join('quotes', 'quotes.idente', '=', 'enti_partecipanti.id_ente')
+        ->where('users.id',$id)
+        ->where('quotes.is_deleted',0)                
+        ->where('users.is_delete', '=', 0)     
+        ->get();
+//   
+//        foreach ($preventivi as $prev) {
+//            if ($prev->user_id == $id ||
+//                    $prev->idutente == $id)
+//                $to_return[] = $prev;
+//        }
 			
 		$this->completaCodice($to_return);
 		return json_encode($to_return);

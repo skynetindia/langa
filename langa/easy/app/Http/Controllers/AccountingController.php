@@ -1163,9 +1163,10 @@ class AccountingController extends Controller
 	 */
 	public function index(Request $request)
 	{
+	//To do not show group invoices to even technician
+        //if ($request->user()->id === 0 || $request->user()->dipartimento !== "TECNICO") {
+            if ($request->user()->id === 0) {
 
-		if ($request->user()->id === 0 || $request->user()->dipartimento !== "TECNICO") {
-		
             return view('pagamenti.main', [
 				'progetti' => $this->progetti->forUser2($request->user()), 
 				'dipartimenti' => DB::table('departments')->get(),

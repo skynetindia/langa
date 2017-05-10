@@ -36,11 +36,14 @@ class CorporationRepository
 				->orderBy('id', 'asc')
 				->get();
 				
-			$enti = Corporation::where('privato', 0)
-					->whereIn('id', json_decode(json_encode($partecipanti), true))
-					->orWhere('user_id', $user->id)
-					->orWhere('responsabilelanga', $user->name)
-					->orderBy('id', 'asc')
+				$enti = Corporation::join('users', 'corporations.user_id', 		'=', 'users.id')
+					->select(DB::raw('corporations.*, users.id as uid, users.is_delete'))
+					->where('privato', 0)
+					->whereIn('corporations.id', json_decode(json_encode($partecipanti), true))
+					//->Where('user_id', $user->id)
+					->where('users.is_delete', '=', 0)
+					// ->orWhere('responsabilelanga', $user->name)
+					->orderBy('corporations.id', 'asc')
 					->get();
 			
 			foreach($enti as $ente) {				

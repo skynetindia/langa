@@ -39,15 +39,16 @@ class EventRepository
                 ->get();
             
 
-        return DB::table('events')
-            ->join('users', 'events.user_id','=','users.id')
-            ->select(DB::raw('events.*, users.id as uid, users.is_delete'))
-            ->where('users.is_delete', '=', 0)
-            ->where('user_id', $user->id)
-            ->where('meseFine', '>=', $month)
-            ->where('annoFine', '>=', $year)
-            ->orderBy('giorno', 'asc')
-            ->get();
+             return     DB::table('users')
+                        ->select(DB::raw('events.*, users.id as uid, users.is_delete'))                                
+                        ->join('enti_partecipanti', 'enti_partecipanti.id_user', '=', 'users.id')
+                        ->join('events', 'events.id_ente', '=', 'enti_partecipanti.id_ente')
+                        ->where('users.id', $user->id)
+                        ->where('users.is_delete', '=', 0)
+                        ->where('meseFine', '>=', $month)
+                        ->where('annoFine', '>=', $year)
+                        ->orderBy('giorno', 'asc')
+                        ->get();
 
     }
 	
